@@ -1,0 +1,348 @@
+test1
+=====
+
+Java
+import java.util.Calendar;
+import java.util.Scanner;
+
+public class cycles_two {
+	private static Scanner input = new java.util.Scanner(System.in);
+
+	/**
+	 * @param args
+	 */
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		// Текст для вывода в консоль
+		String value_text, text_info_cyclel;
+		// Параметры
+		text_info_cyclel = "No solution";
+
+		// //////////////////////////// task 16 ///////////////////////////
+		// Показать на экране лесенку. Количество ступенек (например, 5)
+		// указывает пользователь
+
+		textInfo("16", "Шапка");
+
+		value_text = "Enter number of steps...";
+		int A = nextInt(value_text);// вводим число
+
+		for (int i = 1; i <= A; ++i) {
+
+			for (int j = 1; j < i; ++j) {
+				System.out.print("  ");
+			}
+			for (int j = 1; j <= 3; ++j) {
+				System.out.print("*");
+			}
+			System.out.print("\n");
+			for (int j = 1; j < i + 1; ++j) {
+				System.out.print("  ");
+			}
+			System.out.print("*");
+			System.out.println("");
+
+		}
+
+		// //////////////////////////// task 17 ///////////////////////////
+		// Пользователь указывает с клавиатуры нечётное число. Рисуется фигура с
+		// заданной стороной
+
+		textInfo("17", "Шапка");
+
+		A = 10;
+		int B = 10;
+		// Фигура № 1
+		for (int y = 0; y <= A; y++) {
+			for (int x = 0; x <= B; x++) {
+				if (x == 0 && y <= A / 2 || y == 0 && x <= B / 2 || y >= A / 2
+						&& x == B || y == A && x >= B / 2) {
+					System.out.print("*");
+				} else if (y == x) {
+					System.out.print("*");
+				} else {
+					System.out.print(" ");
+				}
+			}
+			System.out.print("\n");
+		}
+		// Фигура № 2
+		for (int y = 0; y <= A; y++) {
+
+			for (int x = 0; x <= B; x++) {
+
+				if (x == 0 && y >= A / 2 || y == 0 && x >= B / 2 || y <= A / 2
+						&& x == B || y == A && x <= B / 2) {
+
+					System.out.print("*");
+				} else if (y == A - x && x == A - y) {
+					System.out.print("*");
+
+				} else {
+					System.out.print(" ");
+				}
+			}
+			System.out.print("\n");
+		}
+
+		// Фигура № 3
+		for (int y = 0; y <= A; y++) {
+			for (int x = 0; x <= A; x++) {
+
+				if (y <= A / 2 && x == 0 || y == 0 && x <= A / 2 || y >= A / 2
+						&& x == A || y == A && x >= A / 2 ||
+						// внутренняя часть
+						y <= A && x == A / 2 || y == A / 2 && x <= A) {
+
+					// /делаем по углам пустые точки
+					if (y == 0 && x == 0 || y == A && x == A || y == A / 2
+							&& x == 0 || y == A / 2 && x == A / 2 || y == A
+							&& x == A / 2 || y == A / 2 && x == A || y == 0
+							&& x == A / 2) {
+						System.out.print(" ");
+					} else {
+						System.out.print("*");
+					}
+
+				} else {
+					System.out.print(" ");
+				}
+			}
+			System.out.print("\n");
+		}
+		// Фигура № 4
+		for (int y = 0; y <= A; y++) {
+			for (int x = 0; x <= A; x++) {
+
+				if (y >= A / 2 && x == 0 || y == 0 && x >= A / 2 || y <= A / 2
+						&& x == A || y == A && x <= A / 2 ||
+						// внутренняя часть
+						y <= A && x == A / 2 || y == A / 2 && x <= A) {
+
+					// /делаем по углам пустые точки
+					if (y == A && x == 0 || y == 0 && x == A || y == A / 2
+							&& x == 0 || y == A / 2 && x == A / 2 || y == A
+							&& x == A / 2 || y == A / 2 && x == A || y == 0
+							&& x == A / 2) {
+						System.out.print(" ");
+					} else {
+						System.out.print("*");
+					}
+
+				} else {
+					System.out.print(" ");
+				}
+			}
+			System.out.print("\n");
+		}
+
+		// //////////////////////////// task 18 ///////////////////////////
+		// Пользователь указывает с клавиатуры нечётное число. Рисуется фигура с
+		// заданной стороной
+
+		textInfo("18", "Шапка");
+		value_text = "Enter number...";
+		int M = nextInt(value_text);// вводим число
+
+		int N = M * 2;
+		// Доп параметры для окна и трубы
+		int M_5 = M / 4;
+		int M_2 = M / 10;
+		int M_17 = M - M_5 + M_2;
+		int M_13 = M - M_5 - M_2;
+		//
+		int M_25 = M + M_5;
+		int M_15 = M - M_5;
+		int M_38 = N - M_2;
+		int M_8 = M / 2 - M_2;
+		int M_32 = N - M_8;
+		int M_6 = M_8 - M_2;
+		int M_4 = M_2 * 2;
+
+		// Каркас
+		for (int y = 0; y <= M; y++) {
+
+			for (int x = 0; x <= N; x++) {
+
+				if (y >= M / 2 && x == 0
+						||
+
+						// крыша
+						x == M + y * 2 || x == M - y * 2 || y == M / 2
+						&& x <= N ||
+						// труба
+						y == M / 6 && x <= N - M_2 && x >= N - M_8 ||
+						//
+						x == M_32 && y <= M_6 && y >= M_4 ||
+						//
+						x == M_38 && y <= M_8 && y >= M_4 ||
+
+						// окно
+						y == M_17 && x <= N / 2 + M_5 && x >= N / 2 - M_5 ||
+						//
+						y == M_13 && x <= N / 2 + M_5 && x >= N / 2 - M_5 ||
+						//
+						x == M_25 && y <= M_17 && y >= N / 2 - M_5 - M_2 ||
+						//
+						x == M_15 && y <= M_17 && y >= N / 2 - M_5 - M_2 ||
+						//
+
+						y >= M / 2 && x == N || y == M && x <= N) {
+
+					System.out.print("*");
+				} else {
+					System.out.print(" ");
+				}
+			}
+			System.out.print("\n");
+		}
+
+		// //////////////////////////// task 19 ///////////////////////////
+		// Скоро ведь Новый год! Необходимо срочно нарисовать ёлочку. С
+		// клавиатуры вводится количество ярусов, и высота каждого яруса ёлочки.
+		// Например, на картинке 4 яруса, высота каждого яруса – 5 символов
+
+		textInfo("19", "Шапка");
+		// Вводим данные
+		value_text = "Enter the number of tiers...";
+		byte tiers = nextByte(value_text);// вводим количество ярусов
+		value_text = "Enter the height of each storey...";
+		byte height_2 = nextByte(value_text);// вводим высотe каждого яруса
+		byte height = (byte) (height_2 * 2);
+
+		// Заполненный
+		for (byte z = 0; z <= tiers; z++) {
+
+			for (byte y = z; y < height_2 + z; y++) {
+
+				for (byte x = (byte) (-height_2); x <= height + z; x++) {
+
+					if (x <= height_2 + y && x >= height_2 - y && z != tiers) {
+						System.out.print("<>");
+
+					} else if (x < height_2 + z - 1 && x > height_2 - z + 1
+							&& z == tiers && y < height_2 + tiers - 1) {
+						System.out.print("<>");
+
+					} else {
+						System.out.print("  ");
+					}
+				}
+				System.out.print("\n");
+			}
+		}
+	}
+
+	// ////////////////////////////////////////////////////////
+	// ВСПОМАГАТЕЛЬНЫЕ ФУНКЦИИ И ПРОЦЕДУРЫ
+	// ///////////////////////////////////////////////////////
+
+	// Показывает число разрядов в числе
+	// numb_value - число у которого надо определить разряд
+	// Возвращаем число
+	public static byte digit_num(int number_value) {
+		byte number_digit = 0;
+
+		// Если число = 0, то автоматом это 1 разряд
+		if (number_value >= 0 && number_value < 10) {
+			number_digit = 1;
+		} else {
+			while (number_value > 0) {
+
+				number_value = number_value / 10;// каждое делениена 10 - 1
+													// разряд
+				// + разряд
+				number_digit++;
+			}
+		}
+		return number_digit;
+	}
+
+	// Выводим шапку или подвал задачи
+	// text_r - режим вывода информации (шапка или подвал...)
+	// tesk_number - № задачи
+
+	public static void textInfo(String tesk_number_info, String text_r) {
+
+		String text_info = "";
+		switch (text_r) {
+		case "Шапка":
+			text_info = "Task № " + tesk_number_info + "\n";
+			break;
+		case "Подвал":
+			text_info = "Result:\n" + tesk_number_info + "\n\n";
+			break;
+		}
+		System.out.print(text_info);
+	}
+
+	// ////////////////////////////////////////////////////////
+	// ВСПОМАГАТЕЛЬНЫЕ ФУНКЦИИ И ПРОЦЕДУРЫ
+	// ///////////////////////////////////////////////////////
+
+	// Вычислям случайные чисела в диапазоне от и до
+	// number_of - число от
+	// number_to - число до
+	// Возвращаем число
+	public static int Math_random(int number_of, int number_to) {
+
+		int numb_rnd = number_of
+				+ (int) (Math.random() * ((number_to - number_of) + 1));
+		return numb_rnd;
+	}
+
+	// Создаем массив
+	// Возвращаем массив
+	public static int[] Shared_numbers_on_figures(int number_m) {
+
+		// Создаем массив взависимости от размера параметра
+		int[] massif = new int[number_m];
+
+		return massif;
+	}
+
+	// Вводим значение в консоль
+	// value_text - текст для вывода в консоль
+	// Возвращаем число
+	public static int nextInt(String value_text) {
+		int value_input;
+
+		// Выводим текст на экран
+		System.out.println(value_text);
+		// Вводим значение
+		value_input = input.nextInt();
+
+		return value_input;
+
+	}
+
+	// Вводим значение в консоль
+	// value_text - текст для вывода в консоль
+	// Возвращаем число
+	public static short nextshort(String value_text) {
+		short value_input;
+
+		// Выводим текст на экран
+		System.out.println(value_text);
+		// Вводим значение
+		value_input = input.nextShort();
+
+		return value_input;
+
+	}
+
+	// Вводим значение в консоль
+	// value_text - текст для вывода в консоль
+	// Возвращаем число
+	public static byte nextByte(String value_text) {
+		byte value_input;
+
+		// Выводим текст на экран
+		System.out.println(value_text);
+		// Вводим значение
+		value_input = input.nextByte();
+
+		return value_input;
+
+	}
+}
