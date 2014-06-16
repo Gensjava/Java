@@ -1,0 +1,1051 @@
+test1
+=====
+
+Java
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.util.Scanner;
+
+public class array_one {
+	private static Scanner input = new java.util.Scanner(System.in);
+
+	/**
+	 * @param args
+	 */
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+
+		// Текст для вывода в консоль
+		String value_text, text_info_cyclel;
+		// Параметры
+		text_info_cyclel = "No solution";
+
+		// //////////////////////////// task 1 ////////////////////////////
+		// Ввести массив из 5 чисел, а затем вывести его в обратном порядке.
+		textInfo("1", "Шапка");
+		// Создаем массив
+		byte[] ar = new byte[5];
+		text_info_cyclel = "";
+		// заполняем массив случайными числами
+		for (byte i = 0; i < ar.length; i++) {
+			ar[i] = (byte) (Math.random() * 100);
+			System.out.print(ar[i] + ",");
+		}
+		System.out.print("\n");
+
+		// Читаем массив в обратном порядке
+		for (byte i = (byte) (ar.length - 1); i >= 0; i--) {
+			text_info_cyclel = text_info_cyclel + ar[i] + ",";
+		}
+		// Выводим результат
+		textInfo(text_info_cyclel, "Подвал");
+
+		// ////////////////////////// task 2 ////////////////////////////
+		// Создать массив из 20 случайных чисел. Вывести все элементы массива с
+		// чётными индексами.
+
+		textInfo("2", "Шапка");
+		// Создаем массив
+		byte[] ar_2 = new byte[20];
+		text_info_cyclel = "";
+		// заполняем массив случайными числами
+		for (byte i = 0; i < ar_2.length; i++) {
+			ar_2[i] = (byte) (Math.random() * 100);
+			System.out.print(ar_2[i] + ",");
+		}
+
+		System.out.print("\n");
+		// Читаем массив только четные индексы
+		for (byte i = 0; i < ar_2.length; i += 2) {
+			text_info_cyclel = text_info_cyclel + ar_2[i] + ",";
+		}
+		// Выводим результат
+		textInfo(text_info_cyclel, "Подвал");
+
+		// //////////////////////////// task 3 ////////////////////////////
+		// Создать массив из 10 случайных чисел в диапазоне от -20 до 20.
+		// Определить количество, сумму и среднее арифметическое положительных
+		// элементов массива.
+
+		textInfo("3", "Шапка");
+		// Создаем массив
+		byte[] ar_3 = new byte[10];
+		text_info_cyclel = "";
+		// заполняем массив случайными числами
+		for (byte i = 0; i < ar_3.length; i++) {
+			ar_3[i] = (byte) Math_random(-20, 20);
+			System.out.print(ar_3[i] + ",");
+		}
+		System.out.print("\n");
+
+		// положительных
+		byte z = 0;// счет положительных
+		short sum = 0;// сумма
+		short sum_average = 0;// среднее арифметическое
+		text_info_cyclel = "";// чистим
+		// Читаем массив и определяем сумму и среднее арифметическое
+		for (byte i = 0; i < ar_3.length; i++) {
+			if (ar_3[i] > 0) {
+				sum = (short) (sum + ar_3[i]);
+				z++;
+			}
+		}
+		// среднее арифметическое положительных
+		sum_average = (short) (sum / z);
+		// Выводим результат
+		text_info_cyclel = "The sum of the numbers " + sum + " and "
+				+ sum_average;
+		textInfo(text_info_cyclel, "Подвал");
+
+		// //////////////////////////// task 4 ////////////////////////////
+		// Создать символьный массив из 100 случайных элементов. Определить,
+		// сколько в нём цифр, букв и знаков пунктуации.
+
+		textInfo("4", "Шапка");
+
+		// Создаем массив
+		String[] ar_4 = new String[100];
+		text_info_cyclel = "";
+
+		// заполняем массив случайными сииволами
+		for (byte i = 0; i < ar_4.length; i++) {
+			ar_4[i] = "" + (char) (Math.random() * 100);
+		}
+
+		byte n = 0;// числа
+		byte l = 0;// буквы
+		z = 0;// запятые
+
+		// Читаем массив
+		for (byte i = 0; i <= (byte) (ar_4.length - 1); i++) {
+			byte code = (byte) ar_4[i].charAt(0);// первый символ в строке
+
+			if (code >= 'a' && code <= 'z' || code >= 'A' && code <= 'Z') {
+				l++;
+			} else if (code >= 'а' && code <= 'я' || code >= 'А' && code <= 'Я') {
+				l++;
+			} else if (code >= '0' && code <= '9') {
+				n++;
+			} else {
+				z++;
+			}
+		}
+		text_info_cyclel = "The value is a letter " + l + ".\n"
+				+ "The value is a number " + n + ".\n"
+				+ "The value is a punctuation character " + z + ".";
+		// Выводим результат
+		textInfo(text_info_cyclel, "Подвал");
+
+		// //////////////////////////// task 5 ////////////////////////////
+		// Написать программу, которая предлагает пользователю ввести число,
+		// и затем подсчитывает, сколько раз это число встречается в массиве на
+		// 100 случайных элементов.
+
+		textInfo("5", "Шапка");
+		value_text = "Enter number from 1 to 100...";
+		byte M = nextByte(value_text);// вводим число
+		// проверка на диапазон
+		if (M < 0 || M > 100) {
+			text_info_cyclel = "Err: Enter number from 1 to 100...";
+		} else {
+			// Создаем массив
+			byte[] ar_5 = new byte[100];
+			text_info_cyclel = "";
+			// заполняем массив случайными числами
+			for (byte i = 0; i < ar_5.length; i++) {
+				ar_5[i] = (byte) (Math.random() * 100);
+			}
+
+			byte d = 0;
+			// Читаем массив сколько раз это число встречается в массиве
+			for (byte i = 0; i < ar_5.length; i++) {
+				if (ar_5[i] == M) {
+					d++;
+				}
+			}
+			text_info_cyclel = "The number occurs " + d + ".";
+		}
+		// Выводим результат
+		textInfo(text_info_cyclel, "Подвал");
+
+		// //////////////////////////// task 6 ////////////////////////////
+		// Создать массив из 20 случайных чисел в диапазоне от -10 до 30.
+		// Написать программу, определяющую сумму элементов массива, находящихся
+		// в массиве после первого отрицательного элемента.
+
+		textInfo("6", "Шапка");
+
+		// Создаем массив
+		byte[] ar_6 = new byte[20];
+		text_info_cyclel = "";
+		// заполняем массив случайными числами
+		for (byte i = 0; i < ar_6.length; i++) {
+			ar_6[i] = (byte) Math_random(-10, 30);
+		}
+		// сортируем
+		byte temp = 0;
+
+		for (byte pr = 0; pr < ar_6.length - 1; pr++) {// перебор проходов
+			for (byte i = (byte) (ar_6.length - 1); i > pr; i--) {
+				if (ar_6[i] < ar_6[i - 1]) {
+					temp = ar_6[i];
+					ar_6[i] = ar_6[i - 1];
+					ar_6[i - 1] = temp;
+				}
+			}
+		}
+
+		short sum_n = 0;// сумма
+		byte d = 0;
+		// Читаем массив определяем сумму элементов массива
+		for (byte i = 0; i < ar_6.length; i++) {
+			if (ar_6[i] < 0) {// начинаем счет
+				d++;
+			}
+
+			if (d > 0) {// сумма
+				sum_n = (short) (sum_n + ar_6[i]);
+			}
+		}
+		text_info_cyclel = "The sum numbers " + sum_n + ".";
+		// Выводим результат
+		textInfo(text_info_cyclel, "Подвал");
+
+		// //////////////////////////// task 7 ////////////////////////////
+		// Создать массив из 20 случайных чисел в диапазоне от -30 до 10.
+		// Написать программу, определяющую сумму элементов массива, находящихся
+		// в массиве до первого положительного элемента.
+
+		textInfo("7", "Шапка");
+
+		// Создаем массив
+		byte[] ar_7 = new byte[20];
+		text_info_cyclel = "";
+		// заполняем массив случайными числами
+		for (byte i = 0; i < ar_7.length; i++) {
+			ar_7[i] = (byte) Math_random(-30, 10);
+		}
+		// сортируем
+		temp = 0;
+
+		for (byte pr = 0; pr < ar_7.length - 1; pr++) {// перебор проходов
+			for (byte i = (byte) (ar_7.length - 1); i > pr; i--) {
+				if (ar_7[i] < ar_7[i - 1]) {
+					temp = ar_7[i];
+					ar_7[i] = ar_7[i - 1];
+					ar_7[i - 1] = temp;
+				}
+			}
+		}
+
+		sum_n = 0;// сумма
+		// Читаем массив определяем сумму элементов массива
+		for (byte i = 0; i < ar_7.length; i++) {
+			//
+			sum_n = (short) (sum_n + ar_7[i]);// сумма
+
+			if (ar_7[i] > 0) {// делаем стоп
+				break;
+			}
+		}
+		text_info_cyclel = "The sum numbers " + sum_n + ".";
+		// Выводим результат
+		textInfo(text_info_cyclel, "Подвал");
+
+		// //////////////////////////// task 8 ////////////////////////////
+		// Создать массив из 20 случайных чисел. Определить минимальный и
+		// максимальный элемент массива (вывести значение и порядковый номер).
+
+		textInfo("8", "Шапка");
+
+		// Создаем массив
+		byte[] ar_8 = new byte[20];
+		text_info_cyclel = "";
+		// заполняем массив случайными числами
+		for (byte i = 0; i < ar_8.length; i++) {
+			ar_8[i] = (byte) (Math.random() * 100);
+		}
+		// сортируем
+		temp = 0;
+
+		for (byte pr = 0; pr < ar_8.length - 1; pr++) {// перебор проходов
+			for (byte i = (byte) (ar_8.length - 1); i > pr; i--) {
+				if (ar_8[i] < ar_8[i - 1]) {
+					temp = ar_8[i];
+					ar_8[i] = ar_8[i - 1];
+					ar_8[i - 1] = temp;
+				}
+			}
+		}
+
+		text_info_cyclel = "The  maximum number = " + ar_8[19]
+				+ " index = 19.\n" + "The minimum number = " + ar_8[0]
+				+ " index = 0.";
+		// Выводим результат
+		textInfo(text_info_cyclel, "Подвал");
+
+		// //////////////////////////// task 9 ////////////////////////////
+		// Создать массив на 100 вещественных чисел. Определить, сколько
+		// элементов массива не имеют вещественной части.
+
+		textInfo("9", "Шапка");
+
+		// Создаем массив
+		double[] ar_9 = new double[100];
+		text_info_cyclel = "";
+		d = 0;
+		// заполняем массив случайными числами
+		for (byte i = 0; i < ar_9.length; i++) {
+			//
+			ar_9[i] = Math.random();// случайное число
+			// округляем
+			double d_2 = new BigDecimal(ar_9[i]).setScale(2,
+					RoundingMode.HALF_UP).doubleValue();
+
+			int i_n = (int) (ar_9[i]);// убираем дроби
+			double d_n = d_2 - i_n;// вычисляем 0
+			//
+			if (d_n == 0) {
+				d++;
+			}
+
+		}
+
+		text_info_cyclel = "The not have a material part of the = " + d + ".";
+		// Выводим результат
+		textInfo(text_info_cyclel, "Подвал");
+
+		// //////////////////////////// task 10 ////////////////////////////
+		// Создать массив из 200 случайных чисел в диапазоне от 0 до 200.
+		// Определить количество одноразрядных, двухразрядных и трёхразрядных
+		// чисел в процентном отношении.
+
+		textInfo("10", "Шапка");
+
+		// Создаем массив
+		short[] ar_10 = new short[200];
+		text_info_cyclel = "";
+		// заполняем массив случайными числами
+		for (short i = 0; i < ar_10.length; i++) {
+			ar_10[i] = (short) (Math.random() * 200);
+		}
+
+		byte digit = 0;// разрядность числа
+		short a = 0;// один разряд
+		short b = 0;// два разряд
+		short c = 0;// три разряд
+
+		// Читаем массив
+		for (short i = 0; i < ar_10.length; i++) {
+			// разряд числа
+			digit = digit_num(i);
+			//
+			if (digit == 1) {
+				a++;
+			} else if (digit == 2) {
+				b++;
+			} else if (digit == 3) {
+				c++;
+			}
+		}
+		text_info_cyclel = "The sum numbers single-digit " + a + ", two-digit "
+				+ b + " and three-digit " + c + ".";
+		// Выводим результат
+		textInfo(text_info_cyclel, "Подвал");
+
+		// //////////////////////////// task 11 ////////////////////////////
+		// Создать массив из 10 целых случайных чисел. Изменить порядок
+		// следования элементов массива на противоположный (1-й элемент меняется
+		// с 10-м, 2-й элемент с 9-м и тд).
+		textInfo("11", "Шапка");
+
+		// Создаем массив
+		byte[] ar_11 = new byte[10];
+		// заполняем массив случайными числами
+		for (byte i = 0; i < ar_11.length; i++) {
+			ar_11[i] = (byte) (Math.random() * 10);
+
+		}
+
+		// Читаем массив
+		byte y = 0;
+		for (byte i = 0; i < ar_11.length / 2; i++) {
+			y++;
+			// запоминаем
+			byte y_n = ar_11[ar_11.length - y];
+			byte i_n = ar_11[i];
+			// меняем
+			ar_11[ar_11.length - y] = i_n;
+			ar_11[i] = y_n;
+		}
+
+		// //////////////////////////// task 12 ////////////////////////////
+		// Создать два массива A и B по 5 элементов. Создать третий массив C
+		// на 10 элементов, в который копируются элементы из первого и второго
+		// массива поочередно (например, С[0]=A[0], c[1]=B[0], C[2]=A[1],
+		// C[3]=B[1] и тд).
+
+		textInfo("12", "Шапка");
+
+		// Создаем массив 1
+		byte[] ar_12 = new byte[5];
+		// заполняем массив случайными числами
+		for (byte i = 0; i < ar_12.length; i++) {
+			ar_12[i] = (byte) (Math.random() * 5);
+		}
+
+		// Создаем массив 2
+		byte[] ar_13 = new byte[5];
+		// заполняем массив случайными числами
+		for (byte i = 0; i < ar_13.length; i++) {
+			ar_13[i] = (byte) (Math.random() * 5);
+		}
+
+		// Создаем массив 3
+		byte[] ar_14 = new byte[10];
+		byte i_z = 0;
+		// Читаем массив
+		for (byte i = 0; i < ar_14.length / 2; i++) {
+			ar_14[i_z] = ar_12[i];
+			ar_14[i_z + 1] = ar_13[i];
+			i_z += 2;
+		}
+		// //////////////////////////// task 13 ////////////////////////////
+		// Написать программу, копирующую один массив в другой следующим
+		// образом: сначала копируются последовательно все элементы, большие 0,
+		// затем последовательно все элементы, равные 0, а затем последовательно
+		// все элементы, меньшие 0.
+
+		textInfo("13", "Шапка");
+
+		// Создаем массив 1
+		byte[] ar_15 = new byte[10];
+		// заполняем массив случайными числами
+		for (byte i = 0; i < ar_15.length; i++) {
+			ar_15[i] = (byte) (Math.random() * 10);
+
+		}
+
+		// Создаем массив 2
+		byte[] ar_16 = new byte[10];
+		// Читаем массив и копируем
+		for (byte i = 0; i < ar_16.length; i++) {
+			for (y = 0; y < ar_15.length; y++) {
+
+				if (ar_16[i] > 0) {// большие 0
+					ar_16[i] = ar_15[i];
+				} else if (ar_16[i] == 0) {// равные 0
+					ar_16[i] = ar_15[i];
+				} else {
+					ar_16[i] = ar_15[i];// меньшие 0
+				}
+
+			}
+		}
+		// //////////////////////////// task 14 ////////////////////////////
+		// Даны 2 массива размерности M и N соответственно. Необходимо
+		// переписать в третий массив общие элементы первых двух массивов, без
+		// повторений.
+
+		textInfo("14", "Шапка");
+
+		// Создаем массив 1
+		byte[] ar_17 = new byte[5];
+		// заполняем массив случайными числами
+		for (byte i = 0; i < ar_17.length; i++) {
+			ar_17[i] = (byte) (Math.random() * 5);
+		}
+
+		// Читаем массив показываем что в нем
+		arr_reading_byte(ar_17, "ar 1 ");
+
+		// Создаем массив 2
+		byte[] ar_18 = new byte[5];
+		// заполняем массив случайными числами
+		for (byte i = 0; i < ar_18.length; i++) {
+			ar_18[i] = (byte) (Math.random() * 5);
+		}
+
+		// Читаем массив показываем что в нем
+		arr_reading_byte(ar_18, "ar 2 ");
+
+		// Создаем массив 3
+		byte[] ar_19 = new byte[10];
+		i_z = 0;
+		// Читаем массив
+		for (byte i = 0; i < ar_19.length / 2; i++) {
+			ar_19[i_z] = ar_17[i];
+			ar_19[i_z + 1] = ar_18[i];
+			i_z += 2;
+		}
+		// Сортируем
+		arr_sort_byte(ar_19);
+		// Читаем массив показываем что в нем
+		arr_reading_byte(ar_19, "ar 3 ");
+
+		// удаляем дубли
+		// Читаем массив
+		for (byte i = 0; i < ar_19.length; i++) {
+			if (i < ar_19.length - 1) {
+				if (ar_19[i] == ar_19[i + 1]) {
+					ar_19[i] = 0;
+				}
+			}
+		}
+		// Сортируем
+		arr_sort_byte(ar_19);
+		// Читаем массив показываем что в нем
+		arr_reading_byte(ar_19, "ar 4 ");
+
+		// //////////////////////////// task 15 ////////////////////////////
+		// Даны 2 массива размерности M и N соответственно. Необходимо
+		// переписать в третий массив те элементы первого массива, которых нет
+		// во втором массиве, без повторений.
+
+		textInfo("15", "Шапка");
+
+		// Создаем массив 1
+		byte[] ar_20 = new byte[5];
+		// заполняем массив случайными числами
+		for (byte i = 0; i < ar_20.length; i++) {
+			ar_20[i] = (byte) (Math.random() * 5);
+		}
+
+		// Читаем массив показываем что в нем
+		arr_reading_byte(ar_20, "ar 1 ");
+
+		// Создаем массив 2
+		byte[] ar_21 = new byte[5];
+		// заполняем массив случайными числами
+		for (byte i = 0; i < ar_21.length; i++) {
+			ar_21[i] = (byte) (Math.random() * 5);
+		}
+
+		// Читаем массив показываем что в нем
+		arr_reading_byte(ar_21, "ar 2 ");
+
+		// Создаем массив 3
+		byte[] ar_22 = new byte[10];
+		i_z = 0;
+		// Читаем массив
+		for (byte i = 0; i < ar_22.length / 2; i++) {
+			ar_22[i_z] = ar_20[i];
+			ar_22[i_z + 1] = ar_21[i];
+			i_z += 2;
+		}
+
+		// Сортируем
+		arr_sort_byte(ar_22);
+		// Читаем массив показываем что в нем
+		arr_reading_byte(ar_22, "ar 3 ");
+
+		// удаляем дубли
+		// Читаем массив
+		for (byte i = 0; i < ar_22.length; i++) {
+			if (i < ar_22.length - 1) {
+				if (ar_22[i] == ar_22[i + 1]) {
+					ar_22[i] = 0;
+				}
+			}
+		}
+		// Сортируем
+		arr_sort_byte(ar_22);
+		// Читаем массив показываем что в нем
+		arr_reading_byte(ar_22, "ar 4 ");
+
+		// //////////////////////////// task 16 ////////////////////////////
+		// Создать массив из 20 случайных чисел в диапазоне от -10 до 20.
+		// Определить максимальное количество подряд идущих положительных
+		// элементов, не прерываемых ни нулями, ни отрицательными числами.
+		// Вывести найденный фрагмент.
+
+		textInfo("16", "Шапка");
+
+		// Создаем массив 1
+		byte[] ar_23 = new byte[20];
+		// заполняем массив случайными числами
+		for (byte i = 0; i < ar_23.length; i++) {
+			ar_23[i] = (byte) (Math.random() * 21 - 11);
+		}
+
+		// Читаем массив показываем что в нем
+		arr_reading_byte(ar_23, "ar 1 ");
+
+		a = 0;
+		b = 0;
+		text_info_cyclel = "";
+		String text_info_cyclel_1 = "";
+		// Читаем массив
+		for (byte i = 0; i < ar_23.length; i++) {
+
+			if (ar_23[i] > 0) {
+				a++;
+				text_info_cyclel = text_info_cyclel + ar_23[i] + ",";
+			} else {
+				a = 0;
+				text_info_cyclel = "";
+			}
+			//
+			if (a > b) {
+				b = a;
+				text_info_cyclel_1 = text_info_cyclel;
+			}
+		}
+		// Выводим результат
+		textInfo(text_info_cyclel_1, "Подвал");
+
+		// //////////////////////////// task 17 ////////////////////////////
+		// Создать массив из 10 вещественных чисел. Преобразовать массив
+		// так, чтобы сначала шли все элементы с вещественной частью, а потом
+		// без нее.
+
+		textInfo("17", "Шапка");
+
+		// Создаем массив 1
+		double[] ar_24 = new double[10];
+		// заполняем массив случайными числами
+		for (byte i = 0; i < ar_24.length; i++) {
+			// округляем
+			if (i % 2 == 0) {
+				ar_24[i] = new BigDecimal(Math.random() * 10).setScale(2,
+						RoundingMode.HALF_UP).doubleValue();
+			} else {
+				ar_24[i] = (int) (Math.random() * 10);
+			}
+		}
+
+		// Читаем массив показываем что в нем
+		arr_reading_double(ar_24, "ar 1 ");
+
+		// сортируем
+		double d_temp = 0;
+		double d_a = 0;
+		int i_a = 0;
+		double d_b = 0;
+		int i_b = 0;
+
+		for (byte pr = 0; pr < ar_24.length - 1; pr++) {// перебор проходов
+			for (byte i = (byte) (ar_24.length - 1); i > pr; i--) {
+
+				d_a = ar_24[i];
+				i_a = (int) d_a;
+				//
+				d_b = ar_24[i - 1];
+				i_b = (int) d_b;
+
+				if (d_a - i_a > d_b - i_b) {
+					d_temp = ar_24[i];
+					ar_24[i] = ar_24[i - 1];
+					ar_24[i - 1] = d_temp;
+				}
+			}
+		}
+
+		// Выводим результат
+		// Читаем массив показываем что в нем
+		arr_reading_double(ar_24, "Result");
+		// //////////////////////////// task 18 ////////////////////////////
+		// Создать массив из 10 целых случайных чисел в диапазоне от 0 до
+		// 100. Найти элемент, максимально близкий к среднему арифметическому
+		// значений массива.
+
+		textInfo("18", "Шапка");
+
+		// Создаем массив 1
+		byte[] ar_25 = new byte[10];
+		// заполняем массив случайными числами
+		for (byte i = 0; i < ar_25.length; i++) {
+			// округляем
+			ar_25[i] = (byte) (Math.random() * 100);
+		}
+
+		sum_n = 0;// сумма
+		sum_average = 0;// среднее
+
+		// Читаем массив определяем сумму элементов массива
+		for (byte i = 0; i < ar_25.length; i++) {
+			//
+			sum_n = (short) (sum_n + ar_25[i]);// сумма
+		}
+		sum_average = (short) (sum_n / ar_25.length);
+		// сортируем
+		arr_sort_byte(ar_25);
+		// Читаем массив показываем что в нем
+		arr_reading_byte(ar_25, "ar 1 ");
+
+		// Читаем массив определяем максимально близкий к среднему
+		// арифметическому
+		short num_average = 0;
+		text_info_cyclel = "";
+		for (byte i = 0; i < ar_25.length; i++) {
+			//
+			if (ar_25[i] < sum_average) {
+				num_average = ar_25[i];
+
+			} else {
+				text_info_cyclel = "Average number = " + ar_25[i];
+				break;
+			}
+		}
+		// Выводим результат
+		textInfo(text_info_cyclel, "Подвал");
+		// //////////////////////////// task 19 ////////////////////////////
+		// Осуществить циклический сдвиг массива на N элементов. Направление
+		// сдвига указывает пользователь (например, массив 0,1,2,3,4,5,6,7,8,9
+		// при циклическом сдвиге вправо на 3 элемента примет вид
+		// 7,8,9,0,1,2,3,4,5,6).
+
+		textInfo("19", "Шапка");
+
+		// Создаем массив 1
+		byte[] ar_26 = new byte[10];
+		// заполняем массив случайными числами
+		for (byte i = 0; i < ar_26.length; i++) {
+			ar_26[i] = (byte) (Math.random() * 100);
+		}
+
+		// Читаем массив показываем что в нем
+		arr_reading_byte(ar_26, "ar 1 ");
+		// Данные
+		value_text = "Enter the number ...";
+		int number_N = nextInt(value_text);
+		//
+		if (number_N > ar_26.length) {
+			System.err
+					.print("Err:a number greater than the size of the array.\n");
+		} else {
+			a = (short) (number_N);
+			byte f = 0;
+			byte e = 0;
+
+			for (byte i = 0; i < number_N - 1; i++) {
+				a--;
+				f = ar_26[ar_26.length - a];
+				e = ar_26[i];
+				//
+				ar_26[i] = f;
+				ar_26[ar_26.length - a] = e;
+			}
+			// Выводим результат
+			// Читаем массив показываем что в нем
+			arr_reading_byte(ar_26, "Result");
+		}
+
+		// //////////////////////////// task 20 ////////////////////////////
+		// Создать массив строк на 4000 элементов. Заполнить его римскими
+		// числами от 1 до 3999, показать на экране все элементы.
+		// I-1, V-5, X-10, L-50, C-100, D-500, M-1000.
+
+		textInfo("20", "Шапка");
+
+		// Создаем массив 1
+		String[] ar_27 = new String[4000];
+
+		// заполняем массив случайными числами
+		for (int i = 0; i < ar_27.length; i++) {
+			// конвертируем
+			ar_27[i] = letter_Number(i);
+		}
+		// Читаем массив показываем что в нем
+		arr_reading_String(ar_27, "Result");
+
+		// //////////////////////////// task 21 ////////////////////////////
+		// Ввести число в диапазоне от 0 до 1000000. Озвучить его словами.
+		// Например, при вводе числа 25 вывести на экране «двадцать пять».
+
+		textInfo("21", "Шапка");
+		// Данные
+		value_text = "Enter the number ...";
+		int value = nextInt(value_text);
+
+		// Создаем массив 1
+		String[][] ar_28 = {
+				{ "один", "два", "три", "четыре", "пять", "шесть", "семь",
+						"восемь", "девять" },
+				{ "десять", "двадцать", "тридцать", "сорок", "пятьдесят",
+						"шестьдесят", "семьдесят", "восемьдесят", "девяносто" },
+				{ "сто", "двести", "триста", "четыреста", "пятьсот",
+						"шестьсот", "семьсот", "восемьсот", "девятьсот" },
+				{ "одна тысяча", "две тысячи", "три тысячи", "четыре тысячи",
+						"пять тысяч", "шесть тысяч", "семь тысяч",
+						"восемь тысяч", "девять тысяч" },
+				{ "десять тысяч", "двадцать тясяч", "тридцать тысяч",
+						"сорок тысяч", "пятьдесят тысяч", "шестьдесят тысяч",
+						"семьдесят тысяч", "восемьдесят тысяч",
+						"девяносто тысяч" },
+				{ "сто тысяч", "двести тясяч", "триста тысяч",
+						"четыреста тысяч", "пятьсот тысяч", "шестьсот тысяч",
+						"семьсот тысяч", "восемьсот тысяч", "девятьсот тысяч" },
+				{ "один миллион" }
+
+		};
+		// Создаем массив 2
+		String[] ar_29 = { "десять", "одинадцать", "двенадцать", "тринадцать",
+				"четырнадцать", "пятнадцать", "шестнадцать", "семнадцать",
+				"восемнадцать", "девятнадцать" };
+
+		int i_c;
+		boolean b_s = false;
+		text_info_cyclel = "";
+		// перебираем масив
+		for (int j = 6, p = 1000000; j >= 0; j--, p /= 10) {
+			i_c = (value / p);
+
+			if (i_c > 0 || b_s) {// проверяем разряд
+
+				if (j == 1 && i_c == 1) {
+					b_s = true;
+				} else {
+					// определяем из какого массива берем слова
+					if (b_s) {
+						text_info_cyclel = ar_29[i_c];// 10-19
+					} else {
+						text_info_cyclel = text_info_cyclel + ar_28[j][i_c - 1]
+								+ " ";// 1-1000000
+					}
+				}
+				i_c *= p;
+				value -= i_c;
+			}
+		}
+		// Выводим результат
+		textInfo(text_info_cyclel, "Подвал");
+
+		// //////////////////////////// task 22 ////////////////////////////
+		// Дана последовательность: 1, 11, 21, 1211, 111221, 312211,
+		// 13112221, … Ввести число N. Показать N-ный по счёту элемент
+		// последовательности.
+
+		textInfo("22", "Шапка");
+		// Данные
+		value_text = "Enter the number ...";
+		value = nextInt(value_text);
+
+		String st = "1";
+		for (int i = 0; i < value; i++) {
+			st = st_sequence(st);
+		}
+
+		text_info_cyclel = st + ' ';
+		// Выводим результат
+		textInfo(text_info_cyclel, "Подвал");
+	}
+
+	// ////////////////////////////////////////////////////////
+	// ВСПОМАГАТЕЛЬНЫЕ ФУНКЦИИ И ПРОЦЕДУРЫ
+	// ///////////////////////////////////////////////////////
+
+	// возвращает строку
+	public static String st_sequence(String st) {
+		String result = "";
+		char[] ch = st.toCharArray();// делаем массив символов
+		int counter = 1;
+
+		if (st.length() == 1)// если длина = 1
+			result = "1" + st;
+		else {
+			for (int y = 0; y < st.length() - 1; y++) {
+				if (((char) ch[y] == (char) ch[y + 1])) {
+					counter++;
+				} else {
+					result += Integer.toString(counter);// переводим в строку
+					result += (char) ch[y];
+					counter = 1;
+				}
+				if (y == st.length() - 2) {
+					result += Integer.toString(counter);// переводим в строку
+					result += (char) ch[y + 1];
+					counter = 1;
+				}
+			}
+
+		}
+
+		return result;
+	}
+
+	// Читает массив выводит на экран его значения
+	// mass_value - сам массив
+	// text_m - доп параметр
+	public static void arr_reading_String(String[] mass_value, String text_m) {
+
+		String text_info_cyclel = "";
+		// Читаем массив
+		for (int i = 0; i < mass_value.length; i++) {
+			text_info_cyclel = text_info_cyclel + mass_value[i] + "\n";
+		}
+		textInfo(text_info_cyclel, text_m);
+	}
+
+	private static String letter_Number(int num) {
+
+		int[] numbers = { 1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1 };
+
+		String[] letters = { "M", "CM", "D", "CD", "C", "XC", "L", "XL", "X",
+				"IX", "V", "IV", "I" };
+
+		String s_roman = ""; // Римское число.
+		// конвертируем
+		for (int i = 0; i < numbers.length; i++) {
+			while (num >= numbers[i]) {
+				s_roman += letters[i];
+				num -= numbers[i];
+				System.out.print(s_roman + "\n");
+			}
+		}
+		return s_roman;
+	}
+
+	// Читает массив выводит на экран его значения
+	// mass_value - сам массив
+	// text_m - доп параметр
+	public static void arr_reading_double(double[] mass_value, String text_m) {
+
+		String text_info_cyclel = "";
+		// Читаем массив
+		for (byte i = 0; i < mass_value.length; i++) {
+			text_info_cyclel = text_info_cyclel + mass_value[i] + ",";
+		}
+		textInfo(text_info_cyclel, text_m);
+	}
+
+	// Сортирует массив
+	// mass_value - сам массив
+	// Возвращаем массив
+	public static byte[] arr_sort_byte(byte[] mass_value) {
+		// сортируем
+		byte temp = 0;
+
+		for (byte pr = 0; pr < mass_value.length - 1; pr++) {// перебор проходов
+			for (byte i = (byte) (mass_value.length - 1); i > pr; i--) {
+				if (mass_value[i] < mass_value[i - 1]) {
+					temp = mass_value[i];
+					mass_value[i] = mass_value[i - 1];
+					mass_value[i - 1] = temp;
+				}
+			}
+		}
+		return mass_value;
+	}
+
+	// Читает массив выводит на экран его значения
+	// mass_value - сам массив
+	// text_m - текст дополнения
+	public static void arr_reading_byte(byte[] mass_value, String text_m) {
+
+		String text_info_cyclel = "";
+		// Читаем массив
+		for (byte i = 0; i < mass_value.length; i++) {
+			text_info_cyclel = text_info_cyclel + mass_value[i] + ",";
+		}
+		textInfo(text_info_cyclel, text_m);
+	}
+
+	// Показывает число разрядов в числе
+	// numb_value - число у которого надо определить разряд
+	// Возвращаем число
+	public static byte digit_num(int number_value) {
+		byte number_digit = 0;
+
+		// Если число = 0, то автоматом это 1 разряд
+		if (number_value >= 0 && number_value < 10) {
+			number_digit = 1;
+		} else {
+			while (number_value > 0) {
+
+				number_value = number_value / 10;// каждое делениена 10 - 1
+													// разряд
+				// + разряд
+				number_digit++;
+			}
+		}
+		return number_digit;
+	}
+
+	// Выводим шапку или подвал задачи
+	// text_r - режим вывода информации (шапка или подвал...)
+	// tesk_number - № задачи
+
+	public static void textInfo(String tesk_number_info, String text_r) {
+
+		String text_info = "";
+		switch (text_r) {
+		case "Шапка":
+			text_info = "Task № " + tesk_number_info + "\n";
+			break;
+		case "Подвал":
+			text_info = "Result:\n" + tesk_number_info + "\n\n";
+			break;
+		default:
+			text_info = text_r + ":\n" + tesk_number_info + "\n\n";
+		}
+		System.out.print(text_info);
+	}
+
+	// Вычислям случайные чисела в диапазоне от и до
+	// number_of - число от
+	// number_to - число до
+	// Возвращаем число
+	public static int Math_random(int number_of, int number_to) {
+
+		int numb_rnd = number_of
+				+ (int) (Math.random() * ((number_to - number_of) + 1));
+		return numb_rnd;
+	}
+
+	// Создаем массив
+	// Возвращаем массив
+	public static int[] Shared_numbers_on_figures(int number_m) {
+
+		// Создаем массив взависимости от размера параметра
+		int[] massif = new int[number_m];
+
+		return massif;
+	}
+
+	// Вводим значение в консоль
+	// value_text - текст для вывода в консоль
+	// Возвращаем число
+	public static int nextInt(String value_text) {
+		int value_input;
+
+		// Выводим текст на экран
+		System.out.println(value_text);
+		// Вводим значение
+		value_input = input.nextInt();
+
+		return value_input;
+
+	}
+
+	// Вводим значение в консоль
+	// value_text - текст для вывода в консоль
+	// Возвращаем число
+	public static short nextshort(String value_text) {
+		short value_input;
+
+		// Выводим текст на экран
+		System.out.println(value_text);
+		// Вводим значение
+		value_input = input.nextShort();
+
+		return value_input;
+
+	}
+
+	// Вводим значение в консоль
+	// value_text - текст для вывода в консоль
+	// Возвращаем число
+	public static byte nextByte(String value_text) {
+		byte value_input;
+
+		// Выводим текст на экран
+		System.out.println(value_text);
+		// Вводим значение
+		value_input = input.nextByte();
+
+		return value_input;
+
+	}
+
+}
