@@ -1,0 +1,538 @@
+test1
+=====
+
+Java
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.util.Scanner;
+
+public class array_two {
+	private static Scanner input = new java.util.Scanner(System.in);
+
+	/**
+	 * @param args
+	 */
+	public static void main(String[] args) {
+		// Текст для вывода в консоль
+		String value_text, text_info_cyclel;
+		// Параметры
+		text_info_cyclel = "No solution";
+
+
+		// //////////////////////////// task 11 ////////////////////////////
+		// Дан двумерный массив размерностью 5х5, заполненный случайными
+		// числами из диапазона от -100 до 100. Определить сумму элементов
+		// массива, расположенных между минимальным и максимальным элементами.
+
+		textInfo("11", "Шапка");
+		// Создаем массив
+		byte[][] ar_11 = new byte[5][5];
+		text_info_cyclel = "";
+		byte min = 0;
+		byte max = 0;
+		// создаем массив со случайными числами
+		for (byte y = 0; y < ar_11.length; y++) {// проход по строкам
+			for (byte x = 0; x < ar_11.length; x++) {// проход по строкам
+														// ячейкам
+				ar_11[y][x] = (byte) (Math.random() * 201 - 101);
+
+				System.out.print(ar_11[y][x] + "\t");
+
+				// поиск мин и макс
+				if (ar_11[y][x] < min) {
+					min = ar_11[y][x];
+				} else if (ar_11[y][x] > max) {
+					max = ar_11[y][x];
+				}
+			}
+			System.out.print("\n");
+		}
+
+		System.out.print("\n" + "min = " + min + " max = " + max + "\n");
+		short sum = 0;// сумма
+		byte a = 0; // корректировка для того чтоб точно счет началяся после
+					// минимального а не вместе с ним
+		boolean b_account = false, // включить выключить счет
+		max_one = false;// если вдруг максимум будет раньше чем минимум
+		// массива.
+		for (byte y = 0; y < ar_11.length; y++) {// проход по строкам
+			for (byte x = 0; x < ar_11.length; x++) {// проход по строкам
+
+				// ячейкам
+
+				if (min == ar_11[y][x] && !max_one) {
+					b_account = true;
+					a = (byte) (min < 0 ? min : -min);
+				} else if (max == ar_11[y][x]) {
+					b_account = false;
+					max_one = true;
+				}
+				if (b_account) {
+					sum += (short) (-a + ar_11[y][x]);
+					a = 0;
+				}
+			}
+		}
+
+		text_info_cyclel = "The sum = " + sum + "\n";
+		// Выводим результат
+		textInfo(text_info_cyclel, "Подвал");
+		// //////////////////////////// task 12 ////////////////////////////
+		// Дан двумерный массив размерностью 5х5, заполненный случайными
+		// числами из диапазона от 0 до 100. Поменять местами последний столбец
+		// массива со столбцом, в котором находится максимальный элемент.
+
+		textInfo("12", "Шапка");
+		// Создаем массив
+		byte[][] ar_12 = new byte[5][5];
+		text_info_cyclel = "";
+		byte num_column = 0;
+		max = 0;
+		// создаем массив со случайными числами
+		for (byte y = 0; y < ar_12.length; y++) {// проход по строкам
+			for (byte x = 0; x < ar_12.length; x++) {// проход по строкам
+														// ячейкам
+				ar_12[y][x] = (byte) (Math.random() * 101);
+
+				System.out.print(ar_12[y][x] + "\t");
+
+				// поиск макс и номер колонке
+				if (ar_12[y][x] > max) {
+					max = ar_12[y][x];
+					num_column = x;
+				}
+			}
+			System.out.print("\n");
+		}
+
+		text_info_cyclel = "\n" + "max = " + max + " num column " + num_column
+				+ " \n";
+
+		// если уже и так в последней колонке
+		if (num_column == ar_12.length - 1) {
+			text_info_cyclel = "The max " + max + " in the last column.\n";
+		} else {
+			// читаем и меняем массив
+			// Меняем местами
+			for (byte y = 0; y < ar_12.length; y++) {// проход по строкам
+
+				byte tmp = ar_12[y][num_column];
+				ar_12[y][num_column] = ar_12[y][ar_12.length - 1];
+				ar_12[y][ar_12.length - 1] = tmp;
+			}
+			// Выводим результат
+			textInfo(text_info_cyclel, "Подвал");
+
+			for (byte y = 0; y < ar_12.length; y++) {// проход по строкам
+				for (byte x = 0; x < ar_12.length; x++) {// проход по строкам
+															// ячейкам
+					System.out.print(ar_12[y][x] + "\t");
+				}
+				System.out.print("\n");
+			}
+
+		}
+		// //////////////////////////// task 13 ////////////////////////////
+		// Дан двумерный массив размерностью 5х5, заполненный случайными
+		// числами из диапазона от 0 до 100. Переформировать массив таким
+		// образом, чтобы её столбцы располагались по убыванию их поэлементных
+		// сумм.
+		textInfo("13", "Шапка");
+		// Создаем массив
+		byte[][] ar_13 = new byte[5][5];
+		short[] ar_13_1 = new short[5];// для образа сумм колонок до сортировки
+		text_info_cyclel = "";
+		// создаем массив со случайными числами
+		for (byte y = 0; y < ar_13.length; y++) {// проход по строкам
+
+			for (byte x = 0; x < ar_13.length; x++) {// проход по строкам
+														// ячейкам
+				ar_13[y][x] = (byte) (Math.random() * 101);
+				System.out.print(ar_13[y][x] + "\t");
+			}
+
+			System.out.print("\n");
+		}
+		// получаем суммы по столбцам в массив
+		sum = 0;// сумма по столбцам
+		for (byte y = 0; y < ar_13.length; y++) {// проход по строкам
+			sum = 0;
+			for (byte x = 0; x < ar_13.length; x++) {// проход по строкам
+														// ячейкам
+				sum += (short) (ar_13[x][y]);
+			}
+			ar_13_1[y] = sum;
+			System.out.print("sum = " + sum + "\n");
+		}
+
+		// сортируем
+		short temp = 0;// буфер
+		//
+		for (byte pr = 0; pr < ar_13_1.length - 1; pr++) {// перебор проходов
+			for (byte i = (byte) (ar_13_1.length - 1); i > pr; i--) {
+
+				if (ar_13_1[i] > ar_13_1[i - 1]) {
+					temp = ar_13_1[i];
+					ar_13_1[i] = ar_13_1[i - 1];
+					ar_13_1[i - 1] = temp;
+
+					// меняем колонки
+					for (byte y = 0; y < ar_13.length; y++) {// проход по
+																// колонка
+						byte tmp = ar_13[y][i];
+						ar_13[y][i] = ar_13[y][i - 1];
+						ar_13[y][i - 1] = tmp;
+					}
+				}
+			}
+		}
+
+		text_info_cyclel = "\n";
+		// Просмотр то что получилось
+		// Определяем сумму по каждо столбцу
+		// массива.
+		sum = 0;
+		//
+		for (byte y = 0; y < ar_13.length; y++) {// проход по строкам
+			for (byte x = 0; x < ar_13.length; x++) {// проход по строкам
+														// ячейкам
+				sum += (short) (ar_13[x][y]);
+			}
+
+			text_info_cyclel = text_info_cyclel + "sum = " + sum + "\n";
+			sum = 0;
+		}
+		// Выводим результат
+		textInfo(text_info_cyclel, "Подвал");
+		// читаем массив то что получилось после сортировки
+		for (byte y = 0; y < ar_13.length; y++) {// проход по строкам
+			for (byte x = 0; x < ar_13.length; x++) {// проход по строкам
+														// ячейкам
+				System.out.print(ar_13[y][x] + "\t");
+			}
+			System.out.print("\n");
+		}
+		// //////////////////////////// task 14 ////////////////////////////
+		// Заполнить квадратную матрицу размером N x M по спирали. Число 1
+		// ставится в центр матрицы, а затем массив заполняется по спирали
+		// против часовой стрелки значениями по возрастанию.
+
+		textInfo("14", "Шапка");
+		value_text = "Enter number N...";
+		byte n = nextByte(value_text);// вводим число
+		value_text = "Enter number M...";
+		byte m = nextByte(value_text);// вводим число
+		// Создаем массив
+		byte[][] ar_14 = new byte[n][m];
+
+		text_info_cyclel = "";
+		byte i = 0;
+		byte j = 0;
+		byte p = 1;
+		short n_m = (short) (n * m);
+
+		while (i < n_m) {
+			i++;
+			for (j = (byte) (i - 1); j < m - i + 1; j++) {
+				ar_14[i - 1][j] = p--;
+
+			}
+
+			for (j = i; j < n - i + 1; j++) {
+				ar_14[j][m - i] = p--;
+
+			}
+
+			for (j = (byte) (m - i - 1); j >= i - 1; j--) {
+				ar_14[n - i][j] = p--;
+
+			}
+
+			for (j = (byte) (n - i - 1); j >= i; j--) {
+				ar_14[j][i - 1] = p--;
+
+			}
+
+		}
+		// читаем массив выводим на экран
+		for (byte y = 0; y < n; y++) {// проход по строкам
+			for (byte x = 0; x < m; x++) {// проход по строкам
+														// ячейкам
+				System.out.print(ar_14[y][x] + "\t");
+			}
+			System.out.print("\n");
+		}
+
+		// //////////////////////////// task 15 ////////////////////////////
+		// То же самое, только число 1 ставится в угловой (например, верхний
+		// левый) элемент, и спираль закручивается к центру матрицы.
+		textInfo("15", "Шапка");
+
+		value_text = "Enter number N...";
+		n = nextByte(value_text);// вводим число
+		value_text = "Enter number M...";
+		m = nextByte(value_text);// вводим число
+		// Создаем массив
+		byte[][] ar_15 = new byte[n][m];
+
+		text_info_cyclel = "";
+		i = 0;
+		j = 0;
+		p = 1;
+		n_m = (short) (n * m);
+
+		while (i < n_m) {
+			i++;
+			for (j = (byte) (i - 1); j < m - i + 1; j++) {
+				ar_15[i - 1][j] = p++;
+
+			}
+
+			for (j = i; j < n - i + 1; j++) {
+				ar_15[j][m - i] = p++;
+
+			}
+
+			for (j = (byte) (m - i - 1); j >= i - 1; j--) {
+				ar_15[n - i][j] = p++;
+
+			}
+
+			for (j = (byte) (n - i - 1); j >= i; j--) {
+				ar_15[j][i - 1] = p++;
+
+			}
+
+		}
+		// читаем массив выводим на экран
+		for (byte y = 0; y < n; y++) {// проход по строкам
+			for (byte x = 0; x < m; x++) {// проход по строкам
+														// ячейкам
+				System.out.print(ar_15[y][x] + "\t");
+			}
+			System.out.print("\n");
+		}
+
+		// //////////////////////////// task 16 ////////////////////////////
+		// Заполнить массив N x M следующим образом:
+		textInfo("16", "Шапка");
+
+		value_text = "Enter number N...";
+		n = nextByte(value_text);// вводим число
+		value_text = "Enter number M...";
+		m = nextByte(value_text);// вводим число
+		// Создаем массив
+		byte[][] ar_16 = new byte[n][m];
+		i = 0;
+
+		for (byte y = 0; y < n; y++) {// проход по строкам
+
+			for (byte x = 0; x < m; x++) {// проход по строкам
+				i++; // ячейкам
+				ar_16[y][x] = i;
+			}
+		}
+
+		// читаем массив выводим на экран
+		for (byte y = 0; y < n; y++) {// проход по строкам
+			for (byte x = 0; x < m; x++) {// проход по строкам
+														// ячейкам
+				System.out.print(ar_16[y][x] + "\t");
+			}
+			System.out.print("\n");
+		}
+
+		// //////////////////////////// task 17 ////////////////////////////
+		// Заполнить массив N x M следующим образом:
+		textInfo("17", "Шапка");
+
+		value_text = "Enter number N...";
+		n = nextByte(value_text);// вводим число
+		value_text = "Enter number M...";
+		m = nextByte(value_text);// вводим число
+		// Создаем массив
+		byte[][] ar_17 = new byte[n][m];
+		i = 0;
+
+		for (byte y = 0; y < n; y++) {// проход по строкам
+
+			for (byte x = 0; x < m; x++) {// проход по строкам
+				i++; // ячейкам
+				if (y % 2 == 0) {// через строку
+					ar_17[y][x] = (byte) (i);
+				} else {
+
+					for (byte z = (byte) (m - 1); z >= 0; z--) {
+
+						ar_17[y][z] = (byte) (y * n + (m - z));
+					}
+				}
+				System.out.print(ar_17[y][x] + "\t");
+			}
+			System.out.print("\n");
+		}
+
+	}
+
+	// TODO Auto-generated method stub
+
+	// ////////////////////////////////////////////////////////
+	// ВСПОМАГАТЕЛЬНЫЕ ФУНКЦИИ И ПРОЦЕДУРЫ
+	// ///////////////////////////////////////////////////////
+
+	// Читает массив выводит на экран его значения
+	// mass_value - сам массив
+	// text_m - доп параметр
+	public static void arr_reading_String(String[] mass_value, String text_m) {
+
+		String text_info_cyclel = "";
+		// Читаем массив
+		for (int i = 0; i < mass_value.length; i++) {
+			text_info_cyclel = text_info_cyclel + mass_value[i] + "\n";
+		}
+		textInfo(text_info_cyclel, text_m);
+	}
+
+	// Читает массив выводит на экран его значения
+	// mass_value - сам массив
+	// text_m - доп параметр
+	public static void arr_reading_double(double[] mass_value, String text_m) {
+
+		String text_info_cyclel = "";
+		// Читаем массив
+		for (byte i = 0; i < mass_value.length; i++) {
+			text_info_cyclel = text_info_cyclel + mass_value[i] + ",";
+		}
+		textInfo(text_info_cyclel, text_m);
+	}
+
+	// Сортирует массив
+	// mass_value - сам массив
+	// Возвращаем массив
+	public static byte[] arr_sort_byte(byte[] mass_value) {
+		// сортируем
+		byte temp = 0;
+
+		for (byte pr = 0; pr < mass_value.length - 1; pr++) {// перебор проходов
+			for (byte i = (byte) (mass_value.length - 1); i > pr; i--) {
+				if (mass_value[i] < mass_value[i - 1]) {
+					temp = mass_value[i];
+					mass_value[i] = mass_value[i - 1];
+					mass_value[i - 1] = temp;
+				}
+			}
+		}
+		return mass_value;
+	}
+
+	// Читает массив выводит на экран его значения
+	// mass_value - сам массив
+	// text_m - текст дополнения
+	public static void arr_reading_byte(byte[] mass_value, String text_m) {
+
+		String text_info_cyclel = "";
+		// Читаем массив
+		for (byte i = 0; i < mass_value.length; i++) {
+			text_info_cyclel = text_info_cyclel + mass_value[i] + ",";
+		}
+		textInfo(text_info_cyclel, text_m);
+	}
+
+	// Показывает число разрядов в числе
+	// numb_value - число у которого надо определить разряд
+	// Возвращаем число
+	public static byte digit_num(int number_value) {
+		byte number_digit = 0;
+
+		// Если число = 0, то автоматом это 1 разряд
+		if (number_value >= 0 && number_value < 10) {
+			number_digit = 1;
+		} else {
+			while (number_value > 0) {
+
+				number_value = number_value / 10;// каждое делениена 10 - 1
+													// разряд
+				// + разряд
+				number_digit++;
+			}
+		}
+		return number_digit;
+	}
+
+	// Выводим шапку или подвал задачи
+	// text_r - режим вывода информации (шапка или подвал...)
+	// tesk_number - № задачи
+
+	public static void textInfo(String tesk_number_info, String text_r) {
+
+		String text_info = "";
+		switch (text_r) {
+		case "Шапка":
+			text_info = "Task № " + tesk_number_info + "\n";
+			break;
+		case "Подвал":
+			text_info = "Result:\n" + tesk_number_info + "\n\n";
+			break;
+		default:
+			text_info = text_r + ":\n" + tesk_number_info + "\n\n";
+		}
+		System.out.print(text_info);
+	}
+
+	// Вычислям случайные чисела в диапазоне от и до
+	// number_of - число от
+	// number_to - число до
+	// Возвращаем число
+	public static int Math_random(int number_of, int number_to) {
+
+		int numb_rnd = number_of
+				+ (int) (Math.random() * ((number_to - number_of) + 1));
+		return numb_rnd;
+	}
+
+	// Вводим значение в консоль
+	// value_text - текст для вывода в консоль
+	// Возвращаем число
+	public static int nextInt(String value_text) {
+		int value_input;
+
+		// Выводим текст на экран
+		System.out.println(value_text);
+		// Вводим значение
+		value_input = input.nextInt();
+
+		return value_input;
+
+	}
+
+	// Вводим значение в консоль
+	// value_text - текст для вывода в консоль
+	// Возвращаем число
+	public static short nextshort(String value_text) {
+		short value_input;
+
+		// Выводим текст на экран
+		System.out.println(value_text);
+		// Вводим значение
+		value_input = input.nextShort();
+
+		return value_input;
+
+	}
+
+	// Вводим значение в консоль
+	// value_text - текст для вывода в консоль
+	// Возвращаем число
+	public static byte nextByte(String value_text) {
+		byte value_input;
+
+		// Выводим текст на экран
+		System.out.println(value_text);
+		// Вводим значение
+		value_input = input.nextByte();
+
+		return value_input;
+
+	}
+
+}
