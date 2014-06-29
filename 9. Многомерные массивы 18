@@ -56,6 +56,7 @@ public class www {
 					// поиск по горезонтали вправо
 					whileNextVertical(x < m - 1, "", "+", true);
 				}
+					vertical = true;//
 			}
 			ch3 = ch;// запоминаем последние число
 		}
