@@ -1,0 +1,106 @@
+test1
+=====
+
+Java
+public class www {
+
+	public static int y = 0;// вертикаль
+	public static int x = 0;// горизонталь
+	public static int y1 = 0;// вертикаль запоминает последний установленный y
+	public static int x1 = 0;// горизонталь запоминает последний установленный x
+
+	public static int ch = 1;// общий счет до n * m
+	public static int ch3 = 0;// счет запоминает дубль ch
+	public static int n = 9;// 
+	public static int m = 10;// 
+	public static boolean vertical = true;// если не нашел выход по вертикале
+											// ищем по
+	// горизонтали
+	public static int[][] ar_18 = new int[n][m];
+	
+	public static void main(String[] args) {
+		short n_m = (short) (n * m);// макс счет
+		ar_18[y][x] = ch;// мяч прыгает
+
+		while (ch < n_m) {
+			// право низ
+			whileNextVertical(y < n - 1, "+", "+", false);
+			// право вверх
+			whileNextVertical(x < m - 1, "+", "-", false);
+			// влево вверх
+			whileNextVertical(y > 0, "-", "-", false);
+			// влево низ
+			whileNextVertical(y < n - 1, "+", "-", false);
+			// влево вверх
+			whileNextVertical(x > 0, "-", "-", false);
+			// право вверх
+			whileNextVertical(y > 0, "-", "+", false);
+			
+			// Корректируем мяч если нужно найти выход из угла
+			// делаем + или - (у/x) в зависимости чему равен (у/x).
+			// в начале делаем поиск по вертикале если не нашли тогда делаем
+			// поиск по горизонтали
+			if (ch3 == ch) {
+				vertical = true;//
+
+				// //////////////////// y //////////////////////////////
+				// поиск по вертикале вверх
+				whileNextVertical(y > 0, "-", "", true);
+				// поиск по вертикале вниз
+				whileNextVertical(y < n - 1, "+", "", true);
+
+				// //////////////////// x //////////////////////////////
+				if (vertical) {
+					// поиск по горезонтали влево
+					whileNextVertical(x > 0, "", "-", true);
+					// поиск по горезонтали вправо
+					whileNextVertical(x < m - 1, "", "+", true);
+				}
+			}
+			ch3 = ch;// запоминаем последние число
+		}
+		// читаем массив выводим на экран
+		for (y = 0; y < n; y++) {// проход по строкам
+			for (x = 0; x < m; x++) {// проход по строкам
+				// ячейкам
+				System.out.print(ar_18[y][x] + "\t");
+			}
+			System.out.print("\n");
+		}
+	}
+	public static void whileNextVertical(boolean N, String y2, String x2,
+			boolean b) {
+
+		while (N && vertical) {
+			// ////////////// y /////////////
+			if (y2 == "+") {
+				y++;
+			} else if (y2 == "-") {
+				y--;
+			}
+			// //////////////// x //////////////
+			if (x2 == "+") {
+				x++;
+			} else if (x2 == "-") {
+				x--;
+			}
+			try {
+				// Фильтр проверка на ноль
+				if (ar_18[y][x] != 0) {
+					continue;
+				}
+				//
+				if (b) {
+					vertical = false;
+				}
+				y1 = y;
+				x1 = x;
+				ch++;
+				ar_18[y][x] = ch;// мяч прыгает
+			} catch (Exception e) {
+				y = y1;
+				x = x1;
+				break;
+			}
+		}
+	}
