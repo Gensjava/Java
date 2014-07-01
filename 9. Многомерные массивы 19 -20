@@ -1,0 +1,339 @@
+test1
+=====
+
+Java
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.util.Scanner;
+
+public class array_two {
+	private static Scanner input = new java.util.Scanner(System.in);
+
+	/**
+	 * @param args
+	 */
+	public static void main(String[] args) {
+		// Текст для вывода в консоль
+		String value_text, text_info_cyclel;
+		// Параметры
+		text_info_cyclel = "No solution";
+
+		// //////////////////////////// task 19 ////////////////////////////
+		// Заполнить трёхмерный массив N x N x N нулями. В получившийся куб
+		// вписать шар, состоящий из единиц. После чего, разрезать куб на N
+		// слоёв, и показать каждый слой в виде двумерного массива N x N на
+		// экране консоли.
+
+		textInfo("19", "Шапка");
+		byte n = 9;// вводим число
+		String[][][] ar_19 = new String[n][n][n];
+
+		int y = 0;// горизонталь
+		int x = 0;// вертикаль
+		int z = 0;// глубина
+
+		for (x = 0; x < n; ++x) {
+			for (y = 0; y < n; ++y) {
+				for (z = 0; z < n; ++z) {
+
+					double numb = Math.sqrt(Math.pow((x - n / 2), 2)
+							+ Math.pow((y - n / 2), 2)
+							+ Math.pow((z - n / 2), 2));
+
+					if (numb <= n / 2) {
+						ar_19[x][y][z] = "1";
+					} else {
+						ar_19[x][y][z] = "0";
+					}
+
+					System.out.print(ar_19[x][y][z] + " ");
+				}
+				System.out.println();
+			}
+			System.out.println();
+		}
+		// //////////////////////////// task 20 ////////////////////////////
+		// Реализовать сортировку пузырьком, вставками и выбором для
+		// двумерного массива произвольного размера.
+
+		textInfo("20", "Шапка");
+
+		n = 5;// вводим число
+		int[][] ar_20 = new int[n][n];
+
+		// ////////////////////////Сортировка выбором //////////////
+		System.out.print("Сортировка выбором\n");
+		// создаем массив со случайными числами
+		for (y = 0; y < ar_20.length; y++) {// проход по строкам
+			for (x = 0; x < ar_20.length; x++) {// проход по строкам
+				// ячейкам
+				ar_20[y][x] = (byte) (Math.random() * 101);
+
+				System.out.print(ar_20[y][x] + "\t");
+			}
+			System.out.print("\n");
+		}
+
+		int tmp;
+		int Min;
+		// Сортировка
+		for (y = 0; y < n; y++) {
+			for (x = 0; x < n - 1; x++) {
+
+				Min = x;
+				for (int j = x + 1; j < n; j++)
+					if (ar_20[j][y] > ar_20[Min][y])
+						Min = j;
+				tmp = ar_20[x][y];
+				ar_20[x][y] = ar_20[Min][y];
+				ar_20[Min][y] = tmp;
+			}
+		}
+
+		System.out.print("\n");
+		// читаем массив выводим на экран
+		for (y = 0; y < ar_20.length; y++) {// проход по строкам
+			for (x = 0; x < ar_20.length; x++) {// проход по строкам
+				// ячейкам
+				System.out.print(ar_20[y][x] + "\t");
+			}
+			System.out.print("\n");
+		}
+		System.out.print("\n");
+
+		// /////////////////// Сортировка пузырьком //////////////
+		System.out.print("Сортировка пузырьком\n");
+
+		// создаем массив со случайными числами
+		for (y = 0; y < ar_20.length; y++) {// проход по строкам
+			for (x = 0; x < ar_20.length; x++) {// проход по строкам
+				// ячейкам
+				ar_20[y][x] = (byte) (Math.random() * 101);
+
+				System.out.print(ar_20[y][x] + "\t");
+			}
+			System.out.print("\n");
+		}
+		// Сортировка
+		for (int k = 0; k < n; k++) {
+			for (int i = 0; i < n; i++) {
+				for (int j = n - 1; j > i; j--)
+					if (ar_20[k][j] < ar_20[k][j - 1]) {
+
+						tmp = ar_20[k][j];
+						ar_20[k][j] = ar_20[k][j - 1];
+						ar_20[k][j - 1] = tmp;
+
+					}
+			}
+		}
+
+		System.out.print("\n");
+		// читаем массив выводим на экран
+		for (y = 0; y < ar_20.length; y++) {// проход по строкам
+			for (x = 0; x < ar_20.length; x++) {// проход по строкам
+				// ячейкам
+				System.out.print(ar_20[y][x] + "\t");
+			}
+			System.out.print("\n");
+		}
+		System.out.print("\n");
+		// /////////////////// Сортировка вставками//////////////
+		System.out.print("Сортировка вставками\n");
+
+		// создаем массив со случайными числами
+		for (y = 0; y < ar_20.length; y++) {// проход по строкам
+			for (x = 0; x < ar_20.length; x++) {// проход по строкам
+				// ячейкам
+				ar_20[y][x] = (byte) (Math.random() * 101);
+
+				System.out.print(ar_20[y][x] + "\t");
+			}
+			System.out.print("\n");
+		}
+
+		// Сортировка
+		int i, j;
+
+		for (i = 0; i < n; i++) {
+			for (z = 0; z < n; z++) {
+
+				tmp = ar_20[i][z];
+
+				for (j = i - 1; j >= 0 && ar_20[j][z] > tmp; j--)
+					ar_20[j + 1][z] = ar_20[j][z];
+
+				ar_20[j + 1][z] = tmp;
+			}
+		}
+		System.out.print("\n");
+		// читаем массив выводим на экран
+		for (y = 0; y < ar_20.length; y++) {// проход по строкам
+			for (x = 0; x < ar_20.length; x++) {// проход по строкам
+				// ячейкам
+				System.out.print(ar_20[y][x] + "\t");
+			}
+			System.out.print("\n");
+		}
+		System.out.print("\n");
+	}
+	// ////////////////////////////////////////////////////////
+	// ВСПОМАГАТЕЛЬНЫЕ ФУНКЦИИ И ПРОЦЕДУРЫ
+	// ///////////////////////////////////////////////////////
+
+	// Читает массив выводит на экран его значения
+	// mass_value - сам массив
+	// text_m - доп параметр
+	public static void arr_reading_String(String[] mass_value, String text_m) {
+
+		String text_info_cyclel = "";
+		// Читаем массив
+		for (int i = 0; i < mass_value.length; i++) {
+			text_info_cyclel = text_info_cyclel + mass_value[i] + "\n";
+		}
+		textInfo(text_info_cyclel, text_m);
+	}
+
+	// Читает массив выводит на экран его значения
+	// mass_value - сам массив
+	// text_m - доп параметр
+	public static void arr_reading_double(double[] mass_value, String text_m) {
+
+		String text_info_cyclel = "";
+		// Читаем массив
+		for (byte i = 0; i < mass_value.length; i++) {
+			text_info_cyclel = text_info_cyclel + mass_value[i] + ",";
+		}
+		textInfo(text_info_cyclel, text_m);
+	}
+
+	// Сортирует массив
+	// mass_value - сам массив
+	// Возвращаем массив
+	public static byte[] arr_sort_byte(byte[] mass_value) {
+		// сортируем
+		byte temp = 0;
+
+		for (byte pr = 0; pr < mass_value.length - 1; pr++) {// перебор проходов
+			for (byte i = (byte) (mass_value.length - 1); i > pr; i--) {
+				if (mass_value[i] < mass_value[i - 1]) {
+					temp = mass_value[i];
+					mass_value[i] = mass_value[i - 1];
+					mass_value[i - 1] = temp;
+				}
+			}
+		}
+		return mass_value;
+	}
+
+	// Читает массив выводит на экран его значения
+	// mass_value - сам массив
+	// text_m - текст дополнения
+	public static void arr_reading_byte(byte[] mass_value, String text_m) {
+
+		String text_info_cyclel = "";
+		// Читаем массив
+		for (byte i = 0; i < mass_value.length; i++) {
+			text_info_cyclel = text_info_cyclel + mass_value[i] + ",";
+		}
+		textInfo(text_info_cyclel, text_m);
+	}
+
+	// Показывает число разрядов в числе
+	// numb_value - число у которого надо определить разряд
+	// Возвращаем число
+	public static byte digit_num(int number_value) {
+		byte number_digit = 0;
+
+		// Если число = 0, то автоматом это 1 разряд
+		if (number_value >= 0 && number_value < 10) {
+			number_digit = 1;
+		} else {
+			while (number_value > 0) {
+
+				number_value = number_value / 10;// каждое делениена 10 - 1
+													// разряд
+				// + разряд
+				number_digit++;
+			}
+		}
+		return number_digit;
+	}
+
+	// Выводим шапку или подвал задачи
+	// text_r - режим вывода информации (шапка или подвал...)
+	// tesk_number - № задачи
+
+	public static void textInfo(String tesk_number_info, String text_r) {
+
+		String text_info = "";
+		switch (text_r) {
+		case "Шапка":
+			text_info = "Task № " + tesk_number_info + "\n";
+			break;
+		case "Подвал":
+			text_info = "Result:\n" + tesk_number_info + "\n\n";
+			break;
+		default:
+			text_info = text_r + ":\n" + tesk_number_info + "\n\n";
+		}
+		System.out.print(text_info);
+	}
+
+	// Вычислям случайные чисела в диапазоне от и до
+	// number_of - число от
+	// number_to - число до
+	// Возвращаем число
+	public static int Math_random(int number_of, int number_to) {
+
+		int numb_rnd = number_of
+				+ (int) (Math.random() * ((number_to - number_of) + 1));
+		return numb_rnd;
+	}
+
+	// Вводим значение в консоль
+	// value_text - текст для вывода в консоль
+	// Возвращаем число
+	public static int nextInt(String value_text) {
+		int value_input;
+
+		// Выводим текст на экран
+		System.out.println(value_text);
+		// Вводим значение
+		value_input = input.nextInt();
+
+		return value_input;
+
+	}
+
+	// Вводим значение в консоль
+	// value_text - текст для вывода в консоль
+	// Возвращаем число
+	public static short nextshort(String value_text) {
+		short value_input;
+
+		// Выводим текст на экран
+		System.out.println(value_text);
+		// Вводим значение
+		value_input = input.nextShort();
+
+		return value_input;
+
+	}
+
+	// Вводим значение в консоль
+	// value_text - текст для вывода в консоль
+	// Возвращаем число
+	public static byte nextByte(String value_text) {
+		byte value_input;
+
+		// Выводим текст на экран
+		System.out.println(value_text);
+		// Вводим значение
+		value_input = input.nextByte();
+
+		return value_input;
+
+	}
+
+}
