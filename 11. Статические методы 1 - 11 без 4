@@ -1,0 +1,407 @@
+test1
+=====
+
+Java
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.util.Scanner;
+
+public class StaticMethods {
+	private static Scanner input = new java.util.Scanner(System.in);
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+
+		// Текст для вывода в консоль
+		String value_text, text_info_cyclel;
+		// Параметры
+		text_info_cyclel = "No solution";
+
+		// //////////////////////////// task 1 ////////////////////////////
+		// Написать статический метод, который возвращает куб вещественного
+		// числа.
+
+		textInfo("1", "Шапка");
+		// Решение
+		value_text = "" + cub(3);
+		// Выводим результат
+		textInfo(value_text, "Подвал");
+
+		// //////////////////////////// task 2 ////////////////////////////
+		// Написать статический метод, который проверяет, является ли переданное
+		// ему число простым
+
+		textInfo("2", "Шапка");
+		// Данные
+		value_text = "Enter the number ...";
+		int number_M = nextInt(value_text);
+		double number_M_d = (double) number_M;
+		// Решение
+		value_text = primeNumber(number_M_d, number_M);
+		// Выводим результат
+		textInfo(value_text, "Подвал");
+
+		// //////////////////////////// task 3 ////////////////////////////
+		// Написать статический метод, который получает в качестве параметров
+		// два целых числа, и возвращает сумму чисел из диапазона между ними.
+
+		textInfo("3", "Шапка");
+		// Данные
+		value_text = "Enter the number ...";
+		int i_number_1 = nextInt(value_text);
+		value_text = "Enter the number ...";
+		int i_number_2 = nextInt(value_text);
+		// Решение
+		value_text = sumNumb(i_number_1, i_number_2);
+		// Выводим результат
+		textInfo(value_text, "Подвал");
+
+		// //////////////////////////// task 5 ////////////////////////////
+		// Написать статический метод для округления заданного числа до
+		// указанного количества знаков после запятой
+
+		textInfo("5", "Шапка");
+		// Данные
+		value_text = "Enter the number ...";
+		double d_number_1 = nextDouble(value_text);
+		value_text = "Enter the discharge ...";
+		int i_discharge = nextInt(value_text);
+		// Решение
+		value_text = "" + dischargeNumb(d_number_1, i_discharge);
+		// Выводим результат
+		textInfo(value_text, "Подвал");
+
+		// //////////////////////////// task 6 ////////////////////////////
+		// Написать статический метод, определяющий среднее арифметическое
+		// элементов передаваемого ему массива.
+
+		textInfo("6", "Шапка");
+		// Данные
+		byte[] ar_ = new byte[10];
+		// заполняем массив случайными числами
+		for (byte i = 0; i < ar_.length; i++) {
+			// округляем
+			ar_[i] = (byte) (Math.random() * 100);
+			value_text = "" + value_text + "" + ar_[i] + ",";
+		}
+		System.out.print(value_text + "\n");
+		// Решение
+		value_text = "" + arSumAverage(ar_);
+		// Выводим результат
+		textInfo(value_text, "Подвал");
+
+		// //////////////////////////// task 7 ////////////////////////////
+		// Написать статический метод, меняющий порядок следования элементов
+		// передаваемого ей массива на противоположный
+
+		textInfo("7", "Шапка");
+		// Данные
+		byte[] ar_1 = new byte[10];
+		// заполняем массив случайными числами
+		for (byte i = 0; i < ar_1.length; i++) {
+			// округляем
+			ar_1[i] = (byte) (Math.random() * 100);
+			System.out.print(ar_1[i] + ",");
+		}
+		// Решение
+		ar_1 = arPerevorot(ar_1);
+		// Выводим результат
+		// Читаем массив показываем что в нем
+		arr_reading_byte(ar_1, "\n ar 1 ");
+
+		// //////////////////////////// task 8 ////////////////////////////
+		// Создать статический метод, позволяющий вставлять в массив блок
+		// элементов (какой-то другой массив чисел), начиная с произвольного
+		// индекса.
+
+		textInfo("8", "Шапка");
+		// Данные
+		byte[] ar_2 = new byte[10];
+		// заполняем массив случайными числами
+		for (byte i = 0; i < ar_2.length; i++) {
+			// округляем
+			ar_2[i] = (byte) (Math.random() * 100);
+			System.out.print(ar_2[i] + ",");
+		}
+		// Данные
+		value_text = "\nEnter the index ...";
+		byte i_index = nextByte(value_text);
+		// Решение
+		ar_2 = arInsert(ar_2, i_index);
+		// Выводим результат
+		// Читаем массив показываем что в нем
+		arr_reading_byte(ar_2, "\nar 1 ");
+
+		// //////////////////////////// task 9 ////////////////////////////
+		// Создать статический метод, позволяющий удалять блок элементов
+		// (определённое количество), начиная с произвольного индекса массива.
+
+		textInfo("9", "Шапка");
+		// Данные
+		byte[] ar_3 = new byte[10];
+		// заполняем массив случайными числами
+		for (byte i = 0; i < ar_3.length; i++) {
+			// округляем
+			ar_3[i] = (byte) (Math.random() * 100);
+			System.out.print(ar_3[i] + ",");
+		}
+		// Данные
+		value_text = "\nEnter the index ...";
+		i_index = nextByte(value_text);
+		// Решение
+		ar_3 = arDel(ar_3, i_index);
+		// Выводим результат
+		// Читаем массив показываем что в нем
+		arr_reading_byte(ar_3, "\nar 1 ");
+
+		// //////////////////////////// task 10 ////////////////////////////
+		// Написать рекурсивный статический метод нахождения факториала числа.
+
+		textInfo("10", "Шапка");
+		// Данные
+		value_text = "Enter the number ...";
+		i_number_1 = nextInt(value_text);
+		// Решение
+		value_text = "The Factorial number = " + numbFactorial(i_number_1);
+		// Выводим результат
+		textInfo(value_text, "Подвал");
+
+		// //////////////////////////// task 11 ////////////////////////////
+		// Написать рекурсивный статический метод нахождения чисел Фибоначчи.
+
+		textInfo("11", "Шапка");
+		// Данне
+		value_text = "Enter the number ...";
+		i_number_1 = nextInt(value_text);
+		// Решение
+		value_text = "The Fibonacci number = " + numbFibonacci(i_number_1);
+		// Выводим результат
+		textInfo(value_text, "Подвал");
+	}
+
+	// Возвращает число Фибоначчи
+	public static int numbFibonacci(int index) {
+		if (index == 0 || index == 1) {
+			return 1;
+		}
+		return numbFibonacci(index - 1) + numbFibonacci(index - 2);
+	}
+
+	// возвращает факториала числа по индексу
+	public static int numbFactorial(int n) {
+		if (n == 0 || n == 1)
+			return 1;
+		return numbFactorial(n - 1) * n;
+	}
+
+	// Позволяет удалять блок элементов
+	// возвращает число
+	public static byte[] arDel(byte[] ar_, int i_index) {
+
+		// Читаем массив
+		byte y = 0;
+		for (byte i = (byte) i_index; i < ar_.length; i++) {
+			ar_[i] = 0;
+		}
+
+		return ar_;
+	}
+
+	// Вставляет случайные числа начиная с указанного индекса
+	// возвращает число
+	public static byte[] arInsert(byte[] ar_, int i_index) {
+
+		// Читаем массив
+		byte y = 0;
+		for (byte i = (byte) i_index; i < ar_.length; i++) {
+			ar_[i] = (byte) (Math.random() * 100);
+		}
+
+		return ar_;
+	}
+
+	// Меняем порядок в массиве элементов
+	// возвращает число
+	public static byte[] arPerevorot(byte[] ar_) {
+
+		// Читаем массив
+		byte y = 0;
+		for (byte i = 0; i < ar_.length / 2; i++) {
+			y++;
+			// запоминаем
+			byte y_n = ar_[ar_.length - y];
+			byte i_n = ar_[i];
+			// меняем
+			ar_[ar_.length - y] = i_n;
+			ar_[i] = y_n;
+		}
+
+		return ar_;
+	}
+
+	// Передается массив определяем среднее арифметическое элементов
+	// возвращает число
+	public static int arSumAverage(byte[] ar_) {
+
+		int sum_n = 0;// сумма
+		int sum_average = 0;// среднее
+
+		// Читаем массив определяем сумму элементов массива
+		for (byte i = 0; i < ar_.length; i++) {
+			//
+			sum_n = (short) (sum_n + ar_[i]);// сумма
+		}
+		sum_average = (short) (sum_n / ar_.length);
+		return sum_average;
+	}
+
+	// Передается два параметра число и разрядность числа котрую нужно получить
+	// возвращает число
+	public static double dischargeNumb(double n1, int n2) {
+
+		double numb = 0;
+		numb = new BigDecimal(n1).setScale(n2, RoundingMode.HALF_UP)
+				.doubleValue();
+		return numb;
+	}
+
+	// Передается два параметра
+	// возвращает сумму чисел из диапазона между ними
+	public static String sumNumb(int n1, int n2) {
+
+		int difference = n1 - n2;
+		int sumNumb = 0;
+		String text_info_cyclel = "";
+
+		if (difference <= 0) {
+			text_info_cyclel = "Introduced not correct data!";
+		} else {
+			// Суммируем
+			for (int i = 0; i <= difference; i++) {
+				sumNumb = sumNumb + i;
+			}
+			text_info_cyclel = "The sum numb  = " + sumNumb;
+		}
+
+		return text_info_cyclel;
+	}
+
+	// /////////////////////////////////////////////////////////
+
+	// возвращает куб числа
+	public static double cub(int n) {
+
+		return n * n * n;
+	}
+
+	// возвращает булево, проверяет, является ли переданное
+	// ему число простым
+	public static String primeNumber(double number_M_d, int number_M) {
+
+		// Решение
+		double number_N_d = 0;
+		int number_N_int = 0;
+		//
+		String text_info_cyclel = "The number " + number_M + " of simple.";
+		boolean boolean_prime_number = true;// по умолчанию число простое
+
+		// перебираем все числа от 2 до числа number_M -1
+		for (int i = 2; i <= number_M - 1; i++) {
+
+			number_N_d = number_M_d / i;// может быть дробная часть
+			number_N_int = (int) number_N_d;// целая часть
+
+			if (number_N_d - number_N_int == 0) {// если хоть один 0 значит
+													// числоне не простое
+
+				// если находим хоть один заход был сюда значит не простое число
+				boolean_prime_number = false;
+				break;
+			}
+		}
+		// только те что делится без остатка только на 1 и само на себя
+		// остальные не простые
+		if (!boolean_prime_number) {
+			text_info_cyclel = "The number " + number_M + " is not easy.";
+		}
+		return text_info_cyclel;
+	}
+
+	// ////////////////////////////////////////////////////////////////
+	// Выводим шапку или подвал задачи
+	// text_r - режим вывода информации (шапка или подвал...)
+	// tesk_number - № задачи
+
+	public static void textInfo(String tesk_number_info, String text_r) {
+
+		String text_info = "";
+		switch (text_r) {
+		case "Шапка":
+			text_info = "Task № " + tesk_number_info + "\n";
+			break;
+		case "Подвал":
+			text_info = "Result:\n" + tesk_number_info + "\n\n";
+			break;
+		default:
+			text_info = text_r + ":\n" + tesk_number_info + "\n\n";
+		}
+		System.out.print(text_info);
+	}
+
+	// Вводим значение в консоль
+	// value_text - текст для вывода в консоль
+	// Возвращаем число
+	public static int nextInt(String value_text) {
+		int value_input;
+
+		// Выводим текст на экран
+		System.out.println(value_text);
+		// Вводим значение
+		value_input = input.nextInt();
+
+		return value_input;
+
+	}
+
+	// Читает массив выводит на экран его значения
+	// mass_value - сам массив
+	// text_m - доп параметр
+	public static void arr_reading_byte(byte[] mass_value, String text_m) {
+
+		String text_info_cyclel = "";
+		// Читаем массив определяем
+		for (byte i = 0; i < mass_value.length; i++) {
+			text_info_cyclel = text_info_cyclel + mass_value[i] + ",";
+		}
+		textInfo(text_info_cyclel, text_m);
+	}
+
+	// Вводим значение в консоль
+	// value_text - текст для вывода в консоль
+	// Возвращаем число
+	public static double nextDouble(String value_text) {
+		double value_input;
+
+		// Выводим текст на экран
+		System.out.println(value_text);
+		// Вводим значение
+		value_input = input.nextDouble();
+		return value_input;
+	}
+
+	// Вводим значение в консоль
+	// value_text - текст для вывода в консоль
+	// Возвращаем число
+	public static byte nextByte(String value_text) {
+		byte value_input;
+
+		// Выводим текст на экран
+		System.out.println(value_text);
+		// Вводим значение
+		value_input = input.nextByte();
+
+		return value_input;
+
+	}
+
+}
