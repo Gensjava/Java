@@ -1,0 +1,260 @@
+test1
+=====
+
+Java
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.util.Scanner;
+
+public class StaticMethods {
+	private static Scanner input = new java.util.Scanner(System.in);
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+
+		// Текст для вывода в консоль
+		String value_text, text_info_cyclel;
+		// Параметры
+		text_info_cyclel = "No solution";
+
+		// //////////////////////////// task 12 ////////////////////////////
+		// Написать рекурсивный статический метод нахождения целой степени
+		// целого числа.
+
+		textInfo("12", "Шапка");
+		// Решение
+		value_text = "The degree number 3 = " + numbDegree(3, 3);
+		// Выводим результат
+		textInfo(value_text, "Подвал");
+
+		// //////////////////////////// task 13 ////////////////////////////
+		// Написать рекурсивный статический метод нахождения наибольшего общего
+		// делителя двух целых чисел.
+
+		textInfo("13", "Шапка");
+		// Решение
+		value_text = "" + numbDivider(100, 3);
+		// Выводим результат
+		textInfo(value_text, "Подвал");
+
+		// //////////////////////////// task 14 ////////////////////////////
+		// Написать игру «Быки и коровы». В программе необходимо использовать
+		// рекурсию.
+		textInfo("14", "Шапка");
+		// Параметры
+		int a = mathRandom(1000, 9999);
+		String b = "" + a;
+		int k = 4;
+		String text_number_ = "";
+		// Решение
+		value_text = BullsAndCows(b, text_number_, k);
+		// Выводим результат
+		textInfo(value_text, "Подвал");
+
+		// //////////////////////////// task 16 ////////////////////////////
+		// Реализовать задачу «Восемь ферзей». В программе необходимо
+		// использовать рекурсию.
+		textInfo("16", "Шапка");
+		// Решение
+		setQueen(0);
+		// Выводим результат
+		textInfo("The account = " + account, "Подвал");
+	}
+
+	// переменные для задачи «Восемь ферзей»
+	private static int SIZE = 8; // Размер массива.
+	private static int[][] ar_16 = new int[SIZE][SIZE];
+	private static int account = 0; // счет вариантов.
+
+	// Проверяет нет ли уже установленных ферзей,
+	// по вертикали, диагоналям.
+	public static boolean scanBoard(int a, int b) {
+
+		for (int i = 0; i < a; ++i) {
+			if (ar_16[i][b] == 1) {
+				return false;
+			}
+		}
+
+		for (int i = 1; i <= a && b - i >= 0; ++i) {
+			if (ar_16[a - i][b - i] == 1) {
+
+				return false;
+			}
+		}
+
+		for (int i = 1; i <= a && b + i < SIZE; i++) {
+			if (ar_16[a - i][b + i] == 1) {
+				return false;
+			}
+		}
+
+		return true;
+	}
+
+	// Пытаемся установить ферзя
+	public static void setQueen(int a) {
+		if (a == SIZE) {
+			// счет вариантов
+			++account;
+			return;
+		}
+
+		for (int i = 0; i < SIZE; ++i) {
+			// Сканируем доску
+			if (scanBoard(a, i)) {
+				// устанавливаем
+				ar_16[a][i] = 1;
+				// идем еще раз
+				setQueen(a + 1);
+				ar_16[a][i] = 0;
+			}
+		}
+
+		return;
+	}
+
+	// Игра "Быки и коровы"
+	public static String BullsAndCows(String a, String text_number_, int k) {
+
+		// Данные
+		String value_text = "";
+		if (k == 4) {
+			value_text = "Enter the number ...";
+			int i_number_ = nextInt(value_text);
+			text_number_ = "" + i_number_;
+			// можно вводить только 4 - е числа
+			if (text_number_.length() != 4) {
+				return "Err: the number entered is not correct. Enter a four-digit number";
+			}
+			k = 0;
+		}
+		// Угадали число
+		if (a.equals(text_number_))
+			return "You guessed the number!";
+		// поиск коров быков
+		for (byte i = 0; i < 4; i++) {
+			// перебираем по символьно число
+			if (a.charAt(i) == text_number_.charAt(k)) {
+				// быки
+				if (i == k) {
+					byte i_b = (byte) (i + 1);// добавлеяем +1 чтоб было
+												// правильная позиция
+					System.out.println("Bulls: " + a.charAt(i) + " position: "
+							+ i_b);
+				} else {// коровы
+					System.out.println("Cows: " + a.charAt(i));
+				}
+			}
+		}
+
+		return BullsAndCows(a, text_number_, ++k);
+	}
+
+	// возвращает число возвращает наибольший делитель
+	public static int numbDivider(int a, int b) {
+
+		if (b == 0)
+			return a;
+		else
+			return numbDivider(b, a % b);
+	}
+
+	// возвращает число в степени
+	public static int numbDegree(int n, int k) {
+		if (k == 0)
+			return 1;
+		return n * numbDegree(n, --k);
+	}
+
+	
+
+	// ////////////////////////////////////////////////////////////////
+	// Выводим шапку или подвал задачи
+	// text_r - режим вывода информации (шапка или подвал...)
+	// tesk_number - № задачи
+
+	public static void textInfo(String tesk_number_info, String text_r) {
+
+		String text_info = "";
+		switch (text_r) {
+		case "Шапка":
+			text_info = "Task № " + tesk_number_info + "\n";
+			break;
+		case "Подвал":
+			text_info = "Result:\n" + tesk_number_info + "\n\n";
+			break;
+		default:
+			text_info = text_r + ":\n" + tesk_number_info + "\n\n";
+		}
+		System.out.print(text_info);
+	}
+
+	// Вводим значение в консоль
+	// value_text - текст для вывода в консоль
+	// Возвращаем число
+	public static int nextInt(String value_text) {
+		int value_input;
+
+		// Выводим текст на экран
+		System.out.println(value_text);
+		// Вводим значение
+		value_input = input.nextInt();
+
+		return value_input;
+
+	}
+
+	// Читает массив выводит на экран его значения
+	// mass_value - сам массив
+	// text_m - доп параметр
+	public static void arr_reading_byte(byte[] mass_value, String text_m) {
+
+		String text_info_cyclel = "";
+		// Читаем массив определяем
+		for (byte i = 0; i < mass_value.length; i++) {
+			text_info_cyclel = text_info_cyclel + mass_value[i] + ",";
+		}
+		textInfo(text_info_cyclel, text_m);
+	}
+
+	// Вводим значение в консоль
+	// value_text - текст для вывода в консоль
+	// Возвращаем число
+	public static double nextDouble(String value_text) {
+		double value_input;
+
+		// Выводим текст на экран
+		System.out.println(value_text);
+		// Вводим значение
+		value_input = input.nextDouble();
+		return value_input;
+	}
+
+	// Вводим значение в консоль
+	// value_text - текст для вывода в консоль
+	// Возвращаем число
+	public static byte nextByte(String value_text) {
+		byte value_input;
+
+		// Выводим текст на экран
+		System.out.println(value_text);
+		// Вводим значение
+		value_input = input.nextByte();
+
+		return value_input;
+
+	}
+
+	// Вычислям случайные чисела в диапазоне от и до
+	// number_of - число от
+	// number_to - число до
+	// Возвращаем число
+	public static int mathRandom(int number_of, int number_to) {
+
+		int numb_rnd = number_of
+				+ (int) (Math.random() * ((number_to - number_of) + 1));
+		return numb_rnd;
+	}
+
+}
