@@ -1,0 +1,339 @@
+test1
+=====
+
+Java
+import java.util.Scanner;
+
+import java.util.Calendar;
+
+public class rowset {
+	private static Scanner input = new java.util.Scanner(System.in);
+
+	/**
+	 * @param args
+	 */
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		// Переменная для вывода информации результатов задач
+		String text_info;
+		// Текст для вывода в консоль
+		String value_text = "", text_info_cyclel, value_text_input;
+
+		// ///////////////////////// task 1 //////////////////////
+		// Ввести строку, а затем символ. Показать на экран индексы и количество
+		// совпадений.
+
+		textInfo("1", "Шапка");
+		value_text = "Enter the value...";
+		// Вводим значение в консоль
+		value_text_input = nextLine(value_text);// любое значение
+		// Вводим значение в консоль
+		String s_index = nextLine(value_text);// любое значение
+		// если только один сисмвол тогда продолжаем
+		if (s_index.length() == 1) {
+			// решение
+			value_text = stringResult(value_text_input, s_index);
+		} else {
+			value_text = "Err:";
+		}
+		// Выводим результат
+		textInfo(value_text, "Подвал");
+
+		// ///////////////////////// task 2 //////////////////////
+		// Написать программу, определяющую количество гласных букв в слове.
+		// Слово может быть как на английском, так и на русском языке
+
+		textInfo("2", "Шапка");
+		value_text = "Enter the value...";
+		// Вводим значение в консоль
+		value_text_input = nextLine(value_text);// любое значение
+		// решение
+		value_text = stringResultNumberVowels(value_text_input);
+		// Выводим результат
+		textInfo(value_text, "Подвал");
+
+		// ///////////////////////// task 3 //////////////////////
+		// Подсчитать количество слов во введённом предложении.
+
+		textInfo("3", "Шапка");
+		value_text = "Enter the value...";
+		// Вводим значение в консоль
+		value_text_input = nextLine(value_text);// любое значение
+		// решение
+		value_text = "The number of matches "
+				+ stringResultNumberWords(value_text_input);
+		// Выводим результат
+		textInfo(value_text, "Подвал");
+
+		// ///////////////////////// task 4 //////////////////////
+		// Подсчитать среднюю длину слова во введённом предложении.
+
+		textInfo("4", "Шапка");
+		value_text = "Enter the value...";
+		// Вводим значение в консоль
+		value_text_input = nextLine(value_text);// любое значение
+		// решение
+		value_text = stringResulTaverageLengthWords(value_text_input);
+		// Выводим результат
+		textInfo(value_text, "Подвал");
+
+		// ///////////////////////// task 5 //////////////////////
+		// Определить, является ли строка палиндромом.
+
+		textInfo("5", "Шапка");
+		value_text = "Enter the value...";
+		// Вводим значение в консоль
+		value_text_input = nextLine(value_text);// любое значение
+		// решение
+		value_text = stringResulPalindrome(value_text_input);
+		// Выводим результат
+		textInfo(value_text, "Подвал");
+
+		// ///////////////////////// task 6 //////////////////////
+		// Посчитать, сколько раз заданное слово содержится в строке
+
+		textInfo("6", "Шапка");
+		// Вводим значение в консоль
+		value_text = "Enter the value...";
+		value_text_input = nextLine(value_text);// любое значение
+		// Вводим значение в консоль
+		s_index = nextLine(value_text);// любое значение
+		// решение
+		value_text = stringResulWords(value_text_input, s_index);
+		// Выводим результат
+		textInfo(value_text, "Подвал");
+
+		// ///////////////////////// task 7 //////////////////////
+		// Заменить по строке одно заданное слово на другое
+
+		textInfo("7", "Шапка");
+		// Вводим значение в консоль
+		value_text = "Enter the value...";
+		value_text_input = nextLine(value_text);// предложение
+		// Вводим значение в консоль
+		s_index = nextLine(value_text);// какое слово надо менять
+		// Вводим значение в консоль
+		String s_index_2 = nextLine(value_text);// на какое слово поменять
+		// решение
+		value_text = stringResulReplaceString(value_text_input, s_index,
+				s_index_2);
+		// Выводим результат
+		textInfo(value_text, "Подвал");
+
+	}
+
+	// делаем замену слова в предложении одно на другое
+	// а - предложение
+	// s_index - слово на замену
+	// s_index_2 - на какое меняем
+	public static String stringResulReplaceString(String a, String s_index,
+			String s_index_2) {
+
+		String value_Result = "The word is not found.";
+		byte b = 0;
+		StringBuffer s = new StringBuffer(a);
+
+		// Делаем поиск слова и находим его первый и послдений символ
+		for (int i = 0; i < a.length(); i++) {
+
+			if (a.charAt(i) == ' ' || i == 0) {
+				// проверяем символы
+				if (a.indexOf(s_index, i) >= 0) {
+					// находим индекс
+					b = (byte) a.indexOf(s_index, i);
+					// делаем замену
+					s.replace(b, b + s_index.length(), s_index_2);
+				}
+			}
+		}
+		// если было хотябы одно совпадения, показываем
+		if (b > 0) {
+			value_Result = s.toString();
+		}
+
+		return value_Result;
+
+	}
+
+	// Определяет сколько раз заданное слово содержится в строке
+	public static String stringResulWords(String a, String s_index) {
+
+		String value_Result = "";
+		String b_text = "No matches found";
+		byte b = 0;// счет количество совпадений
+		//
+		for (int i = 0; i < a.length(); i++) {
+
+			if (a.charAt(i) == ' ' || i == 0) {
+				// проверяем символы
+				if (a.indexOf(s_index, i) >= 0) {
+					b++;
+				}
+			}
+		}
+		// если было хотябы одно совпадения, показываем
+		if (b > 0) {
+			b_text = "\nThe number of matches  = " + b;
+		}
+		return value_Result + b_text;
+
+	}
+
+	// Определяет является ли строка палиндромом.
+	public static String stringResulPalindrome(String a) {
+
+		String value_Result = "";
+		// убираем пробелы
+		String a_s = a.replace(" ", "");
+		// количество символов
+		byte y = (byte) a_s.length();
+		// переводим все в нижний регистр
+		a_s = a_s.toLowerCase();
+
+		for (byte x = 0; x < y; x++) {
+			String str_let_2 = "" + a_s.charAt(x);// слево символ
+			String str_let_1 = "" + a_s.charAt(--y);// справа символ
+			// проверка
+			if (!str_let_2.equals(str_let_1)) {
+				value_Result = "The number is not a palindrome.";
+				break;
+			} else {
+				value_Result = "The number is a palindrome.";
+			}
+		}
+		return value_Result;
+
+	}
+
+	// определяет среднюю длину слова во введённом предложении.
+	public static String stringResulTaverageLengthWords(String a) {
+
+		// Создаем массив
+		byte[] ar = new byte[stringResultNumberWords(a)];
+		String value_Result = "";
+		String b_text = "No matches found";
+		byte b = 0;// счет количество совпадений
+		byte s = 0;
+		// добавляем в конец предложения пробел
+		a = "" + a + " ";
+		for (byte y = 0; y < a.length(); y++) {
+
+			// проверяем символы
+			if (a.charAt(y) != ' ') {
+				b++;
+			} else {
+				ar[s] = b;
+				s++;
+				b = 0;
+			}
+		}
+		// если было хотябы одно совпадения, показываем
+		if (s > 0) {
+			short sum = 0;
+			for (byte x = 0; x < ar.length; x++) {
+				sum = (short) (sum + ar[x]);
+			}
+			// средняя длина
+			sum = (short) (sum / ar.length);
+			b_text = "\nThe number of matches  = " + sum;
+		}
+		return value_Result + b_text;
+	}
+
+	// определяет количество слов во введённом предложении
+	public static byte stringResultNumberWords(String a) {
+		byte b = 1;// счет количество совпадений
+		//
+		for (int y = 0; y < a.length(); y++) {
+
+			// проверяем символы считаем пробелы
+			if (a.charAt(y) == ' ') {
+				b++;
+			}
+		}
+		return b;
+	}
+
+	// определяет количество гласных букв в слове
+	public static String stringResultNumberVowels(String a) {
+
+		// русские и англиские гласные буквы
+		String rus_eng = "оёэеуюаяиыaeiouy";
+
+		String value_Result = "";
+		String b_text = "No matches found";
+		byte b = 0;// счет количество совпадений
+		//
+		for (int y = 0; y < a.length(); y++) {
+
+			for (int i = 0; i < rus_eng.length(); i++) {
+				// проверяем символы
+				if (a.charAt(y) == (rus_eng.charAt(i))) {
+					b++;
+				}
+			}
+		}
+		// если было хотябы одно совпадения, показываем
+		if (b > 0) {
+			b_text = "\nThe number of matches  = " + b;
+		}
+		return value_Result + b_text;
+	}
+
+	// Делает поиск и выводит на экран индексы и количество
+	// совпадений.
+	public static String stringResult(String a, String s_index) {
+
+		String value_Result = "";
+		String b_text = "No matches found";
+		byte b = 0;// счет количество совпадений
+		//
+		for (int i = 0; i < a.length(); i++) {
+			// показываем индексы
+			value_Result = value_Result + i + ",";
+			// проверяем символы
+			if (a.charAt(i) == (s_index.charAt(0))) {
+				b++;
+			}
+		}
+		//
+		value_Result = "index  = " + value_Result;
+		// если было хотябы одно совпадения, показываем
+		if (b > 0) {
+			b_text = "\nThe number of matches  = " + b;
+		}
+		return value_Result + b_text;
+	}
+
+	// Можно вводить любое значение
+	public static String nextLine(String value_nex_text) {
+
+		String value_text;
+
+		// Выводим текст на экран
+		System.out.println(value_nex_text);
+		// Вводим значение
+		value_text = input.nextLine();
+
+		return value_text;
+
+	}
+
+	// Выводит шапку задачи и подвал
+	public static void textInfo(String tesk_number_info, String text_r) {
+
+		String text_info = "";
+		switch (text_r) {
+		case "Шапка":
+			text_info = "Task № " + tesk_number_info + "\n";
+			break;
+		case "Подвал":
+			text_info = "Result:\n" + tesk_number_info + "\n\n";
+			break;
+		default:
+			text_info = text_r + ":\n" + tesk_number_info + "\n\n";
+		}
+		System.out.print(text_info);
+	}
+
+}
