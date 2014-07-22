@@ -1,0 +1,352 @@
+test1
+=====
+
+Java
+
+import java.util.Scanner;
+
+
+public class test7 {
+	private static Scanner input = new java.util.Scanner(System.in);
+
+	/**
+	 * @param args
+	 */
+	public static void main(String[] args) {
+		// Переменная для вывода информации результатов задач
+		String text_info;
+		// Текст для вывода в консоль
+		String value_text = "", text_info_cyclel, value_text_input;
+		// Параметры
+		text_info_cyclel = "No solution";
+
+		// ///////////////////////// task 17 //////////////////////
+		// Пользователь вводит с клавиатуры произвольное арифметическое
+		// выражение. Вычислить его результат. Допустимые операции: +, -, *, /,
+		// (). Желательно использовать обратную польскую запись.
+
+		textInfo("17", "Шапка");
+		value_text = "Enter the input values through space...";
+		// Вводим значение в консоль
+		value_text_input = nextLine(value_text);// любое значение
+		// рещение
+		value_text = calculateResult(value_text_input);
+		// Выводим результат
+		textInfo(value_text, "Подвал");
+	}
+
+	//
+	public static String calculateResult(String value_text_input) {
+
+		String value_Result = "";
+
+		// Разбиваем на обратную польскую запись
+		value_Result = rpnResult(value_text_input);
+		// Разбираем строку и выполняем арифметическое действия
+		value_Result = arithmeticResult(value_Result);
+		return value_Result;
+	}
+
+	// Разбиваем на обратную польскую запись
+	// возвращаем строку
+	public static String rpnResult(String a) {
+
+		String s;// текущий символ строки
+		String stack_ar = "";// арифметическое действие в конце
+		String stack_str = "";// строка возврата функции
+		String stack_ar_1 = "";// символ перед текущим символом строки
+		String parent = "";
+
+		boolean bracket = false;
+
+		for (byte i = 0; i < a.length(); i++) {
+			// текущий символ строки
+			s = "" + a.charAt(i);
+
+			if (GetPriority(s) == 0 && !bracket) {// числa
+				// группируем
+				stack_str = stack_str + " " + s;
+
+			} else if (GetPriority(s) >= 2 && GetPriority(s) <= 6 && !bracket) {// арифметические
+																				// действия
+
+				// выставляем по приоритету
+				if (stack_ar_1 != "") {
+					if (GetPriority(s) <= GetPriority(stack_ar_1)) {
+						//
+						stack_ar = stack_ar + stack_ar_1 + "";
+					} else {
+						//
+						stack_str = stack_str + " " + stack_ar_1;
+					}
+				}
+				// последний арифметический знак
+				stack_ar_1 = s;
+
+			} else if (GetPriority(s) == 1) {// скобки открыты
+				bracket = true;
+
+				// получаем выражение в скобках
+				parent = parentheticalResult(a, i);
+				//
+				stack_str = stack_str + "" + parent;
+
+			} else if (GetPriority(s) == 2) {// закрываем скобки
+				bracket = false;
+			}
+		}
+
+		// прибаляем все арифметическое
+		// действия что остались
+		stack_ar = stack_ar + stack_ar_1;
+		stack_ar = stringSort(stack_ar);
+		//
+		stack_str = stack_str + "" + stack_ar;
+
+		return stack_str;
+	}
+
+	// Сортирует арифметические
+	// действия
+	// Возвращаем строку
+	public static String stringSort(String s_value) {
+		// сортируем
+		String temp = "";
+		String s = "";
+		String s1 = "";
+		String s4 = "";
+		StringBuffer s3 = new StringBuffer(s_value);
+
+		for (byte pr = 0; pr < s_value.length() - 1; pr++) {// перебор проходов
+			for (byte i = (byte) (s_value.length() - 1); i > pr; i--) {
+
+				s = "" + s_value.charAt(i);
+				s1 = "" + s_value.charAt(i - 1);
+
+				if (GetPriority(s) < GetPriority(s1) && GetPriority(s) != 7) {
+					temp = s;
+					s3.replace(i, i + 1, s1);
+					s3.replace(i - 1, i, temp);
+				}
+			}
+		}
+		s_value = s3.toString();
+
+		for (byte i = 0; i < s_value.length(); i++) {
+			s = "" + s_value.charAt(i);
+			s4 = s4 + " " + s;
+		}
+		return s4;
+	}
+
+	// Вытаскиваем из скобок выражение
+	// возвращаем строку
+	public static String parentheticalResult(String c, int y) {
+		//
+		String b = "";
+		String s = "";
+
+		for (int i = y + 1; i < c.length(); i++) {
+			// текущий символ строки
+			s = "" + c.charAt(i);
+
+			if (GetPriority(s) == 2) {
+				break;
+			} else {
+				b = b + "" + s;
+			}
+		}
+		//
+		b = rpnResult(b);
+		return b;
+	}
+
+	// Выполняем арифметическое действие
+	// возвращаем строку
+	public static int arithmeticResult(int a, int b, int c) {
+
+		switch (c) {
+
+		case 3:
+			return a * b;
+		case 4:
+			return b == 0 ? 0 : a / b;
+		case 5:
+			return a + b;
+		case 6:
+			return a - b < 0 ? 0 : a - b;
+		default:
+			return 0;
+		}
+
+	}
+
+	// Удаляет символы в диапазоне от и до
+	// возвращаем строку
+	public static String replaceResult(String c, int i, int i1, String str) {
+
+		StringBuffer StringB = new StringBuffer(c);
+		//
+		String b = StringB.replace(i1, i + 1, str).toString();
+		return b;
+	}
+
+	// возвращает следующие значение
+	public static String[] strResult(String str) {
+
+		String s = "";
+		String s1 = "";
+		String str1 = "";
+		byte v = 0;
+		String ar[] = new String[3];
+
+		for (byte i = (byte) (str.length() - 1); i > 0; i--) {
+
+			s1 = "" + str.charAt(i - 1);
+			str1 = "" + str.charAt(i - 1) + "" + str1;
+
+			if (s1.equals(" ")) {
+				v++;
+			}
+			if (v == 3) {
+				ar[2] = "" + i;
+				break;
+			}
+		}
+
+		if (v == 2) {
+			ar[2] = "0";
+		}
+
+		//
+		v = 0;
+		s1 = "";
+		str1 = str1.trim();
+		str1 = str1 + " ";
+
+		for (byte i = 0; i < str1.length(); i++) {
+
+			s1 = "" + str1.charAt(i);
+			s = s + "" + str1.charAt(i);
+
+			if (s1.equals(" ")) {
+				v++;
+
+				if (v == 1) {
+					ar[v - 1] = s.trim();
+
+					s = "";
+				} else if (v == 2) {
+					ar[v - 1] = s.trim();
+
+					s = "";
+				}
+			}
+		}
+
+		return ar;
+	}
+
+	// Разбираем строку и выполняем арифметическое действие
+	// возвращаем строку
+	public static String arithmeticResult(String a) {
+
+		String s;// текущий символ строки
+
+		String s1 = "";// первое число
+		String s2 = "";// второе число
+		String s3 = "";// индекс начало нужно заменять в строке
+		//
+		String b = "";
+		String c = "";
+		String ar[] = new String[2];
+		//
+		int i = 0;
+
+		while (i < a.length()) {
+			// текущий символ строки
+			s = "" + a.charAt(i);
+			// формируем текущюю строку
+			c = "" + c + "" + a.charAt(i);
+
+			if (GetPriority(s) >= 2 && GetPriority(s) <= 6) {
+				// получаем символ после текущего
+				ar = strResult(c);
+				//
+				s1 = ar[0];
+				//
+				s2 = ar[1];
+				//
+				s3 = ar[2];
+				// делаем арефметическую операцию
+				b = ""
+						+ arithmeticResult(Integer.parseInt(s1),
+								Integer.parseInt(s2), GetPriority(s));
+
+				a = replaceResult(a, i, Integer.parseInt(s3), b);
+
+				c = "";
+				i = 0;
+
+			} else {
+				i++;
+			}
+		}
+		return a;
+	}
+
+	// приоритет по арифметическим действиям
+	public static byte GetPriority(String s) {
+		switch (s) {
+		case "(":
+			return 1;
+		case ")":
+			return 2;
+		case "*":
+			return 3;
+		case "/":
+			return 4;
+		case "+":
+			return 5;
+		case "-":
+			return 6;
+		case " ":
+			return 7;
+		default:
+			return 0;
+		}
+	}
+
+	public static void textInfo(String tesk_number_info, String text_r) {
+
+		String text_info = "";
+		switch (text_r) {
+		case "Шапка":
+			text_info = "Task № " + tesk_number_info + "\n";
+			break;
+		case "Подвал":
+			text_info = "Result:\n" + tesk_number_info + "\n\n";
+			break;
+		default:
+			text_info = text_r + ":\n" + tesk_number_info + "\n\n";
+		}
+		System.out.print(text_info);
+	}
+
+	
+	
+
+	public static String nextLine(String value_nex_text) {
+
+		String value_text;
+
+		// Выводим текст на экран
+		System.out.println(value_nex_text);
+		// Вводим значение
+		value_text = input.nextLine();
+
+		return value_text;
+
+	}
+
+}
