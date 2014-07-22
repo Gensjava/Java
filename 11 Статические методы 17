@@ -3,15 +3,10 @@ test1
 
 Java
 
+
 import java.util.Scanner;
-
-
 public class test7 {
 	private static Scanner input = new java.util.Scanner(System.in);
-
-	/**
-	 * @param args
-	 */
 	public static void main(String[] args) {
 		// Переменная для вывода информации результатов задач
 		String text_info;
@@ -19,7 +14,6 @@ public class test7 {
 		String value_text = "", text_info_cyclel, value_text_input;
 		// Параметры
 		text_info_cyclel = "No solution";
-
 		// ///////////////////////// task 17 //////////////////////
 		// Пользователь вводит с клавиатуры произвольное арифметическое
 		// выражение. Вычислить его результат. Допустимые операции: +, -, *, /,
@@ -34,20 +28,17 @@ public class test7 {
 		// Выводим результат
 		textInfo(value_text, "Подвал");
 	}
-
 	//
 	public static String calculateResult(String value_text_input) {
-
+		
 		String value_Result = "";
-
 		// Разбиваем на обратную польскую запись
 		value_Result = rpnResult(value_text_input);
 		// Разбираем строку и выполняем арифметическое действия
 		value_Result = arithmeticResult(value_Result);
 		return value_Result;
 	}
-
-	// Разбиваем на обратную польскую запись
+// Разбиваем на обратную польскую запись
 	// возвращаем строку
 	public static String rpnResult(String a) {
 
@@ -69,7 +60,6 @@ public class test7 {
 
 			} else if (GetPriority(s) >= 2 && GetPriority(s) <= 6 && !bracket) {// арифметические
 																				// действия
-
 				// выставляем по приоритету
 				if (stack_ar_1 != "") {
 					if (GetPriority(s) <= GetPriority(stack_ar_1)) {
@@ -95,17 +85,14 @@ public class test7 {
 				bracket = false;
 			}
 		}
-
 		// прибаляем все арифметическое
 		// действия что остались
 		stack_ar = stack_ar + stack_ar_1;
 		stack_ar = stringSort(stack_ar);
 		//
 		stack_str = stack_str + "" + stack_ar;
-
 		return stack_str;
 	}
-
 	// Сортирует арифметические
 	// действия
 	// Возвращаем строку
@@ -138,7 +125,6 @@ public class test7 {
 		}
 		return s4;
 	}
-
 	// Вытаскиваем из скобок выражение
 	// возвращаем строку
 	public static String parentheticalResult(String c, int y) {
@@ -160,13 +146,10 @@ public class test7 {
 		b = rpnResult(b);
 		return b;
 	}
-
 	// Выполняем арифметическое действие
 	// возвращаем строку
 	public static int arithmeticResult(int a, int b, int c) {
-
 		switch (c) {
-
 		case 3:
 			return a * b;
 		case 4:
@@ -178,19 +161,15 @@ public class test7 {
 		default:
 			return 0;
 		}
-
 	}
-
 	// Удаляет символы в диапазоне от и до
 	// возвращаем строку
 	public static String replaceResult(String c, int i, int i1, String str) {
-
 		StringBuffer StringB = new StringBuffer(c);
 		//
 		String b = StringB.replace(i1, i + 1, str).toString();
 		return b;
 	}
-
 	// возвращает следующие значение
 	public static String[] strResult(String str) {
 
@@ -217,7 +196,6 @@ public class test7 {
 		if (v == 2) {
 			ar[2] = "0";
 		}
-
 		//
 		v = 0;
 		s1 = "";
@@ -243,10 +221,8 @@ public class test7 {
 				}
 			}
 		}
-
 		return ar;
 	}
-
 	// Разбираем строку и выполняем арифметическое действие
 	// возвращаем строку
 	public static String arithmeticResult(String a) {
@@ -332,21 +308,12 @@ public class test7 {
 		}
 		System.out.print(text_info);
 	}
-
-	
-	
-
 	public static String nextLine(String value_nex_text) {
-
 		String value_text;
-
 		// Выводим текст на экран
 		System.out.println(value_nex_text);
 		// Вводим значение
 		value_text = input.nextLine();
-
 		return value_text;
-
 	}
-
 }
