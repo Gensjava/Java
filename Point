@@ -1,0 +1,102 @@
+public class Point {
+	
+	// координаты по умолчанию
+	private int X = 0;
+	private int Y = 0;
+
+	
+	 //конструктор по умолчанию
+	public Point() {
+
+	}
+
+	// конструктор с параметрами
+	public Point(int X, int Y) {
+		this.X = X;
+		this.Y = Y;
+	}
+
+	// Гет сет
+	public int getX() {
+		return X;
+	}
+
+	public void setX(int x) {
+		this.X = x;
+	}
+
+	public int getY() {
+		return Y;
+	}
+
+	public void setY(int y) {
+		this.Y = y;
+	}
+
+	/*
+	 * перемещаем в лево Z - шаг
+	 */
+	void moveLeft(int Z) {
+		floatingPoint(Z, "Left");
+	}
+
+	/*
+	 * перемещаем в право Z - шаг
+	 */
+	void moveRight(int Z) {
+		floatingPoint(Z, "Right");
+	}
+
+	/*
+	 * перемещаем в вверх Z - шаг
+	 */
+	void moveUp(int Z) {
+		floatingPoint(Z, "Up");
+	}
+
+	/*
+	 * перемещаем в вниз Z - шаг
+	 */
+	void moveDown(int Z) {
+		floatingPoint(Z, "Down");
+	}
+
+	// показать точку
+	void showPoint() {
+
+		int S = X + Y;
+
+		for (int y = 0; y <= S; y++) {
+
+			for (int x = 0; x <= S; x++) {
+
+				if (x == X && y == Y) {
+					System.out.print("*");
+				} else {
+					System.out.print(" ");
+				}
+			}
+			System.out.print("\n");
+		}
+	}
+
+	// /меняем направление
+	private void floatingPoint(int Z, String direction) {
+		//
+		if (direction == "Left") {
+			Y = Y - Z;
+		} else if (direction == "Right") {
+			X = X + Z;
+		} else if (direction == "Up") {
+			X = X - Z;
+		} else if (direction == "Down") {
+			Y = Y + Z;
+		}
+		showPoint();
+	}
+	//показываем координаты точки
+	void showCoordinatesPoint(){
+		System.out.print("Y = "+ Y +", X = "+ X);
+	}
+
+}
