@@ -1,0 +1,92 @@
+public class Counter {
+
+	// минимум, максиум, шаг числа в счетчике
+	private int min = 0;
+	private int max = 0;
+	private int step = 0;
+	private int current = 0;
+
+	// конструкторы
+	public Counter() {
+
+	}
+
+	//
+	public Counter(int min, int max) {
+		this.max = max;
+		this.min = min;
+	}
+
+	//
+	public Counter(int min, int max, int step) {
+		this.max = max;
+		this.min = min;
+		this.step = step;
+	}
+
+	// гет сет
+	public int getCurrent() {
+		return current;
+	}
+
+	public void setCurrent(int current) {
+		this.current = current;
+	}
+
+	public int getMin() {
+		return min;
+	}
+
+	public void setMin(int min) {
+		this.min = min;
+	}
+
+	public int getMax() {
+		return max;
+	}
+
+	public void setMax(int max) {
+		this.max = max;
+	}
+
+	public int getStep() {
+		return step;
+	}
+
+	public void setStep(int step) {
+		this.step = step;
+	}
+
+	// счет
+	void start() {
+
+		for (int i = min; i <= max ; i++) {
+
+			if (step != 0) {
+				current += step;
+			} else {
+				current += 1;
+			}
+			System.out.println(current);
+			//
+			if (max <= current) {
+				current = 0;
+				System.out.println("Account reset");
+				break;
+			}	
+		}
+	}
+
+	// обнуляем все параметры
+	void clearAll() {
+		min = 0;
+		max = 0;
+		step = 0;
+		current = 0;
+	}
+
+	// текущие данные полей
+	public String toString() {
+		return "Counter [min=" + min + ", max=" + max + ", step=" + step + "]";
+	}
+}
