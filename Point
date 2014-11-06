@@ -1,6 +1,6 @@
 public class Point {
 	
-	// координаты по умолчанию
+	// координаты по умолчанию4444
 	private int X = 0;
 	private int Y = 0;
 
