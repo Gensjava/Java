@@ -1,0 +1,42 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" tools:context=".MyActivity">
+
+    <item android:id="@+id/action_simple_1" android:icon="@android:drawable/ic_menu_add"
+        android:showAsAction="ifRoom|withText" android:title="Simple 1"
+        android:titleCondensed="Text">
+        <menu>
+
+            <item android:title="Checkable">
+                <menu>
+                    <group android:id="@+id/groupCheckable" android:checkableBehavior="all">
+                        <item android:title="Check 1" />
+                        <item android:title="Check 2" />
+                        <item android:title="Check 3" />
+                    </group>
+                </menu>
+            </item>
+
+            <item android:title="Radio">
+                <menu>
+                    <group android:id="@+id/groupRadio" android:checkableBehavior="single">
+                        <item android:title="Radio 1" />
+                        <item android:title="Radio 2" />
+                        <item android:title="Radio 3" />
+                    </group>
+                </menu>
+            </item>
+
+            <item android:title="Standart">
+                <menu>
+                    <group android:id="@+id/groupStandart" android:checkableBehavior="none">
+                        <item android:title="Add" />
+                        <item android:title="Edit" />
+                        <item android:title="Delite" />
+                    </group>
+                </menu>
+            </item>
+
+        </menu>
+    </item>
+
+</menu>
