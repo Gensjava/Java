@@ -73,7 +73,7 @@ public class MyActivity extends Activity implements View.OnClickListener, DatePi
         final TextView eventTextView =  (TextView) messageView.findViewById(R.id.TextViewEvent);
         final TextView dateTextView =  (TextView) messageView.findViewById(R.id.TextViewData);
         final TextView timeTextView =  (TextView) messageView.findViewById(R.id.TextViewStatus);
-        //
+        //записываем
         eventTextView.setText(eventTextView.getText()+sName);
         dateTextView.setText(dateTextView.getText()+ sDateTime);
         timeTextView.setText(timeTextView.getText()+sStatus);
