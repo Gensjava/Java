@@ -69,8 +69,6 @@ public class MyActivity extends Activity implements View.OnClickListener, DatePi
         LayoutInflater layoutInflater = LayoutInflater.from(this);
         //получаем каст макет
         final View messageView = layoutInflater.inflate(R.layout.custom_view, null);
-
-        final LinearLayout rootLayout = (LinearLayout) messageView.findViewById(R.id.rootLayout);
         //Получаем поля
         final TextView eventTextView =  (TextView) messageView.findViewById(R.id.TextViewEvent);
         final TextView dateTextView =  (TextView) messageView.findViewById(R.id.TextViewData);
