@@ -215,7 +215,6 @@ public class MyActivity extends Activity implements View.OnClickListener, DatePi
                 //открываем окно
                 showAlertDialog(sDateTime, sName, sStatus);
             }
-            System.out.println(indexTimeDateEvent + "  " + indexTimeDate);
         }
     }
 });
