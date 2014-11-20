@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:onClick="onClick">
+
+    <LinearLayout android:id="@+id/rootLayout" android:layout_width="match_parent"
+        android:layout_height="wrap_content" android:orientation="vertical">
+
+        <EditText android:id="@+id/TextVieName" android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:text="Наименование: " />
+        <EditText android:id="@+id/TextViewdescription" android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:text="Описание: " />
+
+    </LinearLayout>
+</ScrollView>
