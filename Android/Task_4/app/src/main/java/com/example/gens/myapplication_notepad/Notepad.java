@@ -9,7 +9,7 @@ import java.util.Date;
  */
 public class Notepad {
     private String name, description;
-    private Date date ;
+    private Date date;
 
 
     public Notepad(String name, String description, Date date) {
