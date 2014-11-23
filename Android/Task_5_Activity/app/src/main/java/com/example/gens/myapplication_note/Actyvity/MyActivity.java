@@ -60,7 +60,7 @@ public class MyActivity extends Activity {
             }
         });
     }
-    //Открываем активити для редактирования новой записи
+    //Открываем активити для редактирования  или создания новой записи
     private void onNewEditNoteActivity(int key){
 
        Intent intent = new Intent(MyActivity.this, NoteEditActivity.class);
