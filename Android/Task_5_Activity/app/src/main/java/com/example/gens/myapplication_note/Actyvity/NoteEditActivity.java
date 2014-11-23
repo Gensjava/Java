@@ -21,7 +21,7 @@ import java.util.Date;
 public class NoteEditActivity  extends Activity implements View.OnClickListener {
 
     private static final String TAG = NoteEditActivity.class.getSimpleName();
-    private TextView NameTextView,descriptionTextView;
+    private TextView nameTextView,descriptionTextView;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -30,18 +30,18 @@ public class NoteEditActivity  extends Activity implements View.OnClickListener 
         setContentView(R.layout.activity_edit_note);
 
         //Получаем поля из макета
-          NameTextView =  (TextView) findViewById(R.id.EditVieName);
-          descriptionTextView =  (TextView) findViewById(R.id.EditViewDescription);
+        nameTextView =  (TextView) findViewById(R.id.EditVieName);
+        descriptionTextView =  (TextView) findViewById(R.id.EditViewDescription);
 
         //получаем  параметры из главного активити
-		final Bundle extras = getIntent().getExtras();
-		if (extras != null) {
-			if (extras.containsKey(MyActivity.EXTRA_MY_KEY)) {
-               final Note note = (Note) getIntent().getSerializableExtra(MyActivity.EXTRA_MY_KEY);
-                NameTextView.setText(note.getmName().toString());
+        final Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            if (extras.containsKey(MyActivity.EXTRA_MY_KEY)) {
+                final Note note = (Note) getIntent().getSerializableExtra(MyActivity.EXTRA_MY_KEY);
+                nameTextView.setText(note.getmName().toString());
                 descriptionTextView.setText(note.getmDescription().toString());
-			}
-		}
+            }
+        }
     }
 
     // Получаем текущее дату системы
@@ -57,7 +57,7 @@ public class NoteEditActivity  extends Activity implements View.OnClickListener 
 
         //получаем поля
         //имя
-        final String name = NameTextView.getText().toString();
+        final String name = nameTextView.getText().toString();
         //описание
         final String description  = descriptionTextView.getText().toString();
         //Текущая дата
@@ -89,7 +89,7 @@ public class NoteEditActivity  extends Activity implements View.OnClickListener 
 
     @Override
     public boolean onCreateOptionsMenu(final Menu menu) {
-       //создаем свое меню с двумя кнопками сохранить и отмена
+        //создаем свое меню с двумя кнопками сохранить и отмена
         final MenuItem custom = menu.add(0, R.id.menu_custom, 0,"Custom");
         custom.setActionView(R.layout.menu_custom);
         custom.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
