@@ -28,7 +28,7 @@ public class MyActivity extends Activity {
     private Note item;
 
     public static final String EXTRA_MY_KEY = "EXTRA_MY_KEY";
-    public static final int NEW_ACTIVITY_KEY = 100;
+    public static final int ADD_ACTIVITY_KEY = 100;
     public static final int EDIT_ACTIVITY_KEY = 101;
 
     @Override
@@ -60,30 +60,30 @@ public class MyActivity extends Activity {
             }
         });
     }
-    //Открываем активити для редактирования  или создания новой записи
-    private void onNewEditNoteActivity(int key){
+    //Открываем активити для редактирования новой записи
+    private void onNoteAddEditActivity(int key){
 
-       Intent intent = new Intent(MyActivity.this, NoteEditActivity.class);
+        Intent intent = new Intent(MyActivity.this, NoteEditActivity.class);
         //если редактировать
         if(key == EDIT_ACTIVITY_KEY ){
             intent.putExtra(EXTRA_MY_KEY, item);
         }
-       startActivityForResult(intent, key);
- }
-     // обрабытываем результат полученный от активити
+        startActivityForResult(intent, key);
+    }
+    // обрабытываем результат полученный от активити
     @Override
     protected void onActivityResult(final int requestCode, final int resultCode,
                                     final Intent data) {
         Note note = null;
         if(data != null){
-           note = (Note) data.getSerializableExtra(EXTRA_MY_KEY);
-         }
+            note = (Note) data.getSerializableExtra(EXTRA_MY_KEY);
+        }
         if(note == null){
             super.onActivityResult(requestCode, resultCode, data);
             return;
         }
         switch (requestCode) {
-            case NEW_ACTIVITY_KEY:
+            case ADD_ACTIVITY_KEY:
                 //Добавляем в список
                 items.add(note);
                 //обновляем список
@@ -115,8 +115,8 @@ public class MyActivity extends Activity {
                     public void onClick(DialogInterface dialog,
                                         int id) {
                         //открываем активити для редактирвания
-                       //openEditNoteActivity();
-                        onNewEditNoteActivity(EDIT_ACTIVITY_KEY);
+                        //openEditNoteActivity();
+                        onNoteAddEditActivity(EDIT_ACTIVITY_KEY);
                     }
                 })
                 .setNeutralButton("Отмена",
@@ -154,7 +154,7 @@ public class MyActivity extends Activity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         if (id == R.id.action_simple) {
-            onNewEditNoteActivity(NEW_ACTIVITY_KEY);
+            onNoteAddEditActivity(ADD_ACTIVITY_KEY);
             return true;
         }
         return super.onOptionsItemSelected(item);
