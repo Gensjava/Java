@@ -37,7 +37,7 @@ public class NoteEditActivity  extends Activity implements View.OnClickListener 
         final Bundle extras = getIntent().getExtras();
         if (extras != null) {
             if (extras.containsKey(MyActivity.EXTRA_MY_KEY)) {
-                final Note note = (Note) getIntent().getSerializableExtra(MyActivity.EXTRA_MY_KEY);
+                final Note note = (Note) extras.get(MyActivity.EXTRA_MY_KEY);
                 nameTextView.setText(note.getmName().toString());
                 descriptionTextView.setText(note.getmDescription().toString());
             }
