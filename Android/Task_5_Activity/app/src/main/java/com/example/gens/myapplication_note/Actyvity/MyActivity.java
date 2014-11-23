@@ -115,7 +115,6 @@ public class MyActivity extends Activity {
                     public void onClick(DialogInterface dialog,
                                         int id) {
                         //открываем активити для редактирвания
-                        //openEditNoteActivity();
                         onNoteAddEditActivity(EDIT_ACTIVITY_KEY);
                     }
                 })
