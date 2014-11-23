@@ -61,7 +61,7 @@ public class MyActivity extends Activity {
         });
     }
     //Открываем активити для редактирования новой записи
-    private void openEditNoteActivity1(int key){
+    private void onNewEditNoteActivity(int key){
 
        Intent intent = new Intent(MyActivity.this, NoteEditActivity.class);
         //если редактировать
@@ -116,7 +116,7 @@ public class MyActivity extends Activity {
                                         int id) {
                         //открываем активити для редактирвания
                        //openEditNoteActivity();
-                        openEditNoteActivity1(EDIT_ACTIVITY_KEY);
+                        onNewEditNoteActivity(EDIT_ACTIVITY_KEY);
                     }
                 })
                 .setNeutralButton("Отмена",
@@ -154,7 +154,7 @@ public class MyActivity extends Activity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         if (id == R.id.action_simple) {
-            openEditNoteActivity1(NEW_ACTIVITY_KEY);
+            onNewEditNoteActivity(NEW_ACTIVITY_KEY);
             return true;
         }
         return super.onOptionsItemSelected(item);
