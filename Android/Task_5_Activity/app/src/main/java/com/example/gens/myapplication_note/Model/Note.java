@@ -15,22 +15,22 @@ public class Note implements Serializable {
         mDescription = description;
         mDate = date;
     }
-    public String getmName() {
+    public String getName() {
         return mName;
     }
-    public void setmName(String name) {
+    public void setName(String name) {
         mName = name;
     }
-    public String getmDescription() {
+    public String getDescription() {
         return mDescription;
     }
-    public void setmDescription(String description) {
+    public void setDescription(String description) {
         mDescription = description;
     }
-    public Date getmDate() {
+    public Date getDate() {
         return mDate;
     }
-    public void setmDate(Date date) {
+    public void setDate(Date date) {
         mDate = date;
     }
 }

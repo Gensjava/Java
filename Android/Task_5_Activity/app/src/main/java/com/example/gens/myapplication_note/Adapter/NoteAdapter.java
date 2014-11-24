@@ -46,8 +46,8 @@ public class NoteAdapter extends ArrayAdapter<Note> {
         final Note item = getItem(position);
         //проверка
         if(item != null){
-            viewHolder.idTextView.setText(item.getmName());
-            viewHolder.nameTextView.setText(String.valueOf(item.getmDescription()));
+            viewHolder.idTextView.setText(item.getName());
+            viewHolder.nameTextView.setText(String.valueOf(item.getDescription()));
         }
 
         return convertView;

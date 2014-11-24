@@ -108,13 +108,14 @@ public class MyActivity extends Activity {
 
         //открываем диалог
         builder = new AlertDialog.Builder(this);
-        builder.setTitle(item.getmName());
+        builder.setTitle(item.getName());
         builder.setIcon(R.drawable.ic_launcher);
         builder .setPositiveButton("Edit",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog,
                                         int id) {
                         //открываем активити для редактирвания
+                        //openEditNoteActivity();
                         onNoteAddEditActivity(EDIT_ACTIVITY_KEY);
                     }
                 })

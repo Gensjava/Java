@@ -38,8 +38,8 @@ public class NoteEditActivity  extends Activity implements View.OnClickListener 
         if (extras != null) {
             if (extras.containsKey(MyActivity.EXTRA_MY_KEY)) {
                 final Note note = (Note) extras.get(MyActivity.EXTRA_MY_KEY);
-                nameTextView.setText(note.getmName().toString());
-                descriptionTextView.setText(note.getmDescription().toString());
+                nameTextView.setText(note.getName().toString());
+                descriptionTextView.setText(note.getDescription().toString());
             }
         }
     }
