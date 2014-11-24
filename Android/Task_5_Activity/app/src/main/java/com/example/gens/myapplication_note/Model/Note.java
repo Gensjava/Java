@@ -10,27 +10,27 @@ public class Note implements Serializable {
     private String mName, mDescription;//имя, описание заметки
     private Date mDate;// текущая дата новой записи
 
-    public Note(String mName, String mDescription, Date mDate) {
-        this.mName = mName;
-        this.mDescription = mDescription;
-        this.mDate = mDate;
+    public Note(String name, String description, Date date) {
+        mName = name;
+        mDescription = description;
+        mDate = date;
     }
     public String getmName() {
         return mName;
     }
-    public void setmName(String mName) {
-        this.mName = mName;
+    public void setmName(String name) {
+        mName = name;
     }
     public String getmDescription() {
         return mDescription;
     }
-    public void setmDescription(String mDescription) {
-        this.mDescription = mDescription;
+    public void setmDescription(String description) {
+        mDescription = description;
     }
     public Date getmDate() {
         return mDate;
     }
-    public void setmDate(Date mDate) {
-        this.mDate = mDate;
+    public void setmDate(Date date) {
+        mDate = date;
     }
 }
