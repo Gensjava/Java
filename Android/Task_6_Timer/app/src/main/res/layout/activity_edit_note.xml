@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:orientation="vertical">
+    <LinearLayout android:id="@+id/rootLayout" android:layout_width="match_parent"
+        android:layout_height="wrap_content" android:orientation="vertical">
+
+        <TextView android:id="@+id/textVieName" android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:text="Заголовок: " />
+
+        <EditText android:id="@+id/editVieName" android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView android:id="@+id/textViewDescription" android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:text="Заметка: " />
+
+        <EditText android:id="@+id/editViewDescription" android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView android:id="@+id/textViewDate" android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:text="Дата: " />
+
+        <LinearLayout android:layout_width="fill_parent" android:layout_height="fill_parent"
+            android:orientation="horizontal" android:weightSum="1">
+
+            <EditText android:id="@+id/editViewDate" android:layout_width="wrap_content"
+                android:layout_height="wrap_content" android:layout_weight="1" />
+
+            <Button android:id="@+id/buttonDate" style="?android:attr/buttonStyleSmall"
+                android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:layout_gravity="right" android:onClick="onClick" android:text="..." />
+
+        </LinearLayout>
+
+    </LinearLayout>
+</LinearLayout>
