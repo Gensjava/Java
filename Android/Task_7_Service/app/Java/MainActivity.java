@@ -23,10 +23,9 @@ public class MainActivity extends ActionBarActivity {
     private NoteAdapter adapter;
     private int listPosition;
     private Note item;
-    private BroadcastReceiver br;
+    private BroadcastReceiver broadcastReceiver;
 
     public static final String EXTRA_NOTE_KEY = "EXTRA_NOTE_KEY";
-    public static final int ADD_ACTIVITY_KEY = 100;
     public static final int EDIT_ACTIVITY_KEY = 101;
     public final static String BROADCAST_ACTION = "BROADCAST_ACTION";
 
@@ -48,27 +47,27 @@ public class MainActivity extends ActionBarActivity {
     private void ActivBroadcastReceiver(){
 
         // создаем BroadcastReceiver
-        BroadcastReceiver br = new BroadcastReceiver() {
-        // действия при получении сообщений
-        public void onReceive(Context context, Intent intent) {
+        broadcastReceiver = new BroadcastReceiver() {
+            // действия при получении сообщений
+            public void onReceive(Context context, Intent intent) {
 
-        final Bundle extras = intent.getExtras();
-        if (extras != null) {
-           if (extras.containsKey(BROADCAST_ACTION)) {
-                final Note note = (Note) extras.get(BROADCAST_ACTION);
-                if(note != null){
-                    items.add(note);
-                    //обновляем список
-                    adapter.notifyDataSetChanged();
+                final Bundle extras = intent.getExtras();
+                if (extras != null) {
+                    if (extras.containsKey(BROADCAST_ACTION)) {
+                        final Note note = (Note) extras.get(BROADCAST_ACTION);
+                        if(note != null){
+                            items.add(note);
+                            //обновляем список
+                            adapter.notifyDataSetChanged();
+                        }
+                    }
                 }
-            }
-        }
             }
         };
         // создаем фильтр для BroadcastReceiver
         IntentFilter intFilt = new IntentFilter(BROADCAST_ACTION);
         // регистрируем (включаем) BroadcastReceiver
-        registerReceiver(br, intFilt);
+        registerReceiver(broadcastReceiver, intFilt);
     }
     //иницилизируем listView + обработчик нажатия на listView
     private void initializlListView() {
@@ -141,7 +140,6 @@ public class MainActivity extends ActionBarActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         if (id == R.id.action_simple) {
-            onNoteAddEditActivity(ADD_ACTIVITY_KEY);
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -150,6 +148,6 @@ public class MainActivity extends ActionBarActivity {
     protected void onDestroy() {
         super.onDestroy();
         // дерегистрируем (выключаем) BroadcastReceiver
-        unregisterReceiver(br);
+        unregisterReceiver(broadcastReceiver);
     }
 }
