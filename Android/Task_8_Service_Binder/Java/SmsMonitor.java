@@ -8,7 +8,7 @@ import android.telephony.SmsMessage;
 /**
  * Created by Gens on 29.12.2014.
  */
-public class SmsMonitorBinder extends BroadcastReceiver {
+public class SmsMonitor extends BroadcastReceiver {
     private static final String ACTION = "android.provider.Telephony.SMS_RECEIVED";
     @Override
     public void onReceive(Context context, Intent intent) {

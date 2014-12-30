@@ -15,7 +15,7 @@ import android.widget.ListView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SmsMainActivity extends ActionBarActivity  implements View.OnClickListener  {
+public class SmsMainActivityBinder extends ActionBarActivity  implements View.OnClickListener  {
 
     private ListView listView;
     private List<Note> itemsSms;
@@ -23,7 +23,7 @@ public class SmsMainActivity extends ActionBarActivity  implements View.OnClickL
     private int listPosition;
     private Note itemSms;
     private ServiceConnection sConnection;
-    private SmsServiceBinder myService;
+    private SmsService myService;
     private Intent intent;
 
     public static final String EXTRA_NOTE_KEY = "EXTRA_NOTE_KEY";
@@ -34,7 +34,7 @@ public class SmsMainActivity extends ActionBarActivity  implements View.OnClickL
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my);
         //Создаем Intent для связи с сервисом
-        intent = new Intent(this, SmsServiceBinder.class);
+        intent = new Intent(this, SmsService.class);
         //получаем SmsServiceBinder
         ServiceConnected();
         //иницилизируем listView
@@ -52,7 +52,7 @@ public class SmsMainActivity extends ActionBarActivity  implements View.OnClickL
         sConnection = new ServiceConnection() {
 
             public void onServiceConnected(ComponentName name, IBinder binder) {
-                myService = ((SmsServiceBinder.MyBinder) binder).getService();
+                myService = ((SmsService.MyBinder) binder).getService();
             }
             public void onServiceDisconnected(ComponentName name) {
 

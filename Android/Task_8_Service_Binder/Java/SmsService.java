@@ -23,7 +23,7 @@ import java.util.concurrent.Executors;
 /**
  * Created by Gens on 29.12.2014.
  */
-public class SmsServiceBinder extends Service {
+public class SmsService extends Service {
 
     private MyBinder binder = new MyBinder();
     public static final String ACTION_SERVICE_SMS = "ACTION_SERVICE_SMS";
@@ -104,8 +104,8 @@ public class SmsServiceBinder extends Service {
     }
     class MyBinder extends Binder {
 
-        SmsServiceBinder getService() {
-            return SmsServiceBinder.this;
+        SmsService getService() {
+            return SmsService.this;
         }
     }
     public List<Note> getmItemsNote() {
