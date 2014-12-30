@@ -16,7 +16,7 @@ import android.widget.ListView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends ActionBarActivity {
+public class SmsMainActivity extends ActionBarActivity {
 
     private ListView listView;
     private List<Note> items;
@@ -48,20 +48,20 @@ public class MainActivity extends ActionBarActivity {
 
         // создаем BroadcastReceiver
         broadcastReceiver = new BroadcastReceiver() {
-            // действия при получении сообщений
-            public void onReceive(Context context, Intent intent) {
+        // действия при получении сообщений
+        public void onReceive(Context context, Intent intent) {
 
-                final Bundle extras = intent.getExtras();
-                if (extras != null) {
-                    if (extras.containsKey(BROADCAST_ACTION)) {
-                        final Note note = (Note) extras.get(BROADCAST_ACTION);
-                        if(note != null){
-                            items.add(note);
-                            //обновляем список
-                            adapter.notifyDataSetChanged();
-                        }
-                    }
+        final Bundle extras = intent.getExtras();
+        if (extras != null) {
+           if (extras.containsKey(BROADCAST_ACTION)) {
+                final Note note = (Note) extras.get(BROADCAST_ACTION);
+                if(note != null){
+                    items.add(note);
+                    //обновляем список
+                    adapter.notifyDataSetChanged();
                 }
+            }
+        }
             }
         };
         // создаем фильтр для BroadcastReceiver
@@ -87,7 +87,7 @@ public class MainActivity extends ActionBarActivity {
     //Открываем активити для редактирования новой записи
     private void onNoteAddEditActivity(int key){
 
-        Intent intent = new Intent(this, ViewingMessagesActivity.class);
+        Intent intent = new Intent(this, SmsViewingMessagesActivity.class);
         //если редактировать
         if(key == EDIT_ACTIVITY_KEY ){
             intent.putExtra(EXTRA_NOTE_KEY, item);

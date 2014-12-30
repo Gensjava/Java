@@ -26,16 +26,9 @@ public class SmsService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        //получем поля СМС
-        String sms_body = intent.getExtras().getString("sms_body");
-        String sms_address = intent.getExtras().getString("sms_address");
-        // создаем новую запись
-        Note note = new Note(sms_address,sms_body, new Date(System.currentTimeMillis()), getDateTimeFormat(new Date(System.currentTimeMillis())));
         //Выполняем передачу СМС в другом потоке
-        MyRun mr = new MyRun(note);
+        MyRun mr = new MyRun(intent);
         executorService.execute(mr);
-        //Создаем Notification с СМС
-        showNotification(note);
         return START_STICKY;
     }
     //возвращает дату и время
@@ -59,7 +52,7 @@ public class SmsService extends Service {
     private void showNotification(Note note) {
 
         //создаем Intent для просмотра СМС при нажатии  Notification
-        Intent intent = new Intent(this, ViewingMessagesActivity.class);
+        Intent intent = new Intent(this, SmsViewingMessagesActivity.class);
         intent.putExtra(ACTION_SERVICE_SMS, note);
         //Создаем PendingIntent для Notification
         PendingIntent contentIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
@@ -81,16 +74,24 @@ public class SmsService extends Service {
     }
     //Создаем класс для потока
     class MyRun implements Runnable {
-        Note note;
-        public MyRun(Note note) {
-            this.note = note;
+        public Intent mIntent;
+
+        public MyRun(Intent intent) {
+            this.mIntent = intent;
         }
         public void run() {
+            //получем поля СМС
+            String sms_body = mIntent.getExtras().getString("sms_body");
+            String sms_address = mIntent.getExtras().getString("sms_address");
+            // создаем новую запись
+            Note note = new Note(sms_address,sms_body, new Date(System.currentTimeMillis()), getDateTimeFormat(new Date(System.currentTimeMillis())));
             //Создаем Intent для передачи его в Активити в фокусе
-            Intent intent = new Intent(MainActivity.BROADCAST_ACTION);
-            intent.putExtra(MainActivity.BROADCAST_ACTION, note);
+            Intent intent = new Intent(SmsMainActivity.BROADCAST_ACTION);
+            intent.putExtra(SmsMainActivity.BROADCAST_ACTION, note);
             //отправляем в Активити СМС
             sendBroadcast(intent);
+            //Создаем Notification с СМС
+            showNotification(note);
         }
     }
 }

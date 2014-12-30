@@ -9,7 +9,7 @@ import android.util.Log;
 /**
  * Created by Gens on 27.12.2014.
  */
-public class SMSMonitor extends BroadcastReceiver {
+public class SmsMonitor extends BroadcastReceiver {
 
     private static final String ACTION = "android.provider.Telephony.SMS_RECEIVED";
     @Override

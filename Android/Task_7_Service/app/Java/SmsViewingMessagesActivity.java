@@ -7,7 +7,7 @@ import android.widget.TextView;
 /**
  * Created by Gens on 27.12.2014.
  */
-public class ViewingMessagesActivity extends ActionBarActivity {
+public class SmsViewingMessagesActivity extends ActionBarActivity {
 
     public static final String ACTION_SMS = "ACTION_SMS";
 
@@ -26,15 +26,15 @@ public class ViewingMessagesActivity extends ActionBarActivity {
         final Bundle extras = getIntent().getExtras();
         //
         if (extras != null) {
-            if (extras.containsKey(SmsService.ACTION_SERVICE_SMS) || extras.containsKey(MainActivity.EXTRA_NOTE_KEY)) {
+            if (extras.containsKey(SmsService.ACTION_SERVICE_SMS) || extras.containsKey(SmsMainActivity.EXTRA_NOTE_KEY)) {
                 Note note = null;
 
                 if(extras.containsKey(SmsService.ACTION_SERVICE_SMS)){
                     note = (Note) extras.get(SmsService.ACTION_SERVICE_SMS);
                 }
                 else
-                if(extras.containsKey(MainActivity.EXTRA_NOTE_KEY)){
-                    note = (Note) extras.get(MainActivity.EXTRA_NOTE_KEY);
+                if(extras.containsKey(SmsMainActivity.EXTRA_NOTE_KEY)){
+                    note = (Note) extras.get(SmsMainActivity.EXTRA_NOTE_KEY);
                 }
                 if(note == null){
                     return;
