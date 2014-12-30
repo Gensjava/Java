@@ -16,7 +16,7 @@ import android.widget.ListView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SmsMainActivity extends ActionBarActivity {
+public class SmsMainActivityBroadcastReceiver extends ActionBarActivity {
 
     private ListView listView;
     private List<Note> items;

@@ -80,7 +80,7 @@ public class SmsService extends Service {
         notificationManager.notify(notifyID++ , notification);
     }
     //Создаем класс для потока
-     class MyRun implements Runnable {
+    class MyRun implements Runnable {
         public Intent mIntent;
 
         public MyRun(Intent intent) {

@@ -26,15 +26,15 @@ public class SmsViewingMessagesActivity extends ActionBarActivity {
         final Bundle extras = getIntent().getExtras();
         //
         if (extras != null) {
-            if (extras.containsKey(SmsServiceBinder.ACTION_SERVICE_SMS) || extras.containsKey(SmsMainActivity.EXTRA_NOTE_KEY)) {
+            if (extras.containsKey(SmsService.ACTION_SERVICE_SMS) || extras.containsKey(SmsMainActivityBinder.EXTRA_NOTE_KEY)) {
                 Note note = null;
 
-                if(extras.containsKey(SmsServiceBinder.ACTION_SERVICE_SMS)){
-                    note = (Note) extras.get(SmsServiceBinder.ACTION_SERVICE_SMS);
+                if(extras.containsKey(SmsService.ACTION_SERVICE_SMS)){
+                    note = (Note) extras.get(SmsService.ACTION_SERVICE_SMS);
                 }
                 else
-                if(extras.containsKey(SmsMainActivity.EXTRA_NOTE_KEY)){
-                    note = (Note) extras.get(SmsMainActivity.EXTRA_NOTE_KEY);
+                if(extras.containsKey(SmsMainActivityBinder.EXTRA_NOTE_KEY)){
+                    note = (Note) extras.get(SmsMainActivityBinder.EXTRA_NOTE_KEY);
                 }
                 if(note == null){
                     return;

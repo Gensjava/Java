@@ -39,7 +39,7 @@ public class SmsMonitor extends BroadcastReceiver {
             String address = addressText.toString();
 
             //создаем и отправлеям mIntent текст, номер
-            Intent mIntent = new Intent(context, SmsServiceBinder.class);
+            Intent mIntent = new Intent(context, SmsMainActivityBinder.class);
             mIntent.putExtra("sms_body", body);
             mIntent.putExtra("sms_address", address);
             //стартуем сервис
