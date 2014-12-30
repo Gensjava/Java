@@ -21,7 +21,6 @@ public class SmsMonitor extends BroadcastReceiver {
             Object[] pduArray = (Object[]) intent.getExtras().get("pdus");
 
             SmsMessage[] messages = new SmsMessage[pduArray.length];
-            //переводим в формат Pdu чтоб можно было получать сообщения кириллицей
 
             for (int i = 0; i < pduArray.length; i++) {
                 messages[i] = SmsMessage.createFromPdu((byte[]) pduArray[i]);
