@@ -5,8 +5,8 @@
 
     <application android:allowBackup="true" android:icon="@drawable/ic_launcher"
         android:label="@string/app_name" android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity" android:label="@string/app_name">
-            <intent-filter>
+        <activity android:name=".SmsMainActivityBroadcastReceiver" android:label="@string/app_name">
+        <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -14,14 +14,14 @@
 
         </activity>
 
-        <receiver android:name=".SMSMonitor">
+        <receiver android:name=".SmsMonitor">
             <intent-filter android:priority="100">
                 <action android:name="android.provider.Telephony.SMS_RECEIVED" />
             </intent-filter>
         </receiver>
 
         <service android:name="SmsService"></service>
-        <activity android:name=".ViewingMessagesActivity" />
+        <activity android:name=".SmsViewingMessagesActivity" />
     </application>
 
 </manifest>

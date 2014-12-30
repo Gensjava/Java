@@ -6,20 +6,20 @@
 
     <application android:allowBackup="true" android:icon="@drawable/ic_launcher"
         android:label="@string/app_name" android:theme="@style/AppTheme">
-        <activity android:name=".SmsMainActivity" android:label="@string/app_name">
-            <intent-filter>
+        <activity android:name=".SmsMainActivityBinder" android:label="@string/app_name">
+        <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <receiver android:name=".SmsMonitorBinder">
+        <receiver android:name=".SmsMonitor">
             <intent-filter android:priority="100">
                 <action android:name="android.provider.Telephony.SMS_RECEIVED" />
             </intent-filter>
         </receiver>
 
-        <service android:name=".SmsServiceBinder"></service>
+        <service android:name=".SmsService"></service>
         <activity android:name=".SmsViewingMessagesActivity" />
     </application>
 
