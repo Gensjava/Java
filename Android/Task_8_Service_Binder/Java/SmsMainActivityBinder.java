@@ -5,15 +5,23 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.IBinder;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 public class SmsMainActivityBinder extends ActionBarActivity  implements View.OnClickListener  {
 
@@ -45,6 +53,16 @@ public class SmsMainActivityBinder extends ActionBarActivity  implements View.On
         adapter = new NoteAdapter(this, R.layout.list_item_item, itemsSms);
         //добавляем adapter
         listView.setAdapter(adapter);
+        //запускаем авто получения СМС через определенное время
+        //Вкл.таймер
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                //делаем поиск события
+                updateListSms(false);
+            }
+        }, 10000, 10000); //
     }
     //связь активити и сервисом
     public void ServiceConnected(){
@@ -143,38 +161,50 @@ public class SmsMainActivityBinder extends ActionBarActivity  implements View.On
     @Override
     protected void onStart() {
         super.onStart();
-        bindService(intent, sConnection, 0);
+        bindService(intent, sConnection,BIND_AUTO_CREATE);
     }
     //Обновляем список СМС
-    protected void updateListSms() {
-        // получаем последнии СМС
-        List<Note> mItemsNote  = myService.getmItemsNote();
-        //проверка на кво СМС
-        if(mItemsNote.size() != 0) {
-            for (Note item : mItemsNote) {
-                itemsSms.add(item);
-            }
-            //обновляем список
-            adapter.notifyDataSetChanged();
-            //очистка массива
-            myService.clearItemsNote();
-        } else {
-            showErrorAlertDialog("Error: No mesgg." );
-        }
-    }
+    public void updateListSms(final boolean client){
 
+        this.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+
+                if (myService == null){
+                    return;
+                }
+                // получаем последнии СМС
+                List<Note> mItemsNote  = myService.getmItemsNote();
+                //проверка на кво СМС
+                if(mItemsNote.size() != 0) {
+                    for (Note item : mItemsNote) {
+                        itemsSms.add(item);
+                    }
+                    //обновляем список
+                    adapter.notifyDataSetChanged();
+                    //очистка массива
+                    myService.clearItemsNote();
+                } else {
+                    if(client){
+                        showErrorAlertDialog("No mesgg." );
+                    } else {
+                        Log.d("SMSupdate","No mesgg.");
+                    }
+                }
+            }
+        });
+    }
     @Override
     public void onClick(final View view) {
         switch (view.getId()) {
             case R.id.menuButtonUp:
-                updateListSms();
+                updateListSms(true);
                 break;
             default:
                 showErrorAlertDialog("Error: " + view.getId());
                 break;
         }
-
-}
+    }
     //диалог для ошибок
     public void showErrorAlertDialog(String errMessage) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
