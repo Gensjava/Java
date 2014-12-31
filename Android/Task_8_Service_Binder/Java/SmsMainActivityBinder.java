@@ -33,6 +33,7 @@ public class SmsMainActivityBinder extends ActionBarActivity  implements View.On
     private ServiceConnection sConnection;
     private SmsService myService;
     private Intent intent;
+    private ExecutorService executorService;
 
     public static final String EXTRA_NOTE_KEY = "EXTRA_NOTE_KEY";
     public static final int EDIT_ACTIVITY_KEY = 101;
