@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.gens.myapplication_fragment_test_2">
+
+    <uses-permission android:name="android.permission.RECEIVE_SMS" />
+
+    <application android:allowBackup="true" android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name" android:theme="@style/AppTheme">
+        <activity android:name=".SmsMainActivityBinder" android:label="@string/app_name">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <receiver android:name=".SmsMonitor">
+            <intent-filter android:priority="100">
+                <action android:name="android.provider.Telephony.SMS_RECEIVED" />
+            </intent-filter>
+        </receiver>
+
+        <service android:name=".SmsService"></service>
+        <activity android:name=".SmsViewingMessagesActivity" />
+    </application>
+
+</manifest>
