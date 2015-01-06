@@ -47,7 +47,7 @@ public class FragmentTitle extends Fragment {
         return view;
     }
     public interface onSomeEventListener {
-        public void someEvent(Note s);
+        public void someEvent(Note note);
     }
     @Override
     public void onAttach(Activity activity) {
