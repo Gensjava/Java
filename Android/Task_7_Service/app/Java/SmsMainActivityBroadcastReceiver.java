@@ -94,7 +94,7 @@ public class SmsMainActivityBroadcastReceiver extends ActionBarActivity {
         builder = new AlertDialog.Builder(this);
         builder.setTitle(item.getName());
         builder.setIcon(R.drawable.ic_launcher);
-        builder .setPositiveButton("viewable",
+        builder .setPositiveButton("Viewing",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog,
                                         int id) {
