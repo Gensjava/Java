@@ -83,7 +83,6 @@ public class FragmentTitle extends Fragment {
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                Log.d("updateListSms", "updateListSms "+myService);
                 if (myService == null) {
                     return;
                 }
