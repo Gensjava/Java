@@ -47,9 +47,6 @@ public class FragmentTitle extends Fragment {
                 someEventListener.someEvent(itemsSms.get(position));
             }
         });
-
-        //получаем SmsServiceBinder
-        ServiceConnected();
         //запускаем авто получения СМС через определенное время
         //Вкл.таймер
         Timer timer = new Timer();
