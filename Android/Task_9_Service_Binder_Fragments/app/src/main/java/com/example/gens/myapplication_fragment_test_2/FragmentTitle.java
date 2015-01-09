@@ -25,6 +25,7 @@ public class FragmentTitle extends Fragment {
 
     private ServiceConnection sConnection;
     private onSomeEventListener someEventListener;
+    private SmsService myService;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -32,14 +33,13 @@ public class FragmentTitle extends Fragment {
 
         ListView listView = (ListView) view.findViewById(R.id.title_fragment);
         //получаем SmsServiceBinder
-        final SmsService myService  = ServiceConnected();
+        ServiceConnected();
         //инициализируем ArrayList
         final List<Note> itemsSms = new ArrayList<Note>();
         //создаем свой адаптер
         final NoteAdapter adapter = new NoteAdapter(getActivity(), R.layout.fragment_details, itemsSms);
         //добавляем adapter
         listView.setAdapter(adapter);
-        //
         //Клик на листе
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -51,10 +51,10 @@ public class FragmentTitle extends Fragment {
         //Вкл.таймер
         Timer timer = new Timer();
         timer.schedule(new TimerTask() {
-            //            @Override
+            @Override
             public void run() {
                 //Обновляем список СМС
-                updateListSms(false,itemsSms, adapter, myService);
+                updateListSms(false,itemsSms, adapter);
             }
         }, 10000, 10000); //
         return view;
@@ -68,25 +68,22 @@ public class FragmentTitle extends Fragment {
         someEventListener = (onSomeEventListener) activity;
     }
     //связь активити и сервисом
-    public SmsService  ServiceConnected(){
-        SmsService myService = null;
-
+    private void  ServiceConnected(){
         sConnection = new ServiceConnection() {
             public void onServiceConnected(ComponentName name, IBinder binder) {
-                SmsService myService = ((SmsService.MyBinder) binder).getService();
+                myService = ((SmsService.MyBinder) binder).getService();
             }
             public void onServiceDisconnected(ComponentName name) {
             }
         };
-        return  myService;
     }
     //Обновляем список СМС
-    public void updateListSms(final boolean client, final List<Note> itemsSms, final NoteAdapter adapter,final SmsService myService){
+    private void updateListSms(final boolean client, final List<Note> itemsSms, final NoteAdapter adapter){
 
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
-
+                Log.d("updateListSms", "updateListSms "+myService);
                 if (myService == null) {
                     return;
                 }
@@ -115,10 +112,11 @@ public class FragmentTitle extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
+
         getActivity().bindService(new Intent(getActivity(), SmsService.class), sConnection, 0);
     }
     //диалог для ошибок
-    public void showErrorAlertDialog(String errMessage) {
+    private void showErrorAlertDialog(String errMessage) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle("Error:")
                 .setMessage(errMessage)
