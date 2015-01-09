@@ -23,19 +23,23 @@ import java.util.TimerTask;
 
 public class FragmentTitle extends Fragment {
 
-    private ListView listView;
-    private List<Note> itemsSms;
-    private NoteAdapter adapter;
     private ServiceConnection sConnection;
-    private SmsService myService;
-    private Intent intent;
     private onSomeEventListener someEventListener;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_title, null);
 
-        listView = (ListView) view.findViewById(R.id.title_fragment);
+        ListView listView = (ListView) view.findViewById(R.id.title_fragment);
+        //получаем SmsServiceBinder
+        final SmsService myService  = ServiceConnected();
+        //инициализируем ArrayList
+        final List<Note> itemsSms = new ArrayList<Note>();
+        //создаем свой адаптер
+        final NoteAdapter adapter = new NoteAdapter(getActivity(), R.layout.fragment_details, itemsSms);
+        //добавляем adapter
+        listView.setAdapter(adapter);
+        //
         //Клик на листе
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -44,6 +48,18 @@ public class FragmentTitle extends Fragment {
             }
         });
 
+        //получаем SmsServiceBinder
+        ServiceConnected();
+        //запускаем авто получения СМС через определенное время
+        //Вкл.таймер
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            //            @Override
+            public void run() {
+                //Обновляем список СМС
+                updateListSms(false,itemsSms, adapter, myService);
+            }
+        }, 10000, 10000); //
         return view;
     }
     public interface onSomeEventListener {
@@ -54,46 +70,21 @@ public class FragmentTitle extends Fragment {
         super.onAttach(activity);
         someEventListener = (onSomeEventListener) activity;
     }
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        //инициализируем ArrayList
-        itemsSms = new ArrayList<Note>();
-        //создаем свой адаптер
-        adapter = new NoteAdapter(getActivity(), R.layout.fragment_details, itemsSms);
-        //добавляем adapter
-        listView.setAdapter(adapter);
-        //
-        intent = new Intent(getActivity(), SmsService.class);
-        //получаем SmsServiceBinder
-        ServiceConnected();
-        //запускаем авто получения СМС через определенное время
-        //Вкл.таймер
-        Timer timer = new Timer();
-        timer.schedule(new TimerTask() {
-            //            @Override
-            public void run() {
-                //делаем поиск события
-                updateListSms(false);
-            }
-        }, 10000, 10000); //
-    }
-
     //связь активити и сервисом
-    public void ServiceConnected(){
+    public SmsService  ServiceConnected(){
+        SmsService myService = null;
 
         sConnection = new ServiceConnection() {
-
             public void onServiceConnected(ComponentName name, IBinder binder) {
-                myService = ((SmsService.MyBinder) binder).getService();
+                SmsService myService = ((SmsService.MyBinder) binder).getService();
             }
             public void onServiceDisconnected(ComponentName name) {
-
             }
         };
+        return  myService;
     }
     //Обновляем список СМС
-    public void updateListSms(final boolean client){
+    public void updateListSms(final boolean client, final List<Note> itemsSms, final NoteAdapter adapter,final SmsService myService){
 
         getActivity().runOnUiThread(new Runnable() {
             @Override
@@ -127,7 +118,7 @@ public class FragmentTitle extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        getActivity().bindService(intent, sConnection, 0);
+        getActivity().bindService(new Intent(getActivity(), SmsService.class), sConnection, 0);
     }
     //диалог для ошибок
     public void showErrorAlertDialog(String errMessage) {

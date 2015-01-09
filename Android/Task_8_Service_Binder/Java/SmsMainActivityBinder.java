@@ -22,7 +22,6 @@ import java.util.TimerTask;
 public class SmsMainActivityBinder extends ActionBarActivity  {
 
     private ServiceConnection sConnection;
-    private Intent intent;
 
     public static final String EXTRA_NOTE_KEY = "EXTRA_NOTE_KEY";
     public static final int EDIT_ACTIVITY_KEY = 101;
@@ -31,8 +30,6 @@ public class SmsMainActivityBinder extends ActionBarActivity  {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my);
-        //Создаем Intent для связи с сервисом
-        intent = new Intent(this, SmsService.class);
         //получаем SmsServiceBinder
         final SmsService myService  = ServiceConnected();
         //инициализируем ArrayList
@@ -131,7 +128,7 @@ public class SmsMainActivityBinder extends ActionBarActivity  {
     @Override
     protected void onStart() {
         super.onStart();
-        bindService(intent, sConnection,BIND_AUTO_CREATE);
+        bindService(new Intent(this, SmsService.class), sConnection,BIND_AUTO_CREATE);
     }
     //Обновляем список СМС
     public void updateListSms(final boolean client,final List<Note> itemsSms, final NoteAdapter adapter, final SmsService myService){
