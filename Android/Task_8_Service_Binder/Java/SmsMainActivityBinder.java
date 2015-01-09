@@ -1,4 +1,5 @@
 package com.example.gens.myapplication_sms_binder_2;
+
 import android.app.AlertDialog;
 import android.content.ComponentName;
 import android.content.DialogInterface;
@@ -22,6 +23,7 @@ import java.util.TimerTask;
 public class SmsMainActivityBinder extends ActionBarActivity  {
 
     private ServiceConnection sConnection;
+    private SmsService myService;
 
     public static final String EXTRA_NOTE_KEY = "EXTRA_NOTE_KEY";
     public static final int EDIT_ACTIVITY_KEY = 101;
@@ -31,7 +33,7 @@ public class SmsMainActivityBinder extends ActionBarActivity  {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my);
         //получаем SmsServiceBinder
-        final SmsService myService  = ServiceConnected();
+        ServiceConnected();
         //инициализируем ArrayList
         final List<Note> itemsSms = new ArrayList<Note>();
         //создаем свой адаптер
@@ -54,22 +56,19 @@ public class SmsMainActivityBinder extends ActionBarActivity  {
             @Override
             public void run() {
                 //делаем поиск события
-                updateListSms(false, itemsSms, adapter, myService);
+                updateListSms(false, itemsSms, adapter);
             }
         }, 10000, 10000); //
     }
     //связь активити и сервисом
-    public SmsService  ServiceConnected(){
-        SmsService myService = null;
-
+    private void  ServiceConnected(){
         sConnection = new ServiceConnection() {
             public void onServiceConnected(ComponentName name, IBinder binder) {
-                SmsService myService = ((SmsService.MyBinder) binder).getService();
+                myService = ((SmsService.MyBinder) binder).getService();
             }
             public void onServiceDisconnected(ComponentName name) {
             }
         };
-        return  myService;
     }
     //Открываем активити для редактирования новой записи
     private void onNoteAddEditActivity(int key, Note itemSms){
@@ -131,7 +130,7 @@ public class SmsMainActivityBinder extends ActionBarActivity  {
         bindService(new Intent(this, SmsService.class), sConnection,BIND_AUTO_CREATE);
     }
     //Обновляем список СМС
-    public void updateListSms(final boolean client,final List<Note> itemsSms, final NoteAdapter adapter, final SmsService myService){
+    private void updateListSms(final boolean client,final List<Note> itemsSms, final NoteAdapter adapter){
 
         this.runOnUiThread(new Runnable() {
             @Override
@@ -162,7 +161,7 @@ public class SmsMainActivityBinder extends ActionBarActivity  {
         });
     }
     //диалог для ошибок
-    public void showErrorAlertDialog(String errMessage) {
+    private void showErrorAlertDialog(String errMessage) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Error:")
                 .setMessage(errMessage)
