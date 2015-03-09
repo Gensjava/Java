@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent" android:layout_height="match_parent"
+              android:orientation="vertical"
+              android:weightSum="1">
+
+    <TextView
+        android:id="@+id/cart_seller_textView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="seller"/>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="113dp"
+        android:orientation="horizontal"
+        android:weightSum="1">
+
+        <ImageView
+            android:id="@+id/imageView3"
+            android:layout_width="104dp"
+            android:layout_height="match_parent"/>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/cart_discription_textView"
+                android:layout_width="match_parent"
+                android:layout_height="71dp"
+                android:text="discription"/>
+
+            <TextView
+                android:id="@+id/cart_price_textView"
+                android:layout_width="266dp"
+                android:layout_height="match_parent"
+                android:text="price"/>
+        </LinearLayout>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/cart_number_textView"
+        android:layout_width="292dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.03"
+        android:text="number"/>
+
+    <TextView
+        android:id="@+id/cart_delivery_textView"
+        android:layout_width="168dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.04"
+        android:text="delivery"/>
+
+    <Button
+        android:id="@+id/cart_delivery_button"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="360dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="Доставка >>"/>
+
+    <Button
+        android:id="@+id/cart_delete_button"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="360dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="Удалить"/>
+
+    <TextView
+        android:id="@+id/cart_sum_textView"
+        android:layout_width="370dp"
+        android:layout_height="wrap_content"
+        android:text="Sum"/>
+
+    <TextView
+        android:id="@+id/cart_sum_delivery_textView"
+        android:layout_width="370dp"
+        android:layout_height="wrap_content"
+        android:text="Sum delivery"/>
+
+    <TextView
+        android:id="@+id/cart_total_textView"
+        android:layout_width="370dp"
+        android:layout_height="wrap_content"
+        android:text="Total"/>
+
+</LinearLayout>

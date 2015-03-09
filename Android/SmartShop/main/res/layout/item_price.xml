@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent" android:layout_height="match_parent"
+              android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/item_text_kod"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Код"/>
+    <TextView
+        android:id="@+id/item_text_name_product"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Наименование товара"/>
+
+    <TextView
+        android:id="@+id/item_text_price"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Цена"/>
+
+
+</LinearLayout>

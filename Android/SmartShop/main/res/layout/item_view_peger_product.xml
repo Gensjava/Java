@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:id="@+id/item_products_peger"
+
+              xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="fill_parent"
+              android:layout_height="wrap_content"
+              android:gravity="center"
+              android:orientation="vertical">
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/item_pager_product"
+        android:layout_width="fill_parent"
+        android:layout_height="280dp"/>
+    <com.viewpagerindicator.CirclePageIndicator
+        android:id="@+id/indicator_item_titles"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/bottom_lauout"
+        android:layout_marginBottom="10dp"/>
+
+
+</LinearLayout>

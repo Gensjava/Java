@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent" android:layout_height="match_parent"
+              android:orientation="vertical"
+              android:weightSum="1">
+
+    <ListView
+        android:id="@+id/cart_listView"
+        android:layout_width="match_parent"
+        android:layout_height="437dp"
+        android:layout_weight="0.56"/>
+
+    <Button
+        android:id="@+id/button4"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="285dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:background="#ffff4b49"
+        android:text="Оформить заказ"/>
+</LinearLayout>
