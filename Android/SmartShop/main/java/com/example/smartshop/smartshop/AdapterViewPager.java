@@ -10,6 +10,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
 /**
  * Created by Gens on 21.02.2015.
  */
@@ -53,27 +55,26 @@ public class AdapterViewPager extends PagerAdapter {
         View itemView = mInflater.inflate(R.layout.item_peger, container,
                 false);
 
-        textViewRank = (TextView) itemView.findViewById(R.id.textViewRank);
-        textViewName = (TextView) itemView.findViewById(R.id.textViewName);
-        textViewCounter = (TextView) itemView.findViewById(R.id.textViewCount);
-
-        textViewRank.setText(mRank[position]);
-        textViewName.setText(mCatName[position]);
-        textViewCounter.setText(mCounter[position]);
-
         imageViewAvatar = (ImageView) itemView.findViewById(R.id.imageViewAvatar);
         imageViewAvatar.setImageResource(mPictureID[position]);
+       
+        Picasso.with(mContext)
+                .load(mCatName[position])
+                        //.resize(128, 128)
+                .into(imageViewAvatar);
 
         itemView.setOnClickListener(new View.OnClickListener() {
             
             @Override
             public void onClick(View v) {
-
+               
                 
                 someEventListener = (onSomeEventListener) mContext;
                 someEventListener.someEvent("view_pager","");
             }
         });
+        
+        ((ViewPager) container).addView(itemView);
         return itemView;
     }
 

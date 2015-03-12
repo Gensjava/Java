@@ -63,21 +63,34 @@ public class AdapterItem extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         // используем созданные, но не используемые view
         View view = convertView;
-       
-        switch (position){
-            case 0:
+        
+        final Product item = (Product) getItem(position);
+        if(item != null){
+        //switch (position){
+            //case 0:
                 view = lInflater.inflate(R.layout.item_view_peger_product, parent, false);
-                //заполняем
-                fillPeger(view);
-                break;
-            case 1:
-                view = lInflater.inflate(R.layout.item_full_discription, parent, false);
-                break;
-            case 2:
-                view = lInflater.inflate(R.layout.item_price, parent, false);
-                break;
-            case 3:
-                view = lInflater.inflate(R.layout.item_discription, parent, false);
+                 
+                TextView txtKod = (TextView) view.findViewById(R.id.item_text_kod);
+                TextView txtName = (TextView) view.findViewById(R.id.item_text_name_product);
+                TextView txtPrice = (TextView) view.findViewById(R.id.item_text_price);
+                TextView txtDescription = (TextView) view.findViewById(R.id.item_text_full_discription);
+                //
+                txtKod.setText(item.getKod());
+                txtName.setText(item.getName());
+                txtPrice.setText(item.getPrice()+".0 грн.");
+                txtDescription.setText(item.getDescription());
+
+            //заполняем
+                fillPeger(view,item);
+//                break;
+//            case 1:
+//                view = lInflater.inflate(R.layout.item_full_discription, parent, false);
+//                break;
+//            case 2:
+//                view = lInflater.inflate(R.layout.item_price, parent, false);
+//                break;
+//            case 3:
+                //view = lInflater.inflate(R.layout.item_discription, parent, false);
                 TextView textViewDiscription = (TextView) view.findViewById(R.id.item_view_discription);
 
                 textViewDiscription.setOnClickListener(new View.OnClickListener() {
@@ -87,46 +100,43 @@ public class AdapterItem extends BaseAdapter {
                         someEventListener.someEvent(ACTION_DISRIPTION, FragmentItem.idItem);
                     }
                 });
-                break;
-            case 4:
-                view = lInflater.inflate(R.layout.item_deliver, parent, false);
+               // break;
+           // case 4:
+                //view = lInflater.inflate(R.layout.item_deliver, parent, false);
                 TextView textViewDeliver = (TextView) view.findViewById(R.id.item_text_deliver);
+
 
                 textViewDeliver.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         someEventListener = (onSomeEventListener) ctx;
-                        someEventListener.someEvent(ACTION_DELIVER,FragmentItem.idItem);
+                        someEventListener.someEvent(ACTION_DELIVER, FragmentItem.idItem);
                     }
                 });
-                break;
-            default:
-                view = lInflater.inflate(R.layout.item_listview, parent, false);
-                break;
         }
+               // break;
+            //default:
+
+              //  break;
+       // }
         return view;
     }
     //заполняем инфой рекламнный блок ViewPeger
-    void fillPeger(View view){
-        rank = new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" };
+    void fillPeger(View view, Product item ){
+        rank = new String[] { "1", "2" };
 
-        names = new String[] { "Васька", "Барсик", "Мурзик", "Рыжик", "Пушок",
-                "Снежок", "Борис", "Филя", "Сёма", "Кузя" };
+        names = new String[] { Сonstants.url_main_way_image +item.getWayImage(), Сonstants.url_main_way_image +item.getWayImage() };
 
-        count = new String[] { "880", "760", "758", "702", "690", "674", "651",
-                "649", "630", "625" };
+        count = new String[] { "880", "760" };
 
-        picture_resid = new int[] { R.drawable.flatscreen, R.drawable.flatscreen,
-                R.drawable.flatscreen, R.drawable.flatscreen, R.drawable.flatscreen,
-                R.drawable.flatscreen, R.drawable.flatscreen, R.drawable.flatscreen,
-                R.drawable.flatscreen, R.drawable.flatscreen };
+        picture_resid = new int[] { R.drawable.flatscreen, R.drawable.flatscreen };
 
         viewPager = (ViewPager) view.findViewById(R.id.item_pager_product);
         adapter = new AdapterViewPager(ctx, rank, names, count,
                 picture_resid);
         viewPager.setAdapter(adapter);
         
-        viewPager.setCurrentItem(5);
+        viewPager.setCurrentItem(0);
         final CirclePageIndicator indicator = (CirclePageIndicator) view.findViewById(R.id.indicator_item_titles);
         indicator.setViewPager(viewPager);
     }

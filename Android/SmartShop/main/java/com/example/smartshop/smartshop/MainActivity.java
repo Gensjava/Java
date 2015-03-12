@@ -25,14 +25,14 @@ import com.android.volley.toolbox.Volley;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.http.message.BasicNameValuePair;
-import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends ActionBarActivity  implements MainAdapter.onSomeEventListener, AdapterItem.onSomeEventListener, AdapterViewPager.onSomeEventListener,View.OnClickListener  {
+public class MainActivity extends ActionBarActivity  implements MainAdapter.onSomeEventListener, AdapterItem.onSomeEventListener, AdapterViewPager.onSomeEventListener,View.OnClickListener,
+        AdapterCategory.onSomeEventListener,FragmentCategoryProduct.onSomeEventListener,AdapterProduct.onSomeEventListener
+        {
 
     private String[] mScreenTitles;
     private DrawerLayout mDrawerLayout;
@@ -52,9 +52,6 @@ public class MainActivity extends ActionBarActivity  implements MainAdapter.onSo
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        
-      
-      
 
         mTitle = mDrawerTitle = getTitle();
         mScreenTitles = getResources().getStringArray(R.array.screen_array);
@@ -111,7 +108,6 @@ public class MainActivity extends ActionBarActivity  implements MainAdapter.onSo
            
                 break;
             case R.id.ImageViewcart:
-                //test ();
             selectItem(2);
                 break;
             default:
@@ -119,7 +115,8 @@ public class MainActivity extends ActionBarActivity  implements MainAdapter.onSo
         }
     }
 
-    /* The click listener for ListView in the navigation drawer */
+          
+            /* The click listener for ListView in the navigation drawer */
     private class DrawerItemClickListener implements ListView.OnItemClickListener {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -159,6 +156,84 @@ public class MainActivity extends ActionBarActivity  implements MainAdapter.onSo
             // Error
             Log.e(this.getClass().getName(), "Error. Fragment is not created");
         }
+    }
+
+    // Задача в другом потоке для загрузки всех товаров через HTTP Request
+    void LoadAllProductsTask ()  {
+
+        // Строим параметры
+        RequestQueue queue = Volley.newRequestQueue(this);
+        List<NameValuePair> params = new ArrayList<NameValuePair>();
+        // получим строку JSON из URL
+
+        params.add(new BasicNameValuePair("itemnumber", "" + 3));
+        String paramString = URLEncodedUtils.format(params, "utf-8");
+
+        String url = Сonstants.url_all_products+"/?"+paramString;
+
+        JsonObjectRequest jsObjRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+            Product ProductOne ;
+            Product ProductTwo ;
+            @Override
+            public void onResponse(JSONObject response) {
+                // TODO Auto-generated method stub
+
+                //JSONObject json = response;
+//                try {
+//                    int success = response.getInt(Сonstants.TAG_SUCCESS);
+//
+//                    if (success == 1) {     // товар найден
+//                        // получаем массив товаров
+//                        products = response.getJSONArray(Сonstants.TAG_PRODUCTS);
+//                        //
+//
+//
+//                        // проходим в цикле через все товары
+//                        for (int i = 0; i < products.length(); i++) {
+//                            JSONObject c = products.getJSONObject(i);
+//
+//                            String id = c.getString(Сonstants.TAG_PID);
+//                            String wayImage = c.getString(Сonstants.TAG_WAY_IMAGE);
+//                            String fullImage = Сonstants.url_main_way_image + wayImage;
+//
+//                            double price = 0.00;
+//
+//                            if (!(c.getString(Сonstants.TAG_PRICE).equals("null"))){
+//                                price = Double.parseDouble(c.getString(Сonstants.TAG_PRICE));
+//                                switch (i) {
+//                                    case 0:
+//                                        //ProductOne = new Product(price, R.drawable.flatscreen, id,fullImage);
+//                                        break;
+//                                    case 1:
+//                                       // ProductTwo = new Product(price, R.drawable.flatscreen, id, fullImage);
+//                                        break;
+//                                    default:
+//                                        break;
+//                                }
+//                            }
+//                        }
+//                        //mPoducts.add(new ProductDual(ProductOne, ProductTwo));
+//                       // mainAdapter.notifyDataSetChanged();
+//
+//                    } else {
+//                        // не нашли товар по pid
+//                    }
+//
+//                } catch (JSONException e) {
+//                    e.printStackTrace();
+//                }
+            }
+        }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                // TODO Auto-generated method stub
+            }
+        });
+
+        queue.add(jsObjRequest);
+        //обновляем
+
     }
 
     @Override
@@ -252,11 +327,31 @@ public class MainActivity extends ActionBarActivity  implements MainAdapter.onSo
             case "view_pager":
                 linkFragment = new FragmentPegerShare();
                 break;
+            case "OnClickAdapterCategory":
+                
+                linkFragment = new FragmentCategoryProduct();
+                
+                Bundle bundleCategory = new Bundle();
+                bundleCategory.putString("idItemCategory", idItem);
+                linkFragment.setArguments(bundleCategory);
+                break;
+            case "FragmentCategoryProduct":
+
+                linkFragment = new FragmentProduct();
+
+                Bundle bundleCategoryProduct = new Bundle();
+                bundleCategoryProduct.putString("idItemCategoryProduct", idItem);
+                linkFragment.setArguments(bundleCategoryProduct);
+                
+                break;
             default:
                 break;
         }
         onOpenFragment(linkFragment);
     }
+
+
+
     public void onOpenFragment(Fragment fragment) {
         
         if (fragment!= null) {
@@ -268,49 +363,6 @@ public class MainActivity extends ActionBarActivity  implements MainAdapter.onSo
             // Error
             Log.e(this.getClass().getName(), "Error. Fragment is not created");
         }        
-    }
-    
-    void test (){
-
-        RequestQueue queue = Volley.newRequestQueue(this);
-        List<NameValuePair> params = new ArrayList<NameValuePair>();
-
-        params.add(new BasicNameValuePair("idItem", "9066"));
-        String paramString = URLEncodedUtils.format(params, "utf-8");
-        
-        String url = Сonstants.url_details_product+"/?"+paramString;
-
-        JsonObjectRequest jsObjRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
-
-            @Override           
-            public void onResponse(JSONObject response) {
-                // TODO Auto-generated method stub
-
-                JSONObject productsArray = response;
-                try {
-                    JSONArray  productsArray1 = productsArray.getJSONArray(Сonstants.TAG_PRODUCT);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-                try {
-                    int success = productsArray.getInt(Сonstants.TAG_SUCCESS);
-                    Log.i("success",""+success);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-                final String json = new String(response.toString());
-
-            }
-        }, new Response.ErrorListener() {
-
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                // TODO Auto-generated method stub
-            }
-        });
-        queue.add(jsObjRequest);
     }
 
 }

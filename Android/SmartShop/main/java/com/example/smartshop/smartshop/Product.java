@@ -29,12 +29,13 @@ public class Product {
         mWayImage = wayImage;
     }
 
-    public Product(String name, String description, String id, String kod, double price) {
+    public Product(String name, String description, String id, String kod, double price, String wayImage) {
         mName = name;
         mDescription = description;
         mId = id;
         mKod = kod;
         mPrice = price;
+        mWayImage = wayImage;
     }
     
     public Product(){

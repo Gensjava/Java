@@ -11,7 +11,11 @@ import java.util.ArrayList;
     public static final String url_all_products = "http://10.0.2.2/denwer/get_all_products_test.php";
     public static final String url_details_product = "http://10.0.2.2/denwer/get_product_details.php";
     public static final String url_product_description = "http://10.0.2.2/denwer/get_product_description.php";
+    public static final String url_get_category_products = "http://10.0.2.2/denwer/get_category_products.php";
+    public static final String url_get_cproducts_from_category = "http://10.0.2.2/denwer/get_all_products_from_category.php";
+    
     public static final String url_main_way_image = "http://www.smart-shop.ua/photo/product/";
+    public static final String url_main_peger = "http://www.smart-shop.ua/images/main/";
 
     // Имена узлов JSON
     public static final String TAG_NAME = "name";

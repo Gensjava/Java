@@ -3,7 +3,6 @@ package com.example.smartshop.smartshop;
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,20 +22,21 @@ import java.util.List;
  * Created by Gens on 02.03.2015.
  */
 
-public class MainFragment extends android.support.v4.app.Fragment implements AdapterViewPager.onSomeEventListener {
+public class FragmentProduct extends android.support.v4.app.Fragment {
 
-    public MainFragment() {
+    public FragmentProduct() {
     }
 
     private int itemNumber = 1;
     ArrayList<ProductDual> mPoducts = new ArrayList<ProductDual>();
 
-    MainAdapter mainAdapter;
+    AdapterProduct adapterProduct;
 
     ListView lvMain;
     private ProgressDialog pDialog;
 
     Product ProductOne;
+     String idItem;
     Product ProductTwo;
     // массив товаров JSONArray
     JSONArray products;
@@ -49,16 +49,19 @@ public class MainFragment extends android.support.v4.app.Fragment implements Ada
 
         View rootView = inflater.inflate(R.layout.layout_main, container,
                 false);
+        
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            idItem = bundle.getString("idItemCategoryProduct");
+            new LoadAllProductsTaskProduct().execute();
+        }
 
-        new LoadAllProductsTask().execute();
-
-        // создаем адаптер
-        fillData();
-        mainAdapter = new MainAdapter(getActivity(), mPoducts);
+        // создаем адаптер    
+        adapterProduct = new AdapterProduct(getActivity(), mPoducts);
 
         // настраиваем список
         lvMain = (ListView) rootView.findViewById(R.id.lvMain);
-        lvMain.setAdapter(mainAdapter);
+        lvMain.setAdapter(adapterProduct);
 
         lvMain.setOnScrollListener(new AbsListView.OnScrollListener() {
             public void onScrollStateChanged(AbsListView view, int scrollState) {
@@ -68,38 +71,25 @@ public class MainFragment extends android.support.v4.app.Fragment implements Ada
                                  int visibleItemCount, int totalItemCount) {
                 if (firstVisibleItem + visibleItemCount == totalItemCount) {
                     itemNumber++;
-                    new LoadAllProductsTask().execute();
+                    new LoadAllProductsTaskProduct().execute();
                 }
             }
         });
         return rootView;
     }
-    // генерируем данные для адаптера
-    void fillData() {
 
-        for (int i = 1; i <= 3; i++) {
-            mPoducts.add(new ProductDual(new Product(), new Product()));
-        }
-    }
-
-    @Override
-    public void someEvent(String view_id, String item_id) {
-        Log.i("getView2", "getView2");
-    }
-
-    class LoadAllProductsTask extends AsyncTask<String, String, String> {
-        // Сначала покажем диалоговое окно прогресса
-
+    class LoadAllProductsTaskProduct extends AsyncTask<String, String, String> {
         @Override
         protected String doInBackground(String... args) {
 
             List<NameValuePair> params = new ArrayList<NameValuePair>();
 
             params.add(new BasicNameValuePair("itemnumber", "" + itemNumber));
+            params.add(new BasicNameValuePair("idItem", "" + idItem));
 
             try {
                 // получим строку JSON из URL
-                JSONObject json = jParser.makeHttpRequest( Сonstants.url_all_products, "GET",
+                JSONObject json = jParser.makeHttpRequest( Сonstants.url_get_cproducts_from_category, "GET",
                         params);
                 int success = json.getInt(Сonstants.TAG_SUCCESS);
 
@@ -142,8 +132,8 @@ public class MainFragment extends android.support.v4.app.Fragment implements Ada
             return null;
         }
         protected void onPostExecute(String file_url) {
-           // pDialog.dismiss();
-            mainAdapter.notifyDataSetChanged();
+            // pDialog.dismiss();
+            adapterProduct.notifyDataSetChanged();
         }
     }
     // Задача в другом потоке для загрузки всех товаров через HTTP Request

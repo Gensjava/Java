@@ -5,7 +5,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -41,10 +40,12 @@ public class FragmentItem extends android.support.v4.app.Fragment  {
     public static String idItem;
     String kodItem;
     String description;
+    String wayImage;
+    String fullImage;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,  Bundle savedInstanceState) {
 
-        rootView = inflater.inflate(R.layout.actyvity_item, container,
+        rootView = inflater.inflate(R.layout.item_layout, container,
                 false);
         mMroducts.clear();
         fillData();
@@ -63,10 +64,10 @@ public class FragmentItem extends android.support.v4.app.Fragment  {
     }
     // генерируем данные для адаптера
     void fillData() {
-        for (int i = 1; i <= 5; i++) {
-            mMroducts.add(new Product("Product " + i, i * 1000,
-                    R.drawable.flatscreen));
-        }
+        GetProductDetailsTask ();
+       // for (int i = 1; i <= 5; i++) {
+            //mMroducts.add(new Product("Product " , "" ,R.drawable.flatscreen));
+       // }
     }
 
     // получения информации о товаре
@@ -100,27 +101,32 @@ public class FragmentItem extends android.support.v4.app.Fragment  {
                         price = p.getDouble(Сonstants.TAG_PRICE);
                         kodItem = p.getString(Сonstants.TAG_KOD);
                         description = p.getString(Сonstants.TAG_DISCRIPTION);
+                        wayImage = p.getString(Сonstants.TAG_WAY_IMAGE);
+                        fullImage = wayImage;
                         //Текущий товар
-                        Product currentProduct = new Product(name, description, idItem, kodItem, price);
+                        Product currentProduct = new Product(name, description, idItem, kodItem, price, fullImage);
+                        mMroducts.add(currentProduct);
                         //заказ
                         Сonstants.currentOrder = new Order("ID", currentProduct, Сonstants.currentProfile, "date", price, 1, 1 * price, StatusOrder.NEW);
-
+                        itemAdapter.notifyDataSetChanged();
                     } else {
                         // не нашли товар по pid
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+//
+//                TextView txtKod = (TextView) rootView.findViewById(R.id.item_text_kod);
+//                TextView txtName = (TextView) rootView.findViewById(R.id.item_text_name_product);
+//                TextView txtPrice = (TextView) rootView.findViewById(R.id.item_text_price);
+//                TextView txtDescription = (TextView) rootView.findViewById(R.id.item_text_full_discription);
+//                //
+//                txtKod.setText(kodItem);
+//                txtName.setText(name);
+//                txtPrice.setText(price+".0 грн.");
+//                txtDescription.setText(description);
 
-                TextView txtKod = (TextView) rootView.findViewById(R.id.item_text_kod);
-                TextView txtName = (TextView) rootView.findViewById(R.id.item_text_name_product);
-                TextView txtPrice = (TextView) rootView.findViewById(R.id.item_text_price);
-                TextView txtDescription = (TextView) rootView.findViewById(R.id.item_text_full_discription);
-                //
-                txtKod.setText(kodItem);
-                txtName.setText(name);
-                txtPrice.setText(price+".0 грн.");
-                txtDescription.setText(description);
+
             }
         }, new Response.ErrorListener() {
 

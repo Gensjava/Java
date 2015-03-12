@@ -87,10 +87,9 @@ public class AdapterPagerShare extends BaseAdapter {
     //заполняем инфой товар
     void fillGoods(View view, int position, Product p){
         ((TextView) view.findViewById(R.id.textView_itemOne)).setText( p.getName());
-         ((TextView) view.findViewById(R.id.textText_itemTwo)).setText(p.getName());
+         ((TextView) view.findViewById(R.id.textView_itemTwo)).setText(p.getName());
 
-
-         ((ImageView) view.findViewById(R.id.imageView_itemOne)).setImageResource(p.getImage());
+        ((ImageView) view.findViewById(R.id.imageView_itemOne)).setImageResource(p.getImage());
         ((ImageView) view.findViewById(R.id.imageView_itemTwo)).setImageResource(p.getImage());
 
     }

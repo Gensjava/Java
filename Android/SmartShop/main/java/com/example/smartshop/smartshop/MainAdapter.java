@@ -1,22 +1,22 @@
 package com.example.smartshop.smartshop;
 
 import android.content.Context;
-import android.os.Parcelable;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 import com.viewpagerindicator.CirclePageIndicator;
 
 import java.util.ArrayList;
+
+
+
 
 /**
  * Created by Gens on 21.02.2015.
@@ -64,28 +64,31 @@ public class MainAdapter extends BaseAdapter{
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         // используем созданные, но не используемые view
-        View view = convertView;
+        // View view = convertView;
 
         switch (position){
             case 0:
-                view = lInflater.inflate(R.layout.item_view_peger, parent, false);
+                convertView = lInflater.inflate(R.layout.item_view_peger, parent, false);
                 //заполняем рекламнный блок
-                ViewPager viewPager = (ViewPager) view.findViewById(R.id.view_pager);
+                ViewPager viewPager = (ViewPager) convertView.findViewById(R.id.view_pager);
 
-                fillPeger(view);
+                fillPeger(convertView);
+
 
                 viewPager.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         someEventListener = (onSomeEventListener) ctx;
                         someEventListener.someEvent("view_pager","");
+                      
                     }
                 });
                 break;
             case 1:
-                view = lInflater.inflate(R.layout.item_all_category, parent, false);
+                convertView = lInflater.inflate(R.layout.item_all_category, parent, false);
 
-                TextView textView = (TextView) view.findViewById(R.id.category_all_text);
+                TextView textView = (TextView) convertView.findViewById(R.id.category_all_text);
+                textView.setText("Все категории");
 
                 textView.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -98,8 +101,8 @@ public class MainAdapter extends BaseAdapter{
                 break;
             case 2:
 
-                view = lInflater.inflate(R.layout.item_group_category, parent, false);
-                view.setOnClickListener(new View.OnClickListener() {
+                convertView = lInflater.inflate(R.layout.item_group_category, parent, false);
+                convertView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         someEventListener = (onSomeEventListener) ctx;
@@ -109,121 +112,109 @@ public class MainAdapter extends BaseAdapter{
 
                 break;
             default:
-                
-                ProductDual p = getProduct(position);
-                
-                final String URL_ONE = p.getProductOne().getWayImage();
-                final String URL_TWO = p.getProductTwo().getWayImage();
-                
-                final String ITEM_ID_ONE = p.getProductOne().getId();
-                final String ITEM_ID_TWO = p.getProductTwo().getId();
-                
-                
-                view = lInflater.inflate(R.layout.item_listview, parent, false);
-                ImageView imageViewOne = (ImageView) view.findViewById(R.id.imageView_itemOne);
-               
-                Picasso.with(ctx)
-                        .load(URL_ONE)
-                        //.resize(128, 128)
-                        .into(imageViewOne , new Callback() {
-                            @Override
-                            public void onSuccess() {
+                convertView = null;
+                final ViewHolder viewHolder;
+                final ProductDual item = (ProductDual) getItem(position);
 
-                            }
+                if (convertView == null) {
+                    convertView = lInflater.inflate(R.layout.item_listview, parent, false);
 
-                            @Override
-                            public void onError() {
+                    viewHolder = new ViewHolder();
 
-                            }
-                        });
+                    viewHolder.textView_itemOne = (TextView) convertView.findViewById(R.id.textView_itemOne);
+                    viewHolder.textView_itemTwo = (TextView) convertView.findViewById(R.id.textView_itemTwo);
 
-                imageViewOne.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        someEventListener = (onSomeEventListener) ctx;
-                        someEventListener.someEvent("imageView_itemOne", ITEM_ID_ONE);
-                    }
-                });
+                    // viewHolder.imageView_itemOne = (ImageView) convertView.findViewById(R.id.imageView_itemOne);
+                    //viewHolder.imageView_itemTwo = (ImageView) convertView.findViewById(R.id.imageView_itemTwo);
 
-                ImageView imageViewTwo = (ImageView) view.findViewById(R.id.imageView_itemTwo);
+                    convertView.setTag(viewHolder);
+                } else {
+                    viewHolder = (ViewHolder) convertView.getTag();
+                }
 
-                Picasso.with(ctx)
-                        .load(URL_TWO)
-                        //.resize(128, 128)
-                        .into(imageViewTwo , new Callback() {
-                            @Override
-                            public void onSuccess() {
+                if(item != null){
 
-                            }
+                    final String URL_ONE = item.getProductOne().getWayImage();
+                    final String URL_TWO = item.getProductTwo().getWayImage();
 
-                            @Override
-                            public void onError() {
+                    final String ITEM_ID_ONE = item.getProductOne().getId();
+                    final String ITEM_ID_TWO =item.getProductTwo().getId();
 
-                            }
-                        });
-                imageViewTwo.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        someEventListener = (onSomeEventListener) ctx;
-                        someEventListener.someEvent("imageView_itemTwo", ITEM_ID_TWO);
-                    }
-                });
+                    ImageView imageViewOne = (ImageView) convertView.findViewById(R.id.imageView_itemOne);
 
-               
-                fillGoods( view,  position,  p);
+                    Picasso.with(ctx)
+                         .load(URL_ONE)
+                   // .resize(128, 128)
+                        .into(imageViewOne);
+
+                    ImageView imageViewTwo = (ImageView) convertView.findViewById(R.id.imageView_itemTwo);
+
+                    Picasso.with(ctx)
+                       .load(URL_TWO)
+                    //.resize(128, 128)
+                      .into(imageViewTwo);
+
+                    viewHolder.textView_itemOne.setText("Цена " + item.getProductOne().getPrice()+" грн. "+item.getProductOne().getId());
+                    viewHolder.textView_itemTwo.setText("Цена " + item.getProductTwo().getPrice()+" грн. "+item.getProductTwo().getId());
+
+                    //viewHolder.imageView_itemOne.setImageResource((imageViewOne)imageViewOne);
+                    //viewHolder.imageView_itemTwo.setImageResource(item.getProductTwo().getImage());
+
+                    //слушатели
+                    imageViewOne.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            someEventListener = (onSomeEventListener) ctx;
+                            someEventListener.someEvent("imageView_itemOne", ITEM_ID_ONE);
+                        }
+                    });
+
+                    imageViewTwo.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            someEventListener = (onSomeEventListener) ctx;
+                            someEventListener.someEvent("imageView_itemTwo", ITEM_ID_TWO);
+                        }
+                    });
+                }
+
                 break;
         }
-        return view;
+        return convertView;
     }
 
-    //заполняем инфой товар
-    void fillGoods(View view, int position, ProductDual p){
-        ((TextView) view.findViewById(R.id.textView_itemOne)).setText("Цена " + p.getProductOne().getPrice()+" грн. "+p.getProductOne().getId());
-        ((TextView) view.findViewById(R.id.textText_itemTwo)).setText("Цена " + p.getProductTwo().getPrice()+" грн. "+p.getProductTwo().getId());
+    private static class ViewHolder {
 
-        ((ImageView) view.findViewById(R.id.imageView_itemOne)).setImageResource(p.getProductOne().getImage());
-        ((ImageView) view.findViewById(R.id.imageView_itemTwo)).setImageResource(p.getProductTwo().getImage());
-
-//        ((TextView) view.findViewById(R.id.tvDescr)).setText(p.name);
-//        ((TextView) view.findViewById(R.id.tvPrice)).setText(p.price + "");"Цена " + price+" грн."
-        // ((ImageView) view.findViewById(R.id.ivImage)).setImageResource(p.image);
-//
-        //CheckBox cbBuy = (CheckBox) view.findViewById(R.id.cbBox);
-//        //присваиваем чекбоксу обработчик
-       // cbBuy.setOnCheckedChangeListener(myCheckChangList);
-//        // пишем позицию
-//        cbBuy.setTag(position);
-//        // заполняем данными из товаров: в корзине или нет
-//        cbBuy.setChecked(p.box);
+        public TextView textView_itemOne;
+        public TextView textView_itemTwo;
+        //public ImageView imageView_itemOne;
+        // public ImageView imageView_itemTwo;
     }
 
     //заполняем инфой рекламнный блок ViewPeger
     void fillPeger(View view){
-        rank = new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" };
+        rank = new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
+//
+        names = new String[] {Сonstants.url_main_peger +"mobilnye-telefony.jpg", Сonstants.url_main_peger +"bytovaya-tehnika.jpg", Сonstants.url_main_peger +"ipad-air-2.png", Сonstants.url_main_peger +"elektronnye-knigi.jpg", Сonstants.url_main_peger +"smart-service.com.ua.jpg",
+                Сonstants.url_main_peger +"tehnika-karcher.jpg", Сonstants.url_main_peger +"originalnye-aksessuary-bmw.jpg", Сonstants.url_main_peger +"naushniki.jpg", Сonstants.url_main_peger +"iphone-6.jpg" };
+//
+//        count = new String[] { "880", "760", "758", "702", "690", "674", "651",
+//                "649", "630" };
 
-        names = new String[] { "Васька", "Барсик", "Мурзик", "Рыжик", "Пушок",
-                "Снежок", "Борис", "Филя", "Сёма", "Кузя" };
 
-        count = new String[] { "880", "760", "758", "702", "690", "674", "651",
-                "649", "630", "625" };
-    
-        
         picture_resid = new int[] { R.drawable.flatscreen, R.drawable.flatscreen,
                 R.drawable.flatscreen, R.drawable.flatscreen, R.drawable.flatscreen,
                 R.drawable.flatscreen, R.drawable.flatscreen, R.drawable.flatscreen,
-                R.drawable.flatscreen, R.drawable.flatscreen };
+                R.drawable.flatscreen };
 
-        
-        
         viewPager = (ViewPager) view.findViewById(R.id.view_pager);
-        adapter = new AdapterViewPager(ctx, rank, names, count,
-                picture_resid);
-        viewPager.setAdapter(adapter);
-        viewPager.setCurrentItem(5);
+        adapter = new AdapterViewPager(ctx, rank, names, count, picture_resid);
         
+        viewPager.setAdapter(adapter);
+        viewPager.setCurrentItem(1);
+
         final CirclePageIndicator indicator = (CirclePageIndicator) view.findViewById(R.id.titles);
         indicator.setViewPager(viewPager);
-        
 
     }
 
@@ -232,73 +223,9 @@ public class MainAdapter extends BaseAdapter{
         return ((ProductDual) getItem(position));
     }
 
-    // содержимое корзины
-    ArrayList<Product> getBox() {
-        ArrayList<Product> box = new ArrayList<Product>();
-        for (ProductDual p : objects) {
-            // если в корзине
-           // if (p.mBox)
-               // box.add(p);
-        }
-        return box;
-    }
-
-    // обработчик для чекбоксов
-    CompoundButton.OnCheckedChangeListener myCheckChangList = new CompoundButton.OnCheckedChangeListener() {
-        public void onCheckedChanged(CompoundButton buttonView,
-                                     boolean isChecked) {
-            // меняем данные товара (в корзине или нет)
-          //  getProduct((Integer) buttonView.getTag()).mBox = isChecked;
-        }
-    };
-
     public interface onSomeEventListener {
         public void someEvent(String view_id, String item_id);
     }
 
-    public class SamplePagerAdapter extends PagerAdapter {
-
-        @Override
-        public Object instantiateItem(ViewGroup container, int position){
-            View imview = lInflater.inflate(R.layout.info_image, null);
-            ((ViewPager) container).addView(imview);
-            return imview;
-        }
-
-        public SamplePagerAdapter() {
-        }
-
-        @Override
-        public void destroyItem(ViewGroup container, int position, Object object){
-            ((ViewPager) container).removeView((View) object);
-        }
-
-        @Override
-        public int getCount(){
-            return 1;
-        }
-
-        @Override
-        public boolean isViewFromObject(View view, Object object){
-            return view.equals(object);
-        }
-
-        @Override
-        public void finishUpdate(View arg0){
-        }
-
-        @Override
-        public void restoreState(Parcelable arg0, ClassLoader arg1){
-        }
-
-        @Override
-        public Parcelable saveState(){
-            return null;
-        }
-
-        @Override
-        public void startUpdate(View arg0){
-        }
-    }
 }
 
