@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+
+
+    <Space
+        android:layout_width="100px"
+        android:layout_height="300px"
+        />
+
+    <MultiAutoCompleteTextView
+        android:id="@+id/profile_authorization_login"
+        android:layout_width="240dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:hint="Логин"
+        android:inputType="textEmailAddress"/>
+
+    <MultiAutoCompleteTextView
+        android:id="@+id/profile_authorization_password"
+        android:layout_width="240dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:hint="Пароль"
+        android:inputType="textPassword"/>
+
+    <Space
+        android:layout_width="20px"
+        android:layout_height="20px"
+        />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:orientation="horizontal">
+
+        <CheckBox
+            android:id="@+id/profile_authorization_checkBox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="false"
+            android:text="Показывать пароль"/>
+
+        <TextView
+            android:id="@+id/textView17"
+            android:layout_width="162dp"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:text="Забыли пароль"/>
+    </LinearLayout>
+
+    <Space
+        android:layout_width="20px"
+        android:layout_height="40px"
+        />
+
+    <Button
+        android:id="@+id/profile_authorization_input"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="147dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:background="#ff24bdff"
+        android:text="Войти"
+        />
+
+</LinearLayout>

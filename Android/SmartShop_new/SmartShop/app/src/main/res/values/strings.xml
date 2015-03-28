@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">SmartShop</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+
+    <string-array name="screen_array">
+        <item>Янчев Геннадий Михайлович</item>
+        <item>Главная</item>
+        <item>Корзина</item>
+        <item>Контакты</item>
+        <item>Настройки</item>
+        <item>О программе</item>
+
+    </string-array>
+    <string name="drawer_open">Open navigation drawer</string>
+    <string name="drawer_close">Close navigation drawer</string>
+
+    <string name="screen_one">Screen one</string>
+    <string name="screen_two">Screen two</string>
+    <string name="screen_three">Screen three</string>
+    <string name="screen_four">Screen four</string>
+    <string name="screen_five">Screen five</string>
+    <string name="screen_six">Screen six</string>
+    <string name="menu_search">search</string>
+</resources>

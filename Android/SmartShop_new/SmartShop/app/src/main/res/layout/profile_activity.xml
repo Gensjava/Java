@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TabHost android:id="@android:id/tabhost"
+         xmlns:android="http://schemas.android.com/apk/res/android"
+         xmlns:tools="http://schemas.android.com/tools"
+         android:layout_width="match_parent"
+         android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/profile_authorization_LinearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TabWidget
+            android:id="@android:id/tabs"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        </TabWidget>
+
+        <FrameLayout
+            android:id="@android:id/tabcontent"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:id="@+id/profile_tab1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <fragment
+                    android:id="@+id/profile_authorization_fragment"
+                    android:name="com.example.smartshop.smartshop.ProfileAuthorizationFragment"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    tools:layout="@layout/profile_authorization"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/profile_tab2"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <fragment
+                    android:id="@+id/profile_registration_fragment"
+                    android:name="com.example.smartshop.smartshop.ProfileRegistrationFragment"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    tools:layout="@layout/profile_authorization"/>
+            </LinearLayout>
+
+        </FrameLayout>
+    </LinearLayout>
+
+</TabHost>
