@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent" android:layout_height="match_parent"
+              android:orientation="horizontal"
+              android:weightSum="1">
+
+    <GridLayout
+        android:id="@+id/GridLayout_item"
+        android:layout_width="fill_parent"
+        android:layout_height="256dp"
+        android:columnCount="6"
+        android:rowCount="4"
+        >
+
+        <Button
+            android:id="@+id/imageView_itemOne"
+            android:layout_width="157dp"
+            android:layout_height="120dp"
+            android:layout_column="0"
+            android:layout_row="0"
+            android:background="@android:color/background_light"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:scaleType="fitCenter"
+            android:text="В пути"/>
+
+
+        <Button
+            android:id="@+id/imageView_itemTwo"
+            android:layout_width="157dp"
+            android:layout_height="120dp"
+            android:layout_column="5"
+            android:layout_row="0"
+            android:background="@android:color/background_light"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:scaleType="fitCenter"
+            android:text="Оплачено"
+            />
+
+
+        <Button
+            android:id="@+id/imageView_itemOne1"
+            android:layout_width="157dp"
+            android:layout_height="120dp"
+            android:layout_column="0"
+            android:layout_row="3"
+            android:background="@android:color/background_light"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:scaleType="fitCenter"
+            android:text="Новый"/>
+
+        <Button
+            android:id="@+id/imageView_itemTwo1"
+            android:layout_width="157dp"
+            android:layout_height="120dp"
+            android:layout_column="5"
+            android:layout_row="3"
+            android:background="@android:color/background_light"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:scaleType="fitCenter"
+            android:text="Отмена"
+            />
+
+
+    </GridLayout>
+</LinearLayout>

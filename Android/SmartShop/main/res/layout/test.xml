@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:gravity="center_vertical|center_horizontal"
+    android:orientation="vertical">
+    <TableLayout
+        android:id="@+id/layout_catalog"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TableRow>
+            <ImageView
+                android:id="@+id/notebooks"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                android:src="@drawable/notebooks"/>
+
+            <ImageView
+                android:id="@+id/tablets"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                android:src="@drawable/tablets"/>
+        </TableRow>
+
+        <TableRow>
+            <ImageView
+                android:id="@+id/software"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                android:src="@drawable/software"/>
+
+            <ImageView
+                android:id="@+id/computers"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                android:src="@drawable/computers"/>
+        </TableRow>
+
+        <TableRow>
+            <ImageView
+                android:id="@+id/monitors"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                android:src="@drawable/monitors"/>
+
+            <ImageView
+                android:id="@+id/computerparts"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                android:src="@drawable/computerparts"/>
+        </TableRow>
+
+
+    </TableLayout>
+</LinearLayout>
