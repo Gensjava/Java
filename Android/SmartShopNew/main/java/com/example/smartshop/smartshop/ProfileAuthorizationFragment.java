@@ -112,8 +112,12 @@ public class ProfileAuthorizationFragment extends android.support.v4.app.Fragmen
                //делаем проверу логина и пароля
                 if (mValues.get(Сonstants.TAG_USER_NAME).equals(AccountName) && mValues.get(Сonstants.TAG_PASWWORD).equals(AccountPassword)){
                     mAuthorizationUser = true;
+                    Profile.mUserName = AccountName;
+                    Profile.mAuthorization = mAuthorizationUser;
                 } else {
                     mAuthorizationUser = false;
+                    Profile.mUserName = null;
+                    Profile.mAuthorization = mAuthorizationUser;
                 }
 
             } else {

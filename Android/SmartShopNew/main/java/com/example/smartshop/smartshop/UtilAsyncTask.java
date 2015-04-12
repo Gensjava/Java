@@ -75,8 +75,11 @@ public class UtilAsyncTask extends AsyncTask<String, String, String> {
             if (json == null){
                 return null;
             }
-
+            Log.i("mJParser",""+json.toString());
             int success = json.getInt(Сonstants.TAG_SUCCESS);
+           /// String cod = json.getString("dd");
+
+            //Log.i("mJParser",""+cod.toString());
 
             if (success == 1) {     // товар найден
 

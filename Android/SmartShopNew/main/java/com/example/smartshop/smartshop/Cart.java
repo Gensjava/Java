@@ -15,7 +15,7 @@ public class Cart {
     private double mNumber;
     private double mSum;
     static double mTotal;
-    private static ArrayList<Cart> mCart = new ArrayList<Cart>();
+    public static ArrayList<Cart> mCart = new ArrayList<Cart>();
 
     public Cart(Product product, Profile profile, String date, double price, double number, double sum) {
         mProduct = product;

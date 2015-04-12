@@ -142,6 +142,8 @@ public class ProducttItemFragmen extends android.support.v4.app.Fragment impleme
                         Cart cart = new Cart(product, Сonstants.profile, String.valueOf(getDate()), product.getPrice(), numberInDialog, product.getPrice() * numberInDialog);
                         Cart.setmCart(cart);
                         dialog.cancel();
+
+
                     }
                 })
                 .setNegativeButton("Отмена", null);

@@ -7,18 +7,21 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 import com.viewpagerindicator.CirclePageIndicator;
 
+import org.json.JSONArray;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
-public class MainAdapter extends BaseAdapter{
+public class MainAdapter extends BaseAdapter  {
 
     private Context ctx;
     private LayoutInflater lInflater;
@@ -83,7 +86,10 @@ public class MainAdapter extends BaseAdapter{
 
                 break;
             case 2:
-                convertView = lInflater.inflate(R.layout.main_category, parent, false);
+                convertView = lInflater.inflate(R.layout.main_grid, parent, false);
+
+                GridView cridView = (GridView) convertView.findViewById(R.id.main_grid_view);
+                cridView.setAdapter(new ImageTextAdapter(ctx,fillGridView()));
 
                 break;
             case 3:
@@ -231,6 +237,28 @@ public class MainAdapter extends BaseAdapter{
         }
 
         return categoryProduct;
+    }
+
+    private ArrayList<CategoryProduct> fillGridView() {
+
+        ArrayList<CategoryProduct> mCategory = new ArrayList<>();
+
+        mCategory.add(new CategoryProduct("2984","Apple Store\n\n",R.drawable.apple));
+        mCategory.add(new CategoryProduct("3092","Телефоны и планшеты\n",R.drawable.ipad));
+        mCategory.add(new CategoryProduct("700","Бытовая техника\n\n",R.drawable.consumer_electronics));
+        mCategory.add(new CategoryProduct("140","ТВ / Аудио / Видео / Фото\n",R.drawable.tv));
+        mCategory.add(new CategoryProduct("2635","Ноутбуки и компьютерная техника",R.drawable.laptop));
+        mCategory.add(new CategoryProduct("5596","Портативная техника\n",R.drawable.portable_equipment));
+        mCategory.add(new CategoryProduct("3045","Автотовары\n\n",R.drawable.avto));
+        mCategory.add(new CategoryProduct("4032","Детский мир\n\n",R.drawable.children));
+
+        return mCategory;
+    }
+
+    public void updateData(JSONArray jsonArray) {
+        // update the adapter's dataset
+        //mJsonArray = jsonArray;
+        notifyDataSetChanged();
     }
 }
 

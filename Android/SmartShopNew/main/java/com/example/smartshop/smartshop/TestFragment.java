@@ -1,16 +1,26 @@
 package com.example.smartshop.smartshop;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.loopj.android.http.JsonHttpResponseHandler;
 
 import org.apache.http.NameValuePair;
+import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -19,33 +29,41 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ExecutionException;
 
 /**
  * Created by Gens on 02.03.2015.
  */
 
-public class MainFragment extends android.support.v4.app.Fragment {
+public class TestFragment extends android.support.v4.app.Fragment  {
 
-    private int itemNumber = 1;
     private ArrayList<ProductDual> mPoducts = new ArrayList<ProductDual>();
-    private MainAdapter mMainAdapter;
-    private ListView lvMain;
+    private List<HashMap> mArrayValues;
+    private ProductAdapter adapterPagerShare;
+    private int itemNumber = 1;
+    private String mItem_id;
+    private String mUrl;
     private Product ProductOne;
     private Product ProductTwo;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.main_list, container,
                 false);
 
-        //
-        mMainAdapter = new  MainAdapter(getActivity(), mPoducts);
+        if (mPoducts.size() == 0){
+            Bundle bundle = getArguments();
+            if (bundle != null) {
+                mItem_id = bundle.getString(Сonstants.VALUE_KEY_ITEM_ID);
+                mUrl = bundle.getString(MainActivity.URL_KEY);
+            }
+        }
+        adapterPagerShare = new ProductAdapter(getActivity(), mPoducts);
+
         // настраиваем список
-        lvMain = (ListView) rootView.findViewById(R.id.lvMain);
-        //
-        lvMain.setAdapter(mMainAdapter);
+        ListView lvMain = (ListView) rootView.findViewById(R.id.lvMain);
+        lvMain.setAdapter(adapterPagerShare);
 
         lvMain.setOnScrollListener(new AbsListView.OnScrollListener() {
             public void onScrollStateChanged(AbsListView view, int scrollState) {
@@ -53,21 +71,24 @@ public class MainFragment extends android.support.v4.app.Fragment {
             }
             public void onScroll(AbsListView view, int firstVisibleItem,
                                  int visibleItemCount, int totalItemCount) {
+                if (firstVisibleItem + visibleItemCount == totalItemCount) {
 
-                if (firstVisibleItem + visibleItemCount == totalItemCount ) {
+                    Log.i("onScroll ","mItem_id "+mItem_id+" itemNumber  "+itemNumber +" firstVisibleItem "+firstVisibleItem +" visibleItemCount " + visibleItemCount+" totalItemCount " + totalItemCount);
+
                     itemNumber  ++;
                     //
-                    String mUrl = Сonstants.url_all_products;
-                    HashMap<String, String> mParamsUrl = Product.getParamsUrlNumber(itemNumber);
+                    HashMap<String, String> params= new HashMap<String, String>();
+                    params.put(Сonstants.VALUE_KEY_ITEM_ID, mItem_id);
+                    params.put(Сonstants.VALUE_KEY_ITEM_NUMBER, String.valueOf(itemNumber));
                     //
-                    UtilAsyncHttpClient utilAsyncTask = new UtilAsyncHttpClient( mParamsUrl, mUrl, getTag(), TypeRequest.GET ,getActivity()) ;
+                    UtilAsyncHttpClient utilAsyncTask = new UtilAsyncHttpClient( params, mUrl, getTag(), TypeRequest.GET ,getActivity()) ;
                     utilAsyncTask.getAsyncArrayValues();
                 }
             }
         });
+
         return rootView;
     }
-
     void executeArrayValues(final JSONArray mPJSONArray)  {
 
         try {
@@ -94,9 +115,10 @@ public class MainFragment extends android.support.v4.app.Fragment {
                 }
             }
             mPoducts.add(new ProductDual(ProductOne, ProductTwo));
-            mMainAdapter.notifyDataSetChanged();
+            adapterPagerShare.notifyDataSetChanged();
         } catch (JSONException e) {
             e.printStackTrace();
         }
     }
+
 }

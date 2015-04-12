@@ -125,7 +125,6 @@ public class Profile {
                 mAccountManager.setPassword(account, password);
             }
         }
-
     }
 
     public static boolean  getAllAccount(Context context){
@@ -166,14 +165,6 @@ public class Profile {
         tags[7] = Сonstants.TAG_PID;
 
         return  tags;
-    }
-    public static HashMap<String, String> getParamsUrl(String idItem){
-
-        HashMap<String, String> params = new HashMap<String, String>();
-
-        params.put("username","gens");
-        params.put("username","password");
-        return params;
     }
 
 }

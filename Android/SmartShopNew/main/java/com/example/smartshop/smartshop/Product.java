@@ -131,4 +131,10 @@ public class Product implements Serializable {
         params.put(Сonstants.VALUE_KEY_ITEM_ID, idItem);
         return params;
     }
+    public static HashMap<String, String>  getParamsUrlNumber(int itemNumber){
+
+        HashMap<String, String> params = new HashMap<String, String>();
+        params.put(Сonstants.VALUE_KEY_ITEM_NUMBER, String.valueOf(itemNumber));
+        return params;
+    }
 }

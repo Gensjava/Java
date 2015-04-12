@@ -2,6 +2,7 @@ package com.example.smartshop.smartshop;
 
 import android.app.ActionBar;
 import android.app.Fragment;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
@@ -28,6 +29,7 @@ public class CartActivity extends ActionBarActivity implements CartAdapter.onSom
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.cart_activity);
+        setRequestedOrientation (ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         tabs = (TabHost) findViewById(android.R.id.tabhost);
 

@@ -1,7 +1,12 @@
 package com.example.smartshop.smartshop;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
+import android.graphics.Rect;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.Fragment;
@@ -10,6 +15,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 
 import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -17,7 +23,11 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.SearchView;
+import android.widget.TextView;
+import android.widget.Toast;
 
+
+import org.json.JSONArray;
 
 import java.util.HashMap;
 import java.util.List;
@@ -32,7 +42,11 @@ public class MainActivity extends ActionBarActivity  implements
         MainPagerAdapter.onSomeEventListener,
         View.OnClickListener,
         CategoryAdapter.onSomeEventListener,
-        ProductAdapter.onSomeEventListener
+        ProductAdapter.onSomeEventListener,
+        AdapterView.OnItemSelectedListener,
+        UtilAsyncHttpClient.onSomeEventListenerAsync,
+
+        ImageTextAdapter.onSomeEventListener
 
 {
 
@@ -51,11 +65,15 @@ public class MainActivity extends ActionBarActivity  implements
     //
     private Fragment fragment;
     private android.support.v4.app.FragmentTransaction ft;
-    boolean openMain;
+    private boolean openMain;
+    private int hot_number = 5;
+    private TextView ui_hot = null;
+
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        setRequestedOrientation (ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         mTitle = mDrawerTitle = getTitle();
         mScreenTitles = getResources().getStringArray(R.array.screen_array);
@@ -117,7 +135,9 @@ public class MainActivity extends ActionBarActivity  implements
             case R.id.cart_make_order:
                 someEvent( CartFragment.ACTION_GART_FRAGMENT,  null);
                 break;
-            case R.id.ImageViewcart:
+            case R.id.hotlist_bell:
+
+                updateHotCount(Cart.mCart.size());
 
                 if (!Profile.mAuthorization){
                     Profile.startAuthorization(this);
@@ -125,10 +145,23 @@ public class MainActivity extends ActionBarActivity  implements
                     selectItem(2);
                 }
                 break;
+            //someEvent(ACTION_ONCLIK_ITEM_CATEGORY_ADAPTER,item.getId());
             default:
                 break;
         }
     }
+
+    @Override
+    public void onItemSelected(final AdapterView<?> parent, final View view, final int position, final long id) {
+        // mSelectText.setText("Выбранный элемент: " + mAdapter.GetItem(position));
+    }
+
+    @Override
+    public void onNothingSelected(final AdapterView<?> parent) {
+//        mSelectText.setText("Выбранный элемент: ничего");
+    }
+
+
 
     /* The click listener for ListView in the navigation drawer */
     private class DrawerItemClickListener implements ListView.OnItemClickListener {
@@ -199,16 +232,35 @@ public class MainActivity extends ActionBarActivity  implements
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu;
+        final MenuItem customCart = menu.add(0, R.id.menu_hotlist, 0,"");
+        customCart.setActionView(R.layout.action_bar_notifitcation_icon);
+        customCart.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+        final View menu_hotlist = menu.findItem(R.id.menu_hotlist).getActionView();
+
+        ui_hot = (TextView) menu_hotlist.findViewById(R.id.hotlist_hot);
+
+        updateHotCount(hot_number);
+        new MyMenuItemStuffListener(menu_hotlist, "Show hot message") {
+            @Override
+            public void onClick(View v) {
+                //onHotlistSelected();
+            }
+        };
+        final MenuItem menuItemCart = menu.findItem(R.id.menu_hotlist);
+        final View actionViewCart = menuItemCart.getActionView();
+
+        final View ButtonCart = actionViewCart.findViewById(R.id.hotlist_bell);
+        ButtonCart.setOnClickListener(this);
+
+        //////////////////////////////////////////////////////////////////////////////////
 
         final MenuItem custom = menu.add(0, R.id.menu_custom, 0,"");
-        custom.setActionView(R.layout.action_bar_custom);
+        custom.setActionView(R.layout.main_action_bar_custom);
         custom.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
 
         final MenuItem menuItem = menu.findItem(R.id.menu_custom);
         final View actionView = menuItem.getActionView();
 
-        final View ButtonCart = actionView.findViewById(R.id.ImageViewcart);
-        ButtonCart.setOnClickListener(this);
 
         final SearchView ButtonSearch = (SearchView) actionView.findViewById(R.id.searchView);
         ButtonSearch.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -229,6 +281,7 @@ public class MainActivity extends ActionBarActivity  implements
         return super.onCreateOptionsMenu(menu);
 
     }
+
     /* Called whenever we call invalidateOptionsMenu() */
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
@@ -248,17 +301,21 @@ public class MainActivity extends ActionBarActivity  implements
         return true;
     }
     @Override
-    public void someEvent(String view_id, String idItem) {
+    public void someEvent(final String key, final String value) {
 
-        switch (view_id) {// обрабатывам клик на товар
+        switch (key) {// обрабатывам клик на товар
 
             case MainAdapter.ACTION_ITEM_ONE:
             case MainAdapter.ACTION_ITEM_TWO:
             case ProductAdapter.ACTION_ITEM_ONE_PRODUCT:
             case ProductAdapter.ACTION_ITEM_TWO_PRODUCT:
 
+
                 //получаем список товаров
-                List<HashMap> mArrayValues = getArrListData(Product.getTegs(), Product.getParamsUrl(idItem), TypeRequest.GET, Сonstants.url_details_product);
+                List<HashMap> mArrayValues = getArrListData(Product.getTegs(), Product.getParamsUrl(value), TypeRequest.GET, Сonstants.url_details_product);
+
+                //JSONArray mArrayValues1 = getArrListDataTest(Product.getParamsUrl(value), Сonstants.url_details_product, null ,TypeRequest.GET );
+                //HashMap<String, String> params,String url, String tags, TypeRequest typeRequest
                 if(!(mArrayValues == null)){
                     if(!(mArrayValues.size() == 0)){
                         fragment = new ProducttItemFragmen();
@@ -274,7 +331,7 @@ public class MainActivity extends ActionBarActivity  implements
                 fragment = new ProductDiscriptionFragment();
 
                 Bundle bundleDiscription = new Bundle();
-                bundleDiscription.putString(Сonstants.VALUE_KEY_ITEM_ID, idItem);
+                bundleDiscription.putString(Сonstants.VALUE_KEY_ITEM_ID, value);
                 fragment.setArguments(bundleDiscription);
 
                 break;
@@ -287,13 +344,13 @@ public class MainActivity extends ActionBarActivity  implements
             case MainPagerAdapter.ACTION_ONCLIK_ITEM_PEGER_ADAPTER://работает
 
                 //получаем список товаров
-                mArrayValues = getArrListData(MainPagerAdapter.getTegs(), MainPagerAdapter.getParamsUrl(idItem), TypeRequest.GET, Сonstants.url_get_slider_main_page_category);
+                mArrayValues = getArrListData(MainPagerAdapter.getTegs(), MainPagerAdapter.getParamsUrl(value), TypeRequest.GET, Сonstants.url_get_slider_main_page_category);
 
                 if(!(mArrayValues == null)){
                     if(!(mArrayValues.size() == 0)){
                         fragment = new ProductFragment();
                         Bundle bundle = new Bundle();
-                        bundle.putSerializable(Сonstants.VALUE_KEY_ITEM_ID, idItem);
+                        bundle.putSerializable(Сonstants.VALUE_KEY_ITEM_ID, value);
                         bundle.putString(URL_KEY, Сonstants.url_get_slider_main_page_category);
                         fragment.setArguments(bundle);
                     } else {
@@ -304,13 +361,13 @@ public class MainActivity extends ActionBarActivity  implements
             case ACTION_SEARCH://работает
 
                 //получаем список товаров
-                mArrayValues = getArrListData(MainPagerAdapter.getTegs(), MainPagerAdapter.getParamsUrl(idItem), TypeRequest.GET,Сonstants.url_get_search_products_two);
+                mArrayValues = getArrListData(MainPagerAdapter.getTegs(), MainPagerAdapter.getParamsUrl(value), TypeRequest.GET,Сonstants.url_get_search_products_two);
 
                 if(!(mArrayValues == null)){
                     if(!(mArrayValues.size() == 0)){
                         fragment = new ProductFragment();
                         Bundle bundle = new Bundle();
-                        bundle.putSerializable(Сonstants.VALUE_KEY_ITEM_ID, idItem);
+                        bundle.putSerializable(Сonstants.VALUE_KEY_ITEM_ID, value);
                         bundle.putString(URL_KEY, Сonstants.url_get_search_products_two);
                         fragment.setArguments(bundle);
                     } else {
@@ -319,9 +376,10 @@ public class MainActivity extends ActionBarActivity  implements
                 }
                 break;
             case CategoryAdapter.ACTION_ONCLIK_ITEM_CATEGORY_ADAPTER://работает
+            case ImageTextAdapter.ACTION_ONCLIK_ITEM_CATEGORY_ADAPTER_MAIN://работает
 
                 //получаем список товаров
-                mArrayValues = getArrListData(CategoryProduct.getTegs(), CategoryProduct.getParamsUrl(idItem), TypeRequest.GET,Сonstants.url_get_category_products);
+                mArrayValues = getArrListData(CategoryProduct.getTegs(), CategoryProduct.getParamsUrl(value), TypeRequest.GET,Сonstants.url_get_category_products);
 
                 if(!(mArrayValues == null)){
                     if(!(mArrayValues.size() == 0)){
@@ -332,13 +390,13 @@ public class MainActivity extends ActionBarActivity  implements
                     } else {
 
                         //получаем список товаров
-                        mArrayValues = getArrListData(MainPagerAdapter.getTegs(), MainPagerAdapter.getParamsUrl(idItem), TypeRequest.GET,Сonstants.url_get_cproducts_from_category);
+                        mArrayValues = getArrListData(MainPagerAdapter.getTegs(), MainPagerAdapter.getParamsUrl(value), TypeRequest.GET,Сonstants.url_get_cproducts_from_category);
 
                         if(!(mArrayValues == null)){
                             if(!(mArrayValues.size() == 0)){
                                 fragment = new ProductFragment();
                                 Bundle bundle = new Bundle();
-                                bundle.putString(Сonstants.VALUE_KEY_ITEM_ID, idItem);
+                                bundle.putString(Сonstants.VALUE_KEY_ITEM_ID, value);
                                 bundle.putString(URL_KEY, Сonstants.url_get_cproducts_from_category);
                                 fragment.setArguments(bundle);
                             } else {
@@ -366,9 +424,9 @@ public class MainActivity extends ActionBarActivity  implements
                 ft.setCustomAnimations(R.anim.slide_in_left, R.anim.slide_in_right);
                 openMain = false;
             } else {
-                ft.addToBackStack(fragment.toString());
+                ft.addToBackStack(fragment.getClass().toString());
             }
-            ft.replace(R.id.content_frame, fragment);
+            ft.replace(R.id.content_frame, fragment,fragment.getClass().toString());
             ft.commit();
 
         } else {
@@ -392,6 +450,96 @@ public class MainActivity extends ActionBarActivity  implements
             e.printStackTrace();
         }
         return mArrayValues;
+    }
+
+    private JSONArray getArrListDataTest(HashMap<String, String> params,String url, String tags, TypeRequest typeRequest  ) {
+
+        UtilSyncHttpClient utilSyncTask = new UtilSyncHttpClient(params, url , tags , typeRequest,this);
+
+        Log.i("getArrListDataTest ","0");
+
+        JSONArray mArrayValues =  utilSyncTask.getSyncArrayValues();
+
+        Log.i("getArrListDataTest ","3  "+mArrayValues.length());
+
+        return mArrayValues;
+    }
+    public boolean isOnline() {
+        ConnectivityManager cm =
+                (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        return netInfo != null && netInfo.isConnectedOrConnecting();
+    }
+
+    @Override
+    public void someEventAsync(final String tag, final JSONArray valueJSONArray ) {
+        // Log.i("getArrListDataTest ","2  "+value);
+        switch (tag){
+            case "class com.example.smartshop.smartshop.MainFragment":
+                MainFragment Mfragment = (MainFragment) getSupportFragmentManager().findFragmentByTag(tag);
+                if (Mfragment != null) {
+                    Mfragment.executeArrayValues(valueJSONArray);
+                }
+                break;
+            case "class com.example.smartshop.smartshop.ProductFragment":
+                ProductFragment Prfragment = (ProductFragment) getSupportFragmentManager().findFragmentByTag(tag);
+                if (Prfragment != null) {
+                    Prfragment.executeArrayValues(valueJSONArray);
+                }
+                default:
+                    break;
+
+        }
+
+    }
+    static abstract class MyMenuItemStuffListener implements View.OnClickListener, View.OnLongClickListener {
+        private String hint;
+        private View view;
+
+        MyMenuItemStuffListener(View view, String hint) {
+            this.view = view;
+            this.hint = hint;
+            view.setOnClickListener(this);
+            view.setOnLongClickListener(this);
+        }
+
+        @Override abstract public void onClick(View v);
+
+        @Override public boolean onLongClick(View v) {
+            final int[] screenPos = new int[2];
+            final Rect displayFrame = new Rect();
+            view.getLocationOnScreen(screenPos);
+            view.getWindowVisibleDisplayFrame(displayFrame);
+            final Context context = view.getContext();
+            final int width = view.getWidth();
+            final int height = view.getHeight();
+            final int midy = screenPos[1] + height / 2;
+            final int screenWidth = context.getResources().getDisplayMetrics().widthPixels;
+            Toast cheatSheet = Toast.makeText(context, hint, Toast.LENGTH_SHORT);
+            if (midy < displayFrame.height()) {
+                cheatSheet.setGravity(Gravity.TOP | Gravity.RIGHT,
+                        screenWidth - screenPos[0] - width / 2, height);
+            } else {
+                cheatSheet.setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, height);
+            }
+            cheatSheet.show();
+            return true;
+        }
+    }
+    public void updateHotCount(final int new_hot_number) {
+        hot_number = new_hot_number;
+        if (ui_hot == null) return;
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if (Cart.mCart.size() == 0)
+                    ui_hot.setVisibility(View.INVISIBLE);
+                else {
+                    ui_hot.setVisibility(View.VISIBLE);
+                    ui_hot.setText(Integer.toString(new_hot_number));
+                }
+            }
+        });
     }
 
 }

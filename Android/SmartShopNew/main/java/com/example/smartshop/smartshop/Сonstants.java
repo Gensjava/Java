@@ -12,19 +12,23 @@ import java.util.ArrayList;
     public static final String url_main_way_image = url_main + "/photo/product/";
     public static final String url_main_peger = url_main + "/images/main/";
 
+    private static final String is_server = "http://smart-shop.ua/JHVafnmJKH/";
+    //http://10.0.3.2/denwer/
+    //http://smart-shop.ua/JHVafnmJKH/
+
     // адреса
-    public static final String url_all_products = "http://10.0.3.2/denwer/a_get_all_products_two.php";
-    public static final String url_details_product = "http://10.0.3.2/denwer/a_get_product_details.php";
-    public static final String url_product_description = "http://10.0.3.2/denwer/a_get_product_description.php";
-    public static final String url_get_category_products = "http://10.0.3.2/denwer/a_get_category_products.php";
-    public static final String url_get_cproducts_from_category = "http://10.0.3.2/denwer/a_get_all_products_from_category.php";
-    public static final String url_get_slider_main_page = "http://10.0.3.2/denwer/a_get_slider_main_page.php";
-    public static final String url_get_slider_main_page_category = "http://10.0.3.2/denwer/a_get_slider_main_page_category.php";
-    public static final String url_get_category_product_file_imege = "http://10.0.3.2/denwer/a_get_category_product_file_imege.php";
-    public static final String url_set_user_registration = "http://10.0.3.2/denwer/a_set_user_registration.php";
-    public static final String url_get_user_authorization = "http://10.0.3.2/denwer/a_get_user_authorization.php";
-    public static final String url_get_search_products_two = "http://10.0.3.2/denwer/a_get_search_products_two.php";
-    public static final String url_get_user = "http://10.0.3.2/denwer/a_get_user.php"; //получаем данные по пользовавтелю и  статусы заказов
+    public static final String url_all_products = is_server+"a_get_all_products_two.php";
+    public static final String url_details_product = is_server+"a_get_product_details.php";
+    public static final String url_product_description = is_server+"a_get_product_description.php";
+    public static final String url_get_category_products = is_server+"a_get_category_products.php";
+    public static final String url_get_cproducts_from_category = is_server+"a_get_all_products_from_category.php";
+    public static final String url_get_slider_main_page = is_server+"a_get_slider_main_page.php";
+    public static final String url_get_slider_main_page_category = is_server+"a_get_slider_main_page_category.php";
+    public static final String url_get_category_product_file_imege = is_server+"a_get_category_product_file_imege.php";
+    public static final String url_set_user_registration = is_server+"a_set_user_registration.php";
+    public static final String url_get_user_authorization = is_server+"a_get_user_authorization.php";
+    public static final String url_get_search_products_two = is_server+"a_get_search_products_two.php";
+    public static final String url_get_user = is_server+"a_get_user.php"; //получаем данные по пользовавтелю и  статусы заказов
     //public static final String url_get_cproducts_from_category = "http://10.0.2.2/denwer/get_all_products_from_category.php";
 
     // Имена узлов JSON

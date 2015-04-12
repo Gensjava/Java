@@ -1,6 +1,7 @@
 package com.example.smartshop.smartshop;
 
 
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
@@ -16,7 +17,7 @@ public class ProfileActivity extends ActionBarActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        setRequestedOrientation (ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         if(!Profile.mAuthorization){
 
             setContentView(R.layout.profile_activity);
