@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout android:id="@+id/item_products_peger"
-
               xmlns:android="http://schemas.android.com/apk/res/android"
+
+              xmlns:app="http://schemas.android.com/apk/res-auto"
               android:layout_width="fill_parent"
               android:layout_height="wrap_content"
+              android:background="@android:color/background_light"
               android:gravity="center"
               android:orientation="vertical">
 
@@ -11,13 +13,19 @@
         android:id="@+id/item_pager_product"
         android:layout_width="fill_parent"
         android:layout_height="280dp"
+
         android:background="@android:color/background_light"/>
+
     <com.viewpagerindicator.CirclePageIndicator
         android:id="@+id/indicator_item_titles"
-        android:layout_width="match_parent"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_above="@+id/bottom_lauout"
-        android:layout_marginBottom="50dp"/>
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_weight="7.50"
+        android:padding="3dp"
+        app:fillColor="#88FF0000"/>
 
     <TextView
         android:id="@+id/item_text_name_product"
@@ -74,7 +82,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scrollbars="vertical"
-        android:text="full discription"
+        android:text="Краткое описание"
         />
 
     <TextView

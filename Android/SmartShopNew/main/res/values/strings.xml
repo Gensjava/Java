@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">SmartShop</string>
+    <string name="app_name">Smart-shop</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
 
@@ -24,4 +24,6 @@
     <string name="screen_five">Screen five</string>
     <string name="screen_six">Screen six</string>
     <string name="menu_search">search</string>
+    <string name="hello">hello</string>
+    <string name="hotlist">hotlist</string>
 </resources>

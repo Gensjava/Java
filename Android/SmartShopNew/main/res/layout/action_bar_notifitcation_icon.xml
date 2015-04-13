@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout style="@android:style/Widget.ActionButton"
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="60dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center"
+                android:clickable="true"
+                android:gravity="center"
+                android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/hotlist_bell"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_margin="0dp"
+        android:contentDescription="bell"
+        android:gravity="center"
+        android:src="@drawable/ic_bell"
+        />
+
+    <TextView android:id="@+id/hotlist_hot"
+              xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_alignRight="@id/hotlist_bell"
+              android:layout_alignTop="@id/hotlist_bell"
+              android:layout_marginRight="0dp"
+              android:layout_marginTop="3dp"
+              android:background="@drawable/rounded_square"
+              android:gravity="center"
+              android:minWidth="19sp"
+              android:paddingBottom="1dp"
+              android:paddingLeft="4dp"
+              android:paddingRight="4dp"
+              android:text="@null"
+              android:textColor="#ffffffff"
+              android:textSize="12sp"/>
+</RelativeLayout>
