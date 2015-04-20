@@ -29,7 +29,7 @@
 
                 <fragment
                     android:id="@+id/profile_authorization_fragment"
-                    android:name="com.example.smartshop.smartshop.ProfileAuthorizationFragment"
+                    android:name="ua.smartshop.Fragments.ProfileAuthorizationFragment"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     tools:layout="@layout/profile_authorization"/>
@@ -42,7 +42,7 @@
 
                 <fragment
                     android:id="@+id/profile_registration_fragment"
-                    android:name="com.example.smartshop.smartshop.ProfileRegistrationFragment"
+                    android:name="ua.smartshop.Fragments.ProfileRegistrationFragment"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     tools:layout="@layout/profile_authorization"/>

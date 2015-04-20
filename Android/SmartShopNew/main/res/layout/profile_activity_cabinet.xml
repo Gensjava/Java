@@ -30,7 +30,7 @@
 
                 <fragment
                     android:id="@+id/profile_fragment"
-                    android:name="com.example.smartshop.smartshop.ProfileFragment"
+                    android:name="ua.smartshop.Fragments.ProfileFragment"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     tools:layout="@layout/profile"/>

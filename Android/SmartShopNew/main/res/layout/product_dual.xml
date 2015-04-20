@@ -7,7 +7,7 @@
     <GridLayout
         android:id="@+id/GridLayout_item"
         android:layout_width="fill_parent"
-        android:layout_height="160dp"
+        android:layout_height="fill_parent"
         android:columnCount="6"
         android:rowCount="3"
         >

@@ -37,6 +37,6 @@
         android:layout_width="130dp"
         android:layout_height="wrap_content"
         android:layout_gravity="right"
-        android:background="#ffff4b49"
+        android:background="#ff5722"
         android:text="Подтвердить >>"/>
 </LinearLayout>

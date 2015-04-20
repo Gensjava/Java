@@ -29,7 +29,7 @@
 
                 <fragment
                     android:id="@+id/cart_fragment"
-                    android:name="com.example.smartshop.smartshop.CartFragment"
+                    android:name="ua.smartshop.Fragments.CartFragment"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     tools:layout="@layout/cart_list"/>
@@ -42,7 +42,7 @@
 
                 <fragment
                     android:id="@+id/order_fragment"
-                    android:name="com.example.smartshop.smartshop.OrderMakeFragment"
+                    android:name="ua.smartshop.Fragments.OrderMakeFragment"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     tools:layout="@layout/order"/>
@@ -55,7 +55,7 @@
 
                 <fragment
                     android:id="@+id/order_finish_fragment"
-                    android:name="com.example.smartshop.smartshop.OrderFinishFragment"
+                    android:name="ua.smartshop.Fragments.OrderFinishFragment"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     tools:layout="@layout/order_finish"/>
