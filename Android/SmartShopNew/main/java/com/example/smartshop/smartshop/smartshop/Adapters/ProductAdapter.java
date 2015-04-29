@@ -24,10 +24,9 @@ public class ProductAdapter extends BaseAdapter{
     private ArrayList<Product[]> objects;
 
     private onSomeEventListener someEventListener ;
-    public static final String ACTION_ITEM_ONE_PRODUCT = "ACTION_ITEM_ONE_PRODUCT";//клик на первый товар imageView
-    public static final String ACTION_ITEM_TWO_PRODUCT = "ACTION_ITEM_TWO_PRODUCT";//клик на второй товар imageView
+    public static final String ACTION_ITEM_PRODUCT = "ACTION_ITEM_PRODUCT";//клик на товар imageView
 
-    ProductAdapter(Context context, ArrayList<Product[]> products) {
+    public ProductAdapter(Context context, ArrayList<Product[]> products) {
         ctx = context;
         objects = products;
         lInflater = (LayoutInflater) ctx
@@ -67,6 +66,8 @@ public class ProductAdapter extends BaseAdapter{
 
             viewHolder.textView_itemOne = (TextView) convertView.findViewById(R.id.textView_itemOne);
             viewHolder.textView_itemTwo = (TextView) convertView.findViewById(R.id.textView_itemTwo);
+            viewHolder.imageViewOne = (ImageView) convertView.findViewById(R.id.imageView_itemOne);
+            viewHolder.imageViewTwo = (ImageView) convertView.findViewById(R.id.imageView_itemTwo);
 
             convertView.setTag(viewHolder);
         } else {
@@ -91,7 +92,7 @@ public class ProductAdapter extends BaseAdapter{
                     @Override
                     public void onClick(View v) {
                         someEventListener = (onSomeEventListener) ctx;
-                        someEventListener.someEvent(ACTION_ITEM_ONE_PRODUCT, ITEM_ID_ONE);
+                        someEventListener.someEvent(ACTION_ITEM_PRODUCT, ITEM_ID_ONE);
                     }
                 });
             }
@@ -112,7 +113,7 @@ public class ProductAdapter extends BaseAdapter{
                     @Override
                     public void onClick(View v) {
                         someEventListener = (onSomeEventListener) ctx;
-                        someEventListener.someEvent(ACTION_ITEM_TWO_PRODUCT, ITEM_ID_TWO);
+                        someEventListener.someEvent(ACTION_ITEM_PRODUCT, ITEM_ID_TWO);
                     }
                 });
             }
@@ -125,6 +126,8 @@ public class ProductAdapter extends BaseAdapter{
 
         public TextView textView_itemOne;
         public TextView textView_itemTwo;
+        public ImageView imageViewOne;
+        public ImageView imageViewTwo;
 
     }
 

@@ -92,20 +92,6 @@ public class Product implements Serializable {
         mPrice = price;
     }
 
-
-    public static String [] getTegs(){
-
-        String tags[] = new String[6];
-        tags[0] = Сonstants.TAG_NAME;
-        tags[1] = Сonstants.TAG_PRICE;
-        tags[2] = Сonstants.TAG_KOD;
-        tags[3] = Сonstants.TAG_DISCRIPTION;
-        tags[4] = Сonstants.TAG_WAY_IMAGE;
-        tags[5] = Сonstants.TAG_PID;
-
-        return  tags;
-    }
-
     public static HashMap<String, String>  getParamsUrl(final String idItem){
 
         HashMap<String, String> params = new HashMap<String, String>();

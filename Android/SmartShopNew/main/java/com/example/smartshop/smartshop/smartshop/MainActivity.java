@@ -4,27 +4,45 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.appcompat.*;
+
 
 import android.support.v7.view.ActionMode;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.TextView;
 
-import org.json.JSONArray;
+import com.nispok.snackbar.Snackbar;
+import com.nispok.snackbar.SnackbarManager;
+import com.nispok.snackbar.enums.SnackbarType;
+import com.nispok.snackbar.listeners.ActionClickListener;
 
 import java.util.HashMap;
 import java.util.List;
@@ -42,17 +60,14 @@ import ua.smartshop.Adapters.ProductItemAdapter;
 import ua.smartshop.Enums.TypeRequest;
 import ua.smartshop.Fragments.CartFragment;
 import ua.smartshop.Fragments.CategoryProductFragment;
-import ua.smartshop.Fragments.CategoryProductLevelOneFragment;
+import ua.smartshop.Fragments.CategoryProductRootFragment;
 import ua.smartshop.Fragments.MainContactFragment;
 import ua.smartshop.Fragments.MainLogoFragment;
 import ua.smartshop.Fragments.PreferenceFragment;
 import ua.smartshop.Fragments.ProductDiscriptionFragment;
 import ua.smartshop.Fragments.ProducttItemFragment;
 import ua.smartshop.Models.Cart;
-import ua.smartshop.Models.CategoryProduct;
-import ua.smartshop.Models.Product;
 import ua.smartshop.Models.Profile;
-import ua.smartshop.Utils.UtilAsyncTask;
 import ua.smartshop.Utils.Сonstants;
 
 
@@ -64,7 +79,6 @@ public class MainActivity extends ActionBarActivity  implements
         CategoryAdapter.onSomeEventListener,
         ProductAdapter.onSomeEventListener,
         AdapterView.OnItemSelectedListener,
-        UtilAsyncHttpClient.onSomeEventListenerAsync,
         ProducttItemFragment.onUpDataCartListener,
         MainCategoryAdapter.onSomeEventListener
 
@@ -88,9 +102,10 @@ public class MainActivity extends ActionBarActivity  implements
     private boolean openMain;
     private TextView ui_hot = null;
 
-
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        getSupportActionBar().hide();
 
         MainLogoFragment mainLogoFragment = new MainLogoFragment();
         onOpenFragment(mainLogoFragment);
@@ -102,8 +117,10 @@ public class MainActivity extends ActionBarActivity  implements
                 //делаем поиск события
                 openMain = true;
                 onOpenFragment(new MainFragment());
+
             }
         }, 5000); //
+
 
         setContentView(R.layout.activity_main);
         setRequestedOrientation (ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
@@ -143,10 +160,18 @@ public class MainActivity extends ActionBarActivity  implements
                 supportInvalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
             }
         };
-        //android.support.v7.app.ActionBar bar = getSupportActionBar();
-       // bar.setBackgroundDrawable(new ColorDrawable(R.color.vpi__background_acbar));
-        // Set the drawer toggle as the DrawerListener
+
         mDrawerLayout.setDrawerListener(mDrawerToggle);
+       //делаем фон
+//        Drawable catdrawable = getResources().getDrawable( R.color.sub_main_orange );
+//        getSupportActionBar().setBackgroundDrawable(catdrawable);
+//        getSupportActionBar().show();
+
+//        Window window =  getWindow();
+//        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+//        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+//        window.setStatusBarColor(getResources().getColor(R.color.main_orange));
+
     }
 
     @Override
@@ -252,14 +277,23 @@ public class MainActivity extends ActionBarActivity  implements
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu;
-        final MenuItem custom = menu.add(0, R.id.menu_custom, 0,"");
+        final MenuItem custom = menu.add(0, R.id.menu_search, 0,"");
         custom.setActionView(R.layout.main_action_bar_search);
         custom.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
 
-        final MenuItem menuItem = menu.findItem(R.id.menu_custom);
+
+        final MenuItem menuItem = menu.findItem(R.id.menu_search);
+        menuItem.setIcon(R.drawable.ipad_b);
         final View actionView = menuItem.getActionView();
 
         final SearchView ButtonSearch = (SearchView) actionView.findViewById(R.id.searchView);
+        //меняем значок поиска
+        int searchIconId = ButtonSearch.getContext().getResources().
+                getIdentifier("android:id/search_button", null, null);
+        ImageView searchIcon = (ImageView) ButtonSearch.findViewById(searchIconId);
+        searchIcon.setImageResource(R.drawable.abc_ic_search_api_mtrl_alpha);
+
+
         ButtonSearch.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(final String s) {
@@ -288,7 +322,9 @@ public class MainActivity extends ActionBarActivity  implements
 
         final View ButtonCart = actionViewCart.findViewById(R.id.hotlist_bell);
         ButtonCart.setOnClickListener(this);
+
         return super.onCreateOptionsMenu(menu);
+
     }
 
     /* Called whenever we call invalidateOptionsMenu() */
@@ -312,150 +348,73 @@ public class MainActivity extends ActionBarActivity  implements
     @Override
     public void someEvent(final String key, final String value) {
 
+        Bundle bundleItem = new Bundle();
+        bundleItem.putString(KEY_ITEM,  value);
+
         switch (key) {// обрабатывам клик на товар
+            case MainAdapter.ACTION_ITEM:
+            case ProductAdapter.ACTION_ITEM_PRODUCT:
 
-            case MainAdapter.ACTION_ITEM_ONE:
-            case MainAdapter.ACTION_ITEM_TWO:
-            case ProductAdapter.ACTION_ITEM_ONE_PRODUCT:
-            case ProductAdapter.ACTION_ITEM_TWO_PRODUCT:
-
-                //получаем список товаров
-                List<HashMap> mArrayValues = getArrListData(Product.getTegs(), Product.getParamsUrl(value), TypeRequest.GET, Сonstants.url_details_product);
-
-                if(!(mArrayValues == null)){
-                    if(!(mArrayValues.size() == 0)){
-                        fragment = new ProducttItemFragment();
-                        Bundle bundle = new Bundle();
-                        bundle.putSerializable(KEY_ITEM, (java.io.Serializable) mArrayValues);
-                        fragment.setArguments(bundle);
-                    } else {
-                        //Открываем фрагмент с ошибкой
-                    }
-                }
+                fragment = new ProducttItemFragment();
                 break;
             case ProductItemAdapter.ACTION_DISRIPTION:// просмотр хар-к товара
+
                 fragment = new ProductDiscriptionFragment();
-
-                Bundle bundleDiscription = new Bundle();
-                bundleDiscription.putString(Сonstants.VALUE_KEY_ITEM_ID, value);
-                fragment.setArguments(bundleDiscription);
-
                 break;
             case MainAdapter.ACTION_CATEGORY_ALL:// открываем корень категорий
 
-                fragment = new CategoryProductLevelOneFragment();
+                fragment = new CategoryProductRootFragment();
+                break;
+            case MainPagerAdapter.ACTION_ONCLIK_ITEM_PEGER_ADAPTER://банер
+
+                fragment = new ProductFragment();
+                bundleItem.putString(URL_KEY, Сonstants.url_get_slider_main_page_category);
+                break;
+            case ACTION_SEARCH://поиск потовару
+
+                fragment = new ProductFragment();
+                bundleItem.putString(URL_KEY, Сonstants.url_get_search_products_two);
+                break;
+            case CategoryAdapter.ACTION_FROM_CATEGORY_PRODUCT:
+
+                fragment = new ProductFragment();
+                bundleItem.putString(URL_KEY, Сonstants.url_get_cproducts_from_category);
 
                 break;
+            case CategoryAdapter.ACTION_ONCLIK_ITEM_CATEGORY_ADAPTER://категория товаров
+            case MainCategoryAdapter.ACTION_ONCLIK_ITEM_CATEGORY_ADAPTER_MAIN:
 
-            case MainPagerAdapter.ACTION_ONCLIK_ITEM_PEGER_ADAPTER://работает
-
-                //получаем список товаров
-                mArrayValues = getArrListData(MainPagerAdapter.getTegs(), MainPagerAdapter.getParamsUrl(value), TypeRequest.GET, Сonstants.url_get_slider_main_page_category);
-
-                if(!(mArrayValues == null)){
-                    if(!(mArrayValues.size() == 0)){
-                        fragment = new ProductFragment();
-                        Bundle bundle = new Bundle();
-                        bundle.putSerializable(Сonstants.VALUE_KEY_ITEM_ID, value);
-                        bundle.putString(URL_KEY, Сonstants.url_get_slider_main_page_category);
-                        fragment.setArguments(bundle);
-                    } else {
-                        //Открываем фрагмент с ошибкой
-                    }
-                }
-                break;
-            case ACTION_SEARCH://работает
-
-                //получаем список товаров
-                mArrayValues = getArrListData(MainPagerAdapter.getTegs(), MainPagerAdapter.getParamsUrl(value), TypeRequest.GET,Сonstants.url_get_search_products_two);
-
-                if(!(mArrayValues == null)){
-                    if(!(mArrayValues.size() == 0)){
-                        fragment = new ProductFragment();
-                        Bundle bundle = new Bundle();
-                        bundle.putSerializable(Сonstants.VALUE_KEY_ITEM_ID, value);
-                        bundle.putString(URL_KEY, Сonstants.url_get_search_products_two);
-                        fragment.setArguments(bundle);
-                    } else {
-                        //Открываем фрагмент с ошибкой
-                    }
-                }
-                break;
-            case CategoryAdapter.ACTION_ONCLIK_ITEM_CATEGORY_ADAPTER://работает
-            case MainCategoryAdapter.ACTION_ONCLIK_ITEM_CATEGORY_ADAPTER_MAIN://работает
-
-                //получаем список товаров
-                mArrayValues = getArrListData(CategoryProduct.getTegs(), CategoryProduct.getParamsUrl(value), TypeRequest.GET,Сonstants.url_get_category_products);
-
-                if(!(mArrayValues == null)){
-                    if(!(mArrayValues.size() == 0)){
-                        fragment = new CategoryProductFragment();
-                        Bundle bundle = new Bundle();
-                        bundle.putSerializable(CategoryAdapter.ACTION_ONCLIK_ITEM_CATEGORY_ADAPTER, (java.io.Serializable) mArrayValues);
-                        fragment.setArguments(bundle);
-                    } else {
-
-                        //получаем список товаров
-                        mArrayValues = getArrListData(MainPagerAdapter.getTegs(), MainPagerAdapter.getParamsUrl(value), TypeRequest.GET,Сonstants.url_get_cproducts_from_category);
-
-                        if(!(mArrayValues == null)){
-                            if(!(mArrayValues.size() == 0)){
-                                fragment = new ProductFragment();
-                                Bundle bundle = new Bundle();
-                                bundle.putString(Сonstants.VALUE_KEY_ITEM_ID, value);
-                                bundle.putString(URL_KEY, Сonstants.url_get_cproducts_from_category);
-                                fragment.setArguments(bundle);
-                            } else {
-                                //Открываем фрагмент с ошибкой
-                            }
-                        }
-                    }
-                }
+                 fragment = new CategoryProductFragment();
                 break;
             default:
                 break;
         }
-        onOpenFragment(fragment);
+        if (fragment!= null) {
+            fragment.setArguments(bundleItem);
+        }
 
+        //открываем фрагмент
+        onOpenFragment(fragment);
     }
     void onOpenFragment(Fragment fragment) {
 
         if (fragment!= null) {
-
             FragmentManager fragmentManager = getSupportFragmentManager();
-
             ft = fragmentManager.beginTransaction();
-
             if(fragment.getClass().equals(new MainLogoFragment().getClass()) || openMain){
                 ft.setCustomAnimations(R.anim.slide_in_left, R.anim.slide_in_right);
+                getSupportActionBar().show();
                 openMain = false;
+
             } else {
                 ft.addToBackStack(fragment.getClass().toString());
             }
-            ft.replace(R.id.content_frame, fragment,fragment.getClass().toString());
+            ft.replace(R.id.content_frame, fragment, fragment.getClass().toString());
             ft.commit();
-
         } else {
             // Error
             Log.e(this.getClass().getName(), "Error. Fragment is not created");
         }
-    }
-
-    private List<HashMap> getArrListData(String tags[], HashMap<String, String> params, TypeRequest typeRequest, String url ) {
-
-        List<HashMap> mArrayValues  = null ;
-        UtilAsyncTask utilAsyncTask = new UtilAsyncTask(params, url , tags ,this, typeRequest);
-        utilAsyncTask.execute();
-        try {
-            utilAsyncTask.get();
-            mArrayValues  = utilAsyncTask.getArrayValues();
-
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        }
-        return mArrayValues;
     }
 
     public boolean isOnline() {
@@ -463,26 +422,6 @@ public class MainActivity extends ActionBarActivity  implements
                 (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo netInfo = cm.getActiveNetworkInfo();
         return netInfo != null && netInfo.isConnectedOrConnecting();
-    }
-
-    @Override
-    public void someEventAsync(final String tag, final JSONArray valueJSONArray ) {
-
-        switch (tag){
-            case "class ua.smartshop.MainFragment":
-                MainFragment Mfragment = (MainFragment) getSupportFragmentManager().findFragmentByTag(tag);
-                if (Mfragment != null) {
-                    Mfragment.executeArrayValues(valueJSONArray);
-                }
-                break;
-            case "class ua.smartshop.ProductFragment":
-                ProductFragment Prfragment = (ProductFragment) getSupportFragmentManager().findFragmentByTag(tag);
-                if (Prfragment != null) {
-                    Prfragment.executeArrayValues(valueJSONArray);
-                }
-            default:
-                break;
-        }
     }
 
     @Override

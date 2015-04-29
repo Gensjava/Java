@@ -3,28 +3,25 @@ package ua.smartshop.Adapters;
 import android.content.Context;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-
-
 import com.squareup.picasso.Picasso;
-
 import java.util.HashMap;
-
 import ua.smartshop.Models.CategoryProduct;
 import ua.smartshop.R;
 import ua.smartshop.Utils.Сonstants;
 
 public class MainPagerAdapter extends PagerAdapter {
+
     private Context mContext;
     private CategoryProduct[] mCategoryProduct;
     public static final String ACTION_ONCLIK_ITEM_PEGER_ADAPTER = "ACTION_ONCLIK_ITEM_PEGER_ADAPTER";
-
-    LayoutInflater mInflater;
-    onSomeEventListener someEventListener ;
+    private LayoutInflater mInflater;
+    private onSomeEventListener someEventListener ;
 
     public MainPagerAdapter(Context context, CategoryProduct categoryProduct[]) {
         this.mContext = context;
@@ -53,7 +50,7 @@ public class MainPagerAdapter extends PagerAdapter {
         imageViewAvatar = (ImageView) itemView.findViewById(R.id.imageViewAvatar);
 
         Picasso.with(mContext)
-                .load(String.valueOf(mCategoryProduct[position].getUrl()))
+                .load(String.valueOf(mCategoryProduct[position].getWayImage()))
                 .into(imageViewAvatar);
 
         itemView.setOnClickListener(new View.OnClickListener() {
@@ -77,17 +74,6 @@ public class MainPagerAdapter extends PagerAdapter {
     @Override
     public void destroyItem(ViewGroup container, int position, Object object) {
         ((ViewPager) container).removeView((LinearLayout) object);
-    }
-
-    public static String [] getTegs(){
-
-        String tags [] = new String[4];
-        tags[0] = Сonstants.TAG_PID;
-        tags[1] = Сonstants.TAG_NAME;
-        tags[2] = Сonstants.TAG_PRICE;
-        tags[3] = Сonstants.TAG_WAY_IMAGE;
-
-        return  tags;
     }
 
     public static HashMap<String, String> getParamsUrl(String idItem){

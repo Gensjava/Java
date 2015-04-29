@@ -13,26 +13,28 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.MultiAutoCompleteTextView;
 import android.widget.Toast;
-
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.lang.*;
 import java.util.HashMap;
-import java.util.List;
-import java.util.concurrent.ExecutionException;
-
+import ua.smartshop.AsyncWorker;
+import ua.smartshop.IWorkerCallback;
 import ua.smartshop.Models.Profile;
 import ua.smartshop.R;
 import ua.smartshop.Enums.TypeRequest;
-import ua.smartshop.Utils.UtilAsyncTask;
 import ua.smartshop.Utils.Сonstants;
 
 /**
  * Created by Gens on 20.03.2015.
  */
-public class ProfileAuthorizationFragment extends android.support.v4.app.Fragment {
+public class ProfileAuthorizationFragment extends android.support.v4.app.Fragment implements IWorkerCallback {
 
     private MultiAutoCompleteTextView editAccountName;
     private MultiAutoCompleteTextView editAccountPassword;
+    private String AccountName ;
+    private String AccountPassword ;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -52,29 +54,16 @@ public class ProfileAuthorizationFragment extends android.support.v4.app.Fragmen
                 arrEdit[1] = editAccountPassword;
                 //
                 if (!ua.smartshop.Utils.Error.fieldValidationRegistration(arrEdit)){
+
+                    HashMap<String, String> params = new HashMap<String, String>();
                     //
-                    if(onAuthorizationUser()){
+                    AccountName = editAccountName.getText().toString();
+                    AccountPassword = editAccountPassword.getText().toString();
 
-                        Profile profile = new Profile();
-                        profile.createAccount(
-                                editAccountName.getText().toString(),
-                                editAccountPassword.getText().toString(),
-                                getActivity().getBaseContext());
+                    params.put(Сonstants.TAG_USER_NAME, AccountName);
+                    params.put(Сonstants.TAG_PASWWORD, AccountPassword);
 
-                        if (Profile.mAuthorization){
-                            getActivity().finish();
-                        } else {
-                            Log.e(this.getClass().getName(), "Error. Authorization");
-
-                            Toast.makeText(getActivity(), "Error. Authorization"
-                                    , Toast.LENGTH_LONG).show();
-                        }
-                    }else {
-                        Log.e(this.getClass().getName(), "Error. Authorization");
-
-                        Toast.makeText(getActivity(), "Error. Authorization"
-                                , Toast.LENGTH_LONG).show();
-                    }
+                    doSomethingAsyncOperaion(params , Сonstants.url_get_user_authorization,  TypeRequest.POST);
 
                 }
             }
@@ -95,55 +84,50 @@ public class ProfileAuthorizationFragment extends android.support.v4.app.Fragmen
 
         return rootView;
     }
-    private boolean onAuthorizationUser(){
-        boolean mAuthorizationUser = false;
+    private void doSomethingAsyncOperaion(HashMap paramsUrl,String url, TypeRequest typeRequest) {
 
-        String tags[] = new String[2];
-        tags[0] = Сonstants.TAG_USER_NAME;
-        tags[1] = Сonstants.TAG_PASWWORD;
-        HashMap<String, String> mValues;
-        //
-        HashMap<String, String> params = new HashMap<String, String>();
-        //
-        String AccountName = editAccountName.getText().toString();
-        String AccountPassword = editAccountPassword.getText().toString();
+        new AsyncWorker<JSONArray>(this, paramsUrl, url, typeRequest) {
+        }.execute();
+    }
 
-        params.put(Сonstants.TAG_USER_NAME, AccountName);
-        params.put(Сonstants.TAG_PASWWORD, AccountPassword);
+    @Override
+    public void onBegin() {
 
-        UtilAsyncTask utilAsyncTask = new UtilAsyncTask(params, Сonstants.url_get_user_authorization , tags ,getActivity(), TypeRequest.POST);
-        utilAsyncTask.execute();
+    }
+
+    @Override
+    public void onSuccess(final JSONArray mPJSONArray) {
 
         try {
-            utilAsyncTask.get();
+            JSONObject jsonObject =  mPJSONArray.getJSONObject(0);
+            if (jsonObject.getString(Сonstants.TAG_USER_NAME).equals(AccountName) && jsonObject.getString(Сonstants.TAG_PASWWORD).equals(AccountPassword)){
 
-            List<HashMap> mArrayValues  = utilAsyncTask.getArrayValues();
+                Profile profile = new Profile();
+                profile.createAccount(editAccountName.getText().toString(),editAccountPassword.getText().toString(), getActivity().getBaseContext());
 
-            if(!(mArrayValues.size() == 0)){
-
-                mValues = mArrayValues.get(0);
-               //делаем проверу логина и пароля
-                if (mValues.get(Сonstants.TAG_USER_NAME).equals(AccountName) && mValues.get(Сonstants.TAG_PASWWORD).equals(AccountPassword)){
-                    mAuthorizationUser = true;
-                    Profile.mUserName = AccountName;
-                    Profile.mAuthorization = mAuthorizationUser;
-                } else {
-                    mAuthorizationUser = false;
-                    Profile.mUserName = null;
-                    Profile.mAuthorization = mAuthorizationUser;
-                }
-
-            } else {
-                //Открываем фрагмент с ошибкой
-                mAuthorizationUser = false;
+                Profile.mUserName = editAccountName.getText().toString();
+                Profile.mAuthorization = true;
+                getActivity().finish();
             }
+        } catch (JSONException e) {
+            e.printStackTrace();
 
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
+            Log.e(this.getClass().getName(), "Error. Authorization");
+            Toast.makeText(getActivity(), "Error. Authorization"
+                    , Toast.LENGTH_LONG).show();
         }
-        return mAuthorizationUser;
+    }
+
+    @Override
+    public void onFailure(final Throwable t) {
+
+        Log.e(this.getClass().getName(), "Error. Authorization");
+        Toast.makeText(getActivity(), "Error. Authorization"
+                , Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onEnd() {
 
     }
 }

@@ -19,7 +19,7 @@ import ua.smartshop.R;
  * Created by Gens on 10.03.2015.
  */
 public class OrderMakeFragment extends android.support.v4.app.Fragment {
-    View rootView;
+    private View rootView;
     
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {

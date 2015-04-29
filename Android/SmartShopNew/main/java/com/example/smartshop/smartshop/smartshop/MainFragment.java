@@ -1,6 +1,8 @@
 package ua.smartshop;
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,9 +10,11 @@ import android.widget.AbsListView;
 import android.widget.ListView;
 
 
+import com.google.gson.Gson;
+import com.nispok.snackbar.Snackbar;
+
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -24,68 +28,74 @@ import ua.smartshop.Utils.Сonstants;
  * Created by Gens on 02.03.2015.
  */
 
-public class MainFragment extends android.support.v4.app.Fragment {
+public class MainFragment extends Fragment implements IWorkerCallback{
 
-    private int itemNumber = 1;
+    private int mItemNumber = 1;
     private ArrayList<Product[]> mPoducts = new ArrayList<>();
     private MainAdapter mMainAdapter;
-    private ListView lvMain;
-    public static String GET_TEG_MAIN = "class ua.smartshop.MainFragment";
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(final LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable final Bundle savedInstanceState) {
 
         View rootView = inflater.inflate(R.layout.main_list, container,
                 false);
 
-        mMainAdapter = new  MainAdapter(getActivity(), mPoducts);
+        mMainAdapter = new MainAdapter(getActivity(), mPoducts);
         // настраиваем список
-        lvMain = (ListView) rootView.findViewById(R.id.lvMain);
+        ListView lvMain = (ListView) rootView.findViewById(R.id.lvMain);
         lvMain.setAdapter(mMainAdapter);
+
 
         lvMain.setOnScrollListener(new AbsListView.OnScrollListener() {
             public void onScrollStateChanged(AbsListView view, int scrollState) {
-
             }
+
             public void onScroll(AbsListView view, int firstVisibleItem,
                                  int visibleItemCount, int totalItemCount) {
 
-                if (firstVisibleItem + visibleItemCount == totalItemCount ) {
-                    itemNumber  ++;
+                if (firstVisibleItem + visibleItemCount == totalItemCount) {
+                    mItemNumber++;
                     //
-                    String mUrl = Сonstants.url_all_products;
-                    HashMap<String, String> mParamsUrl = Product.getParamsUrlNumber(itemNumber);
-                    //
-                    UtilAsyncHttpClient utilAsyncHttpClient= new UtilAsyncHttpClient( mParamsUrl, mUrl, GET_TEG_MAIN, TypeRequest.GET ,getActivity()) ;
-                    utilAsyncHttpClient.getAsyncArrayValues();
+                    doSomethingAsyncOperaion(Product.getParamsUrlNumber(mItemNumber) , Сonstants.url_all_products,  TypeRequest.GET);
+
                 }
             }
         });
+
         return rootView;
     }
 
-    void executeArrayValues(final JSONArray mPJSONArray)  {
+    private void doSomethingAsyncOperaion(HashMap paramsUrl,String url, TypeRequest typeRequest) {
 
+        new AsyncWorker<JSONArray>(this, paramsUrl, url, typeRequest) {
+        }.execute();
+    }
+
+    @Override
+    public void onBegin() { }
+
+    @Override
+    public void onSuccess(final JSONArray mPJSONArray) {
         try {
             // проходим в цикле через все товары
             Product[] Products  = new Product[2];
-
             for (int i = 0; i < mPJSONArray.length(); i++) {
-                JSONObject p = mPJSONArray.getJSONObject(i);
-
-                String id = p.getString(Сonstants.TAG_PID);
-                String wayImage = p.getString(Сonstants.TAG_WAY_IMAGE);
-                String fullImage = Сonstants.url_main_way_image + wayImage;
-
-                double price = Double.parseDouble(p.getString(Сonstants.TAG_PRICE));
-                Products[i] = new Product(price, id, fullImage);
+                Products[i] =  new Gson().fromJson(mPJSONArray.getJSONObject(i).toString(), Product.class);
             }
             mPoducts.add(Products);
             mMainAdapter.notifyDataSetChanged();
         } catch (JSONException e) {
-
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void onFailure(final Throwable t) {
+
+    }
+
+    @Override
+    public void onEnd() {
+
     }
 }

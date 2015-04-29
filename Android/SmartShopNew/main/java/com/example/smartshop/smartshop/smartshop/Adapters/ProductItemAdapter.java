@@ -5,38 +5,39 @@ package ua.smartshop.Adapters;
  */
 
 import android.content.Context;
-import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
-
-
+import com.google.gson.Gson;
 import com.viewpagerindicator.CirclePageIndicator;
-
+import org.json.JSONArray;
+import org.json.JSONException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
-import java.util.concurrent.ExecutionException;
-
+import ua.smartshop.AsyncWorker;
+import ua.smartshop.IWorkerCallback;
 import ua.smartshop.Models.Product;
 import ua.smartshop.R;
 import ua.smartshop.Enums.TypeRequest;
-import ua.smartshop.Utils.UtilAsyncTask;
 import ua.smartshop.Utils.Сonstants;
 
-public class ProductItemAdapter extends BaseAdapter {
+public class ProductItemAdapter extends BaseAdapter implements IWorkerCallback {
+
     private Context ctx;
     private LayoutInflater lInflater;
     private ArrayList<Product> objects;
     private onSomeEventListener someEventListener ;
+    private ProductPagerAdapter adapter;
+    private ViewPager viewPager;
+    private CirclePageIndicator indicator;
 
-    public static final String ACTION_DISRIPTION = "onClick_item_discription";
-    public static final String ACTION_DELIVER = "onClick_item_deliver";
+    public static final String ACTION_DISRIPTION = "ACTION_DISRIPTION";
+    public static final String ACTION_DELIVER = "ACTION_DELIVER";
 
-    ProductItemAdapter(Context context, ArrayList<Product> products) {
+    public ProductItemAdapter(Context context, ArrayList<Product> products) {
         ctx = context;
         objects = products;
         lInflater = (LayoutInflater) ctx
@@ -82,8 +83,13 @@ public class ProductItemAdapter extends BaseAdapter {
             txtPrice.setText(item.getPrice()+" грн.");
             txtDescription.setText(item.getDescription());
 
-            //заполняем
-            fillPeger(view,item);
+            HashMap<String, String> params = new HashMap<String, String>();
+            params.put(Сonstants.VALUE_KEY_ITEM_ID,item.getId());
+
+            doSomethingAsyncOperaion(params, Сonstants.url_get_category_product_file_imege , TypeRequest.GET);
+
+            viewPager = (ViewPager) view.findViewById(R.id.item_pager_product);
+            indicator = (CirclePageIndicator) view.findViewById(R.id.indicator_item_titles);
 
             TextView textViewDiscription = (TextView) view.findViewById(R.id.item_view_discription);
 
@@ -108,68 +114,48 @@ public class ProductItemAdapter extends BaseAdapter {
 
         return view;
     }
-    //заполняем инфой рекламнный блок ViewPeger
-    void fillPeger(View view, Product item ){
 
-        PagerAdapter adapter = new ProductPagerAdapter(ctx, getProducts(item));
+    private void doSomethingAsyncOperaion(HashMap paramsUrl,String url, TypeRequest typeRequest) {
 
-        ViewPager viewPager = (ViewPager) view.findViewById(R.id.item_pager_product);
-        viewPager.setAdapter(adapter);
-        viewPager.setCurrentItem(0);
+        new AsyncWorker<JSONArray>(this, paramsUrl, url, typeRequest) {
+        }.execute();
+    }
 
-        final CirclePageIndicator indicator = (CirclePageIndicator) view.findViewById(R.id.indicator_item_titles);
-        indicator.setViewPager(viewPager);
+    @Override
+    public void onBegin() {
+
+    }
+
+    @Override
+    public void onSuccess(final JSONArray mPJSONArray) {
+        try {
+            Product[] product = new Product[mPJSONArray.length()];
+            for (int i = 0; i < mPJSONArray.length(); i++) {
+                product[i] =  new Gson().fromJson(mPJSONArray.getJSONObject(i).toString(), Product.class);
+            }
+            adapter = new ProductPagerAdapter(ctx, product);
+
+            viewPager.setAdapter(adapter);
+            viewPager.setCurrentItem(0);
+            indicator.setViewPager(viewPager);
+
+            adapter.notifyDataSetChanged();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void onFailure(final Throwable t) {
+
+    }
+
+    @Override
+    public void onEnd() {
 
     }
 
     public interface onSomeEventListener {
         public void someEvent(String view_id, String idItem);
-    }
-    private  Product[] getProducts(Product item){
-
-        String tags[] = new String[3];
-        tags[0] = Сonstants.TAG_NAME;
-        tags[1] = Сonstants.TAG_PID;
-        tags[2] = Сonstants.TAG_WAY_IMAGE;
-
-        Product[] arrProduct = new Product[0];
-        //
-        HashMap<String, String> params = new HashMap<String, String>();
-        params.put("idItem",item.getId());
-        //
-        UtilAsyncTask utilAsyncTask = new UtilAsyncTask(params, Сonstants.url_get_category_product_file_imege , tags , ctx, TypeRequest.GET);
-        utilAsyncTask.execute();
-
-        try {
-            utilAsyncTask.get();
-
-            List<HashMap> mArrayValues  = utilAsyncTask.getArrayValues();
-            arrProduct = new Product[mArrayValues.size()];
-            //
-            HashMap<String, String> mValues;
-            Product itemProduct;
-
-            if(!(mArrayValues.size() == 0)){
-
-                //дополнительные фото
-                for (byte i = 0; i < mArrayValues.size(); i++) {
-                    mValues = mArrayValues.get(i);
-                    itemProduct = new Product(
-                            mValues.get(Сonstants.TAG_PID),
-                            mValues.get(Сonstants.TAG_NAME),
-                            mValues.get(Сonstants.TAG_WAY_IMAGE));
-                    arrProduct[i] = itemProduct;
-                }
-            } else {
-                //открываем фрагмент с ошибкой
-            }
-
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        }
-
-        return arrProduct;
     }
 }

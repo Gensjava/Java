@@ -19,6 +19,7 @@ import ua.smartshop.R;
  * Created by Gens on 21.02.2015.
  */
 public class ProductPagerAdapter extends PagerAdapter {
+
     private Context mContext;
     private Product[] mProduct;
     private LayoutInflater mInflater;

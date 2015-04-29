@@ -8,28 +8,31 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 
 
+import com.google.gson.Gson;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
-import java.util.concurrent.ExecutionException;
 
+import ua.smartshop.AsyncWorker;
 import ua.smartshop.Adapters.MainPagerAdapter;
+import ua.smartshop.IWorkerCallback;
 import ua.smartshop.Models.Profile;
 import ua.smartshop.Adapters.ProfileAdapter;
 import ua.smartshop.R;
 import ua.smartshop.Enums.TypeRequest;
-import ua.smartshop.Utils.UtilAsyncTask;
 import ua.smartshop.Utils.Сonstants;
 
 /**
  * Created by Gens on 10.03.2015.
  */
-public class ProfileFragment extends android.support.v4.app.Fragment{
+public class ProfileFragment extends android.support.v4.app.Fragment implements IWorkerCallback {
 
     private ArrayList<Profile> mProfile = new ArrayList<Profile>();
-    private List<HashMap> mArrayValues;
-    private Profile profile;
     private ListView lvMain;
+    private ProfileAdapter itemAdapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -38,56 +41,54 @@ public class ProfileFragment extends android.support.v4.app.Fragment{
                 false);
 
         if (mProfile.size() == 0   ){
-            mArrayValues = getArrListData(Profile.getTegs(), MainPagerAdapter.getParamsUrl(Profile.mUserName), TypeRequest.POST, Сonstants.url_get_user);
-            if(!(mArrayValues == null)){
-                GetProfileDetailsTask();
-            }
+            doSomethingAsyncOperaion( MainPagerAdapter.getParamsUrl(Profile.mUserName) , Сonstants.url_get_user,  TypeRequest.GET);
         }
-        //
-        ProfileAdapter itemAdapter = new ProfileAdapter(getActivity(), mProfile);
+
+        itemAdapter = new ProfileAdapter(getActivity(), mProfile);
         // настраиваем список
         lvMain = (ListView) rootView.findViewById(R.id.lvMain);
         lvMain.setAdapter(itemAdapter);
-        itemAdapter.notifyDataSetChanged();
 
         return rootView;
     }
-    // получения информации о пользователе
-    void GetProfileDetailsTask () {
 
-        HashMap<String, String> mValues;
+    private void doSomethingAsyncOperaion(HashMap paramsUrl,String url, TypeRequest typeRequest) {
 
-        for (int i = 0; i < mArrayValues.size(); i++) {
+        new AsyncWorker<JSONArray>(this, paramsUrl, url, typeRequest) {
+        }.execute();
+    }
 
-            mValues = mArrayValues.get(i);
-            profile = new Profile(
-                    mValues.get(Сonstants.TAG_PID),
-                    mValues.get(Сonstants.TAG_NAME),
-                    mValues.get(Сonstants.TAG_EMAIL));
+    @Override
+    public void onBegin() {
 
+    }
+
+    @Override
+    public void onSuccess(final JSONArray mPJSONArray) {
+        try {
+            // проходим в цикле через все товары
+            Profile profile = null;
+            for (int i = 0; i < mPJSONArray.length(); i++) {
+                profile =  new Gson().fromJson(mPJSONArray.getJSONObject(i).toString(), Profile.class);
+                mProfile.add(profile);
+            }
+            mProfile.add(profile);
+            mProfile.add(profile);
             mProfile.add(profile);
 
-        }
-        mProfile.add(profile);
-        mProfile.add(profile);
-        mProfile.add(profile);
-    }
 
-    private List<HashMap> getArrListData(String tags[], HashMap<String, String> params, TypeRequest typeRequest, String url ) {
-
-        List<HashMap> mArrayValues  = null ;
-        UtilAsyncTask utilAsyncTask = new UtilAsyncTask(params, url , tags ,getActivity(), typeRequest);
-        utilAsyncTask.execute();
-        try {
-            utilAsyncTask.get();
-            mArrayValues  = utilAsyncTask.getArrayValues();
-
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
+        } catch (JSONException e) {
             e.printStackTrace();
         }
-       return mArrayValues;
     }
 
+    @Override
+    public void onFailure(final Throwable t) {
+
+    }
+
+    @Override
+    public void onEnd() {
+        itemAdapter.notifyDataSetChanged();
+    }
 }

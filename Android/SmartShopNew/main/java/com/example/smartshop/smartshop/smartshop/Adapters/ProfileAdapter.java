@@ -24,8 +24,7 @@ public class ProfileAdapter  extends BaseAdapter {
     private LayoutInflater lInflater;
     private ArrayList<Profile> objects;
 
-
-    ProfileAdapter(Context context, ArrayList<Profile> profile) {
+    public ProfileAdapter(Context context, ArrayList<Profile> profile) {
         ctx = context;
         objects = profile;
         lInflater = (LayoutInflater) ctx
@@ -67,7 +66,6 @@ public class ProfileAdapter  extends BaseAdapter {
 
                     TextView txtName = (TextView) view.findViewById(R.id.profile_SNP);
                     TextView txtemail = (TextView) view.findViewById(R.id.profile_email);
-
                     //
                     txtemail.setText(item.getEmail());
                     txtName.setText(item.getUserName());
@@ -75,7 +73,6 @@ public class ProfileAdapter  extends BaseAdapter {
                     break;
                 case 1:
                     view = lInflater.inflate(R.layout.category, parent, false);
-
 
                     TextView textView = (TextView) view.findViewById(R.id.category_all_text);
                     textView.setText(TEXT_ORDERS_ALL);

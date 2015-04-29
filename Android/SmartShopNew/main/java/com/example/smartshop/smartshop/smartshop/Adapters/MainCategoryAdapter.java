@@ -19,11 +19,11 @@ import ua.smartshop.R;
  * Created by Gens on 09.04.2015.
  */
 public class MainCategoryAdapter extends BaseAdapter {
+
     private Context mContext;
     private onSomeEventListener someEventListener ;
     public static final String ACTION_ONCLIK_ITEM_CATEGORY_ADAPTER_MAIN = "ACTION_ONCLIK_ITEM_CATEGORY_ADAPTER_MAIN";
-
-    ArrayList<CategoryProduct> mCategory = new ArrayList<CategoryProduct>();
+    private ArrayList<CategoryProduct> mCategory = new ArrayList<CategoryProduct>();
 
     public MainCategoryAdapter(Context c, final ArrayList<CategoryProduct> categoryProducts) {
         mContext = c;
@@ -58,9 +58,9 @@ public class MainCategoryAdapter extends BaseAdapter {
         ImageView imageView = (ImageView) grid.findViewById(R.id.imagepart);
         imageView.setPadding(12,12,12, 12);
         TextView textView = (TextView) grid.findViewById(R.id.textpart);
-        textView.setPadding(2,2, 2,2);
+        textView.setPadding(12,12, 12,12);
 
-        imageView.setImageResource(mCategory.get(position).getImageView());
+        imageView.setImageResource(mCategory.get(position).getImage());
         textView.setText(mCategory.get(position).getName());
 
         textView.setOnClickListener(new View.OnClickListener() {

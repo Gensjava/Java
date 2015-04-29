@@ -23,8 +23,8 @@ public class CartFragment extends android.support.v4.app.Fragment implements
        {
 
     private onSomeEventListener someEventListener ;
-    public static final String TEG_GART_TOTAL_FRAGMENT = "TEG_GART_TOTAL_FRAGMENT";//текст
-    public static final String ACTION_GART_FRAGMENT = "ACTION_GART_FRAGMENT";//текст
+    public static final String TEG_GART_TOTAL_FRAGMENT = "TEG_GART_TOTAL_FRAGMENT";
+    public static final String ACTION_GART_FRAGMENT = "ACTION_GART_FRAGMENT";
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -37,6 +37,7 @@ public class CartFragment extends android.support.v4.app.Fragment implements
         lvCart.setAdapter(adapterCart);
 
         ((TextView) rootView.findViewById(R.id.cart_total_sum)).setText(String.valueOf(Cart.getTotalSum()));
+
 
         return rootView;
     }
@@ -54,8 +55,6 @@ public class CartFragment extends android.support.v4.app.Fragment implements
                 break;
         }
     }
-
-
     public interface onSomeEventListener {
         public void someEvent(String view_id, String item_id);
     }

@@ -9,23 +9,22 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.MultiAutoCompleteTextView;
 import android.widget.Toast;
-
-
+import org.json.JSONArray;
 import java.lang.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
-
+import ua.smartshop.AsyncWorker;
+import ua.smartshop.IWorkerCallback;
 import ua.smartshop.Models.Profile;
 import ua.smartshop.R;
 import ua.smartshop.Enums.TypeRequest;
-import ua.smartshop.Utils.UtilAsyncTask;
 import ua.smartshop.Utils.Сonstants;
 
 /**
  * Created by Gens on 20.03.2015.
  */
-public class ProfileRegistrationFragment extends android.support.v4.app.Fragment {
+public class ProfileRegistrationFragment extends android.support.v4.app.Fragment  implements IWorkerCallback {
 
     private MultiAutoCompleteTextView editAccountName;
     private MultiAutoCompleteTextView editAccountUserName;
@@ -66,66 +65,63 @@ public class ProfileRegistrationFragment extends android.support.v4.app.Fragment
                 //
                 if (!ua.smartshop.Utils.Error.fieldValidationRegistration(arrEdit)){
 
-                    if (onRegistrationUser()){
+                    HashMap<String, String> params = new HashMap<String, String>();
+                    //
+                    params.put(Сonstants.TAG_NAME, editAccountName.getText().toString());
+                    params.put(Сonstants.TAG_USER_NAME, editAccountUserName.getText().toString());
+                    params.put(Сonstants.TAG_PASWWORD, editAccountPassword.getText().toString());
+                    params.put(Сonstants.TAG_EMAIL, editAccountEmail.getText().toString());
+                    params.put(Сonstants.TAG_PHONE, editAccountPhone.getText().toString());
+                    params.put(Сonstants.TAG_ICQ_SKYPE, editAccountSkypye.getText().toString());
+                    params.put(Сonstants.TAG_ADDRESS, editAccountDelivery.getText().toString());
 
-                        Profile profile = new Profile();
-                        profile.createAccount(editAccountName.getText().toString(),editAccountPassword.getText().toString(), getActivity().getBaseContext());
-
-                        if (Profile.mAuthorization){
-                            getActivity().finish();
-                        } else {
-                            Log.e(this.getClass().getName(), "Error. Registration");
-                            Toast.makeText(getActivity(), "Error. Registration"
-                                    , Toast.LENGTH_LONG).show();
-                        }
-                    }else {
-                        Log.e(this.getClass().getName(), "Error. Registration");
-                        Toast.makeText(getActivity(), "Error. Registration"
-                                , Toast.LENGTH_LONG).show();
-                    }
+                    doSomethingAsyncOperaion(params , Сonstants.url_set_user_registration,  TypeRequest.POST);
                 }
             }
         });
         return rootView;
     }
 
-    private boolean onRegistrationUser(){
-        boolean mRegistrationUser = false;
+    private void doSomethingAsyncOperaion(HashMap paramsUrl,String url, TypeRequest typeRequest) {
 
-        String tags[] = new String[1];
-        tags[0] = Сonstants.TAG_MASSAGE;
-        //
-        HashMap<String, String> params = new HashMap<String, String>();
-        //
-        params.put(Сonstants.TAG_NAME, editAccountName.getText().toString());
-        params.put(Сonstants.TAG_USER_NAME, editAccountUserName.getText().toString());
-        params.put(Сonstants.TAG_PASWWORD, editAccountPassword.getText().toString());
-        params.put(Сonstants.TAG_EMAIL, editAccountEmail.getText().toString());
-        params.put(Сonstants.TAG_PHONE, editAccountPhone.getText().toString());
-        params.put(Сonstants.TAG_ICQ_SKYPE, editAccountSkypye.getText().toString());
-        params.put(Сonstants.TAG_ADDRESS, editAccountDelivery.getText().toString());
+        new AsyncWorker<JSONArray>(this, paramsUrl, url, typeRequest) {
+        }.execute();
+    }
 
-        UtilAsyncTask utilAsyncTask = new UtilAsyncTask(params, Сonstants.url_set_user_registration , tags ,getActivity(), TypeRequest.POST);
-        utilAsyncTask.execute();
-        try {
-            utilAsyncTask.get();
-
-            List<HashMap> mArrayValues  = utilAsyncTask.getArrayValues();
-
-            if(!(mArrayValues.size() == 0)){
-                mRegistrationUser = true;
-            } else {
-                //Открываем фрагмент с ошибкой
-                mRegistrationUser = false;
-            }
-
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        }
-        return mRegistrationUser;
+    @Override
+    public void onBegin() {
 
     }
 
+    @Override
+    public void onSuccess(final JSONArray mPJSONArray) {
+
+        Profile profile = new Profile();
+        profile.createAccount(editAccountName.getText().toString(),editAccountPassword.getText().toString(), getActivity().getBaseContext());
+
+        Profile.mUserName = editAccountName.getText().toString();
+        Profile.mAuthorization = true;
+
+        if (Profile.mAuthorization){
+            getActivity().finish();
+        } else {
+            Log.e(this.getClass().getName(), "Error. Registration");
+            Toast.makeText(getActivity(), "Error. Registration"
+                    , Toast.LENGTH_LONG).show();
+        }
+
+    }
+
+    @Override
+    public void onFailure(final Throwable t) {
+
+        Log.e(this.getClass().getName(), "Error. Registration");
+        Toast.makeText(getActivity(), "Error. Registration"
+                , Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onEnd() {
+
+    }
 }

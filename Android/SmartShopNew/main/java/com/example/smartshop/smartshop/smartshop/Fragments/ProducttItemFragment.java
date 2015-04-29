@@ -7,16 +7,24 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
 
+import com.google.gson.Gson;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 
+import ua.smartshop.AsyncWorker;
 import ua.smartshop.Adapters.ProductItemAdapter;
+import ua.smartshop.Enums.TypeRequest;
+import ua.smartshop.IWorkerCallback;
 import ua.smartshop.MainActivity;
 import ua.smartshop.Models.Cart;
 import ua.smartshop.Models.Product;
@@ -26,44 +34,42 @@ import ua.smartshop.Utils.Сonstants;
 /**
  * Created by Gens on 03.03.2015.
  */
-public class ProducttItemFragment extends android.support.v4.app.Fragment implements View.OnClickListener  {
+public class ProducttItemFragment extends android.support.v4.app.Fragment implements IWorkerCallback,View.OnClickListener  {
 
-    private ArrayList<Product> mMroducts = new ArrayList<Product>();
-    private List<HashMap> mArrayValues;
-    private Product product;
+    private ArrayList<Product> mProducts = new ArrayList<Product>();
+    private Product mProduct;
     private TextView number,sum;
-    private onUpDataCartListener  mUpDataCartListener ;
+    private onUpDataCartListener  mUpDataCartListener;
+    private String mItem;
+    private ProductItemAdapter mItemAdapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,  Bundle savedInstanceState) {
 
         View rootView = inflater.inflate(R.layout.product_list, container,
                 false);
+        //
+        mItemAdapter = new ProductItemAdapter(getActivity(), mProducts);
+        // настраиваем список
+        ListView lvMain = (ListView) rootView.findViewById(R.id.listItem);
+        lvMain.setAdapter(mItemAdapter);
 
-        if (mMroducts.size() == 0){
+        ImageView cartButton = (ImageView) rootView.findViewById(R.id.in_box);
+        cartButton.setOnClickListener(this);
+
+        if (mProducts.size() == 0){
             Bundle bundle = getArguments();
             if (bundle != null) {
-                mArrayValues = (List<HashMap>) bundle.getSerializable(MainActivity.KEY_ITEM);
-                if(!(mArrayValues == null)){
-                    GetProductDetailsTask();
+                mItem = bundle.getString(MainActivity.KEY_ITEM);
+                if(!(mItem == null)){
+                    doSomethingAsyncOperaion(Product.getParamsUrl(mItem), Сonstants.url_details_product,  TypeRequest.GET);
                 }
             }
         }
-        //
-        ProductItemAdapter itemAdapter = new ProductItemAdapter(getActivity(), mMroducts);
-        // настраиваем список
-        ListView lvMain = (ListView) rootView.findViewById(R.id.listItem);
-        lvMain.setAdapter(itemAdapter);
-
-        Button cartButton = (Button) rootView.findViewById(R.id.in_box);
-        cartButton.setOnClickListener(this);
-
         return  rootView;
     }
-
     @Override
     public void onClick(View v) {
-
         switch (v.getId()) {
             case R.id.in_box:
                 showCustomAlertDialogEnterNumber();
@@ -73,26 +79,11 @@ public class ProducttItemFragment extends android.support.v4.app.Fragment implem
         }
     }
 
-    // получения информации о товаре
-    void GetProductDetailsTask () {
+    private void doSomethingAsyncOperaion(HashMap paramsUrl,String url, TypeRequest typeRequest) {
 
-         HashMap<String, String> mValues;
-
-        for (int i = 0; i < mArrayValues.size(); i++) {
-
-            mValues = mArrayValues.get(i);
-
-            product = new Product( mValues.get(Сonstants.TAG_NAME),
-                    mValues.get(Сonstants.TAG_DISCRIPTION) ,
-                    mValues.get(Сonstants.TAG_PID),
-                    mValues.get(Сonstants.TAG_KOD),
-                    Double.parseDouble(mValues.get(Сonstants.TAG_PRICE)),
-                    Сonstants.url_main_way_image
-                            + mValues.get(Сonstants.TAG_WAY_IMAGE));
-            mMroducts.add(product);
-        }
+        new AsyncWorker<JSONArray>(this, paramsUrl, url, typeRequest) {
+        }.execute();
     }
-
     //Создаем открываем диалог (добавляем запись дату)
     private void  showCustomAlertDialogEnterNumber() {
 
@@ -110,8 +101,8 @@ public class ProducttItemFragment extends android.support.v4.app.Fragment implem
         sum =  (TextView) numberView.findViewById(R.id.dialog_number_sum);
 
         number.setText("1");
-        price.setText(String.valueOf(product.getPrice()));
-        sum.setText(String.valueOf(product.getPrice()));
+        price.setText(String.valueOf(mProduct.getPrice()));
+        sum.setText(String.valueOf(mProduct.getPrice()));
 
         final double[] numberD = {1.0};
 
@@ -120,7 +111,7 @@ public class ProducttItemFragment extends android.support.v4.app.Fragment implem
             public void onClick(View v) {
                 numberD[0]++;
                 number.setText(String.valueOf(numberD[0]));
-                sum.setText(String.valueOf(product.getPrice()* numberD[0]));
+                sum.setText(String.valueOf(mProduct.getPrice()* numberD[0]));
             }
         });
 
@@ -130,7 +121,7 @@ public class ProducttItemFragment extends android.support.v4.app.Fragment implem
                 if ( numberD[0] > 1){
                     numberD[0]--;
                     number.setText(String.valueOf(numberD[0]));
-                    sum.setText(String.valueOf(product.getPrice()* numberD[0]));
+                    sum.setText(String.valueOf(mProduct.getPrice()* numberD[0]));
                 }
             }
         });
@@ -148,7 +139,7 @@ public class ProducttItemFragment extends android.support.v4.app.Fragment implem
                                         int id) {
                         double numberInDialog = Double.parseDouble(String.valueOf(number.getText()));
                         //заказ
-                        Cart cart = new Cart(product,  String.valueOf(getDate()), product.getPrice(), numberInDialog, product.getPrice() * numberInDialog);
+                        Cart cart = new Cart(mProduct,  String.valueOf(getDate()), mProduct.getPrice(), numberInDialog, mProduct.getPrice() * numberInDialog);
                         Cart.setmCart(cart);
                         dialog.cancel();
                         mUpDataCartListener = (onUpDataCartListener) getActivity();
@@ -170,6 +161,34 @@ public class ProducttItemFragment extends android.support.v4.app.Fragment implem
         Date date = new Date(curTime);
         return date;
     }
+
+    @Override
+    public void onBegin() {
+
+    }
+
+    @Override
+    public void onSuccess(final JSONArray mPJSONArray) {
+        try {
+            for (int i = 0; i < mPJSONArray.length(); i++) {
+                mProduct =  new Gson().fromJson(mPJSONArray.getJSONObject(i).toString(), Product.class);
+            }
+            mProducts.add(mProduct);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void onFailure(final Throwable t) {
+
+    }
+
+    @Override
+    public void onEnd() {
+        mItemAdapter.notifyDataSetChanged();
+    }
+
     public interface onUpDataCartListener {
         public  void UpDataCart();
     }

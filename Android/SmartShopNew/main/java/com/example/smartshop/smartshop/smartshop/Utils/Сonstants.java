@@ -1,6 +1,8 @@
 package ua.smartshop.Utils;
 
-import java.util.ArrayList;
+
+import ua.smartshop.Models.CategoryProduct;
+import ua.smartshop.Models.Product;
 
 /**
  * Created by Gens on 01.03.2015.
@@ -9,7 +11,7 @@ import java.util.ArrayList;
 
    //корни
     public static final String url_main = "http://www.smart-shop.ua/";
-    public static final String url_main_way_image = url_main + "/photo/product/";
+    public static final String url_main_way_image = url_main + "http://www.smart-shop.ua/photo/product/";
 
     private static final String is_server = "http://smart-shop.ua/JHVafnmJKH/";
     //http://10.0.3.2/denwer/
@@ -33,23 +35,19 @@ import java.util.ArrayList;
     public static final String TAG_NAME = "name";
     public static final String TAG_USER_NAME = "username";
     public static final String TAG_SUCCESS = "success";
-    public static final String TAG_PID = "pid";
-    public static final String TAG_WAY_IMAGE = "wayimage";
-    public static final String TAG_PRICE = "price";
     public static final String TAG_DISCRIPTION = "description";
     public static final String TAG_PRODUCT ="product";
-    public static final String TAG_KOD = "kod";
-    public static final String TAG_MASSAGE = "message";
     public static final String TAG_PASWWORD = "password";
     public static final String TAG_PHONE = "phone";
     public static final String TAG_EMAIL = "email";
     public static final String TAG_ADDRESS = "DeliveryAddress";
     public static final String TAG_ICQ_SKYPE = "icq_skype";
-    public static final String TAG_ALL_ORDERS = "all_orders";
     //
     public static final String VALUE_KEY_ITEM_ID = "idItem";
     public static final String VALUE_KEY_ITEM_NUMBER = "itemnumber";
     public static final String TEXT_PRICE = "Цена ";
     public static final String TEXT_CURRENCY = " грн.";
+
+    public static CategoryProduct[] categoryProduct = new CategoryProduct[0];
 
 }

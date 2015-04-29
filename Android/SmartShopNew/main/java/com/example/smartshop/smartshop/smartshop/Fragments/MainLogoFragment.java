@@ -18,6 +18,7 @@ public class MainLogoFragment extends android.support.v4.app.Fragment  {
 
         View rootView = inflater.inflate(R.layout.main_logo, container,
                 false);
+
         return rootView;
 
     }

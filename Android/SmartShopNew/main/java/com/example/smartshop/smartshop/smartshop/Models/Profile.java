@@ -22,6 +22,7 @@ public class Profile {
     private String mEmail;
     private Order mOrders;
     private String mDeliveryAddress;
+    private String mPhone;
     //
     public static boolean mAuthorization;
     public static String mUserName;
@@ -35,6 +36,22 @@ public class Profile {
 
     public Profile(){
 
+    }
+
+    public String getPhone() {
+        return mPhone;
+    }
+
+    public void setPhone(final String phone) {
+        mPhone = phone;
+    }
+
+    public static String getmUserName() {
+        return mUserName;
+    }
+
+    public static void setmUserName(final String mUserName) {
+        Profile.mUserName = mUserName;
     }
 
     public String getUserName() {
@@ -151,20 +168,4 @@ public class Profile {
             context.startActivity(intent);
         }
     }
-
-    public static String [] getTegs(){
-
-        String tags[]  = new String[8];
-        tags[0] = Сonstants.TAG_NAME;
-        tags[1] = Сonstants.TAG_USER_NAME;
-        tags[2] = Сonstants.TAG_EMAIL;
-        tags[3] = Сonstants.TAG_PHONE;
-        tags[4] = Сonstants.TAG_ICQ_SKYPE;
-        tags[5] = Сonstants.TAG_ALL_ORDERS;
-        tags[6] = Сonstants.TAG_PASWWORD;
-        tags[7] = Сonstants.TAG_PID;
-
-        return  tags;
-    }
-
 }
