@@ -11,10 +11,8 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.util.EntityUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -29,7 +27,7 @@ public class JSONParser  {
 
     static InputStream is = null;
     static JSONObject jObj = null;
-    static String json = "";
+    static String json = null;
 
     // constructor
     public JSONParser() {
@@ -70,10 +68,13 @@ public class JSONParser  {
 
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
+            json = null;
         } catch (ClientProtocolException e) {
             e.printStackTrace();
+            json = null;
         } catch (IOException e) {
             e.printStackTrace();
+            json = null;
         }
 
         try {
@@ -85,9 +86,14 @@ public class JSONParser  {
                 sb.append(line + "\n");
             }
             is.close();
+
             json = sb.toString();
+
+            //Log.i("json","reader "+json.toString());
+
         } catch (Exception e) {
             Log.e("Buffer Error", "Error converting result " + e.toString());
+            jObj = null;
         }
 
         // try parse the string to a JSON object
@@ -95,6 +101,7 @@ public class JSONParser  {
             jObj = new JSONObject(json);
         } catch (JSONException e) {
             Log.e("JSON Parser", "Error parsing data " + e.toString());
+            jObj = null;
         }
 
         // return JSON String

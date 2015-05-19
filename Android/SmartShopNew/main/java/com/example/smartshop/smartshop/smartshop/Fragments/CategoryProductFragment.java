@@ -1,6 +1,5 @@
 package ua.smartshop.Fragments;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -8,28 +7,20 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
-
-
+import android.widget.TextView;
 import com.google.gson.Gson;
-
 import org.json.JSONArray;
 import org.json.JSONException;
-
 import java.util.ArrayList;
 import java.util.HashMap;
-
-import ua.smartshop.AsyncWorker;
+import ua.smartshop.Utils.AsyncWorker;
 import ua.smartshop.Adapters.CategoryAdapter;
 import ua.smartshop.Enums.TypeRequest;
-import ua.smartshop.IWorkerCallback;
-import ua.smartshop.MainActivity;
+import ua.smartshop.Interface.IWorkerCallback;
+import ua.smartshop.Activitys.MainActivity;
 import ua.smartshop.Models.CategoryProduct;
 import ua.smartshop.R;
-import ua.smartshop.Utils.Сonstants;
 
-/**
- * Created by Gens on 07.03.2015.
- */
 public class CategoryProductFragment extends Fragment implements IWorkerCallback {
 
     private ArrayList<CategoryProduct> mPoducts = new ArrayList<CategoryProduct>();
@@ -46,7 +37,7 @@ public class CategoryProductFragment extends Fragment implements IWorkerCallback
             if (bundle != null) {
                  mItem_id = bundle.getString(MainActivity.KEY_ITEM);
                 if(!(mItem_id == null)){
-                    doSomethingAsyncOperaion( CategoryProduct.getParamsUrl(mItem_id),Сonstants.url_get_category_products, TypeRequest.GET);
+                    doSomethingAsyncOperaion( CategoryProduct.getParamsUrl(mItem_id), getString(R.string.url_get_category_products), TypeRequest.GET);
                 }
             }
         }
@@ -60,26 +51,15 @@ public class CategoryProductFragment extends Fragment implements IWorkerCallback
         return rootView;
     }
 
-    @Override
-    public void onCreate(final Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        onDetach();
-    }
-
-    @Override
-    public void onAttach(final Activity activity) {
-        super.onAttach(activity);
-    }
-
     private void doSomethingAsyncOperaion(HashMap paramsUrl,String url, TypeRequest typeRequest) {
 
-        new AsyncWorker<JSONArray>(this, paramsUrl, url, typeRequest) {
+        new AsyncWorker<JSONArray>(this, paramsUrl, url, typeRequest, getActivity()) {
         }.execute();
     }
 
     @Override
     public void onBegin() {
-
+        MainActivity.ui_bar.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -91,19 +71,24 @@ public class CategoryProductFragment extends Fragment implements IWorkerCallback
                 categoryProduct =  new Gson().fromJson(mPJSONArray.getJSONObject(i).toString(), CategoryProduct.class);
                 mPoducts.add(categoryProduct);
             }
+            mCategoryAdapter.notifyDataSetChanged();
         } catch (JSONException e) {
             e.printStackTrace();
         }
+        MainActivity.ui_bar.setVisibility(View.INVISIBLE);
     }
 
     @Override
     public void onFailure(final Throwable t) {
-
+        MainActivity.ui_bar.setVisibility(View.INVISIBLE);
+        if (mPoducts.size() == 0 & getView()!= null){
+            ((TextView)  getView().findViewById(R.id.lvMain_text)).setText(getString(R.string.no_data));
+        }
     }
 
     @Override
     public void onEnd() {
-        mCategoryAdapter.notifyDataSetChanged();
+
     }
 
 }

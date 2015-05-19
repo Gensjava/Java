@@ -1,4 +1,4 @@
-package ua.smartshop;
+package ua.smartshop.Fragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -7,23 +7,21 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.ListView;
-
-
+import android.widget.TextView;
 import com.google.gson.Gson;
-
 import org.json.JSONArray;
 import org.json.JSONException;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import ua.smartshop.Activitys.MainActivity;
 import ua.smartshop.Adapters.ProductAdapter;
+import ua.smartshop.Utils.AsyncWorker;
 import ua.smartshop.Enums.TypeRequest;
+import ua.smartshop.Interface.IWorkerCallback;
 import ua.smartshop.Models.Product;
+import ua.smartshop.R;
 
-/**
- * Created by Gens on 07.03.2015.
- */
 public class ProductFragment extends android.support.v4.app.Fragment implements IWorkerCallback {
 
     private int mItemNumber = 1;
@@ -57,9 +55,9 @@ public class ProductFragment extends android.support.v4.app.Fragment implements 
                                  int visibleItemCount, int totalItemCount) {
 
                 if (firstVisibleItem + visibleItemCount == totalItemCount) {
-                    mItemNumber++;
                     //
                     doSomethingAsyncOperaion(Product.getParamsUrlNumberItem(mItemNumber, mItem_id), mUrl,  TypeRequest.GET);
+                    mItemNumber  += 2;
                 }
             }
         });
@@ -68,31 +66,43 @@ public class ProductFragment extends android.support.v4.app.Fragment implements 
 
     private void doSomethingAsyncOperaion(HashMap paramsUrl,String url, TypeRequest typeRequest) {
 
-        new AsyncWorker<JSONArray>(this, paramsUrl, url, typeRequest) {
+        new AsyncWorker<JSONArray>(this, paramsUrl, url, typeRequest, getActivity()) {
         }.execute();
     }
 
     @Override
-    public void onBegin() { }
+    public void onBegin() {
+
+    MainActivity.ui_bar.setVisibility(View.VISIBLE);
+
+    }
 
     @Override
     public void onSuccess(final JSONArray mPJSONArray) {
         try {
             // проходим в цикле через все товары
-            Product[] Products  = new Product[2];
-            for (int i = 0; i < mPJSONArray.length(); i++) {
+            Product[] Products  = new Product[mPJSONArray.length()];
+            for (byte i = 0; i < mPJSONArray.length(); i++) {
                 Products[i] =  new Gson().fromJson(mPJSONArray.getJSONObject(i).toString(), Product.class);
             }
             mPoducts.add(Products);
             mMainAdapter.notifyDataSetChanged();
+
         } catch (JSONException e) {
             e.printStackTrace();
+        }
+        MainActivity.ui_bar.setVisibility(View.INVISIBLE);
+    }
+
+    @Override
+    public void onFailure(final Throwable t) {
+        MainActivity.ui_bar.setVisibility(View.INVISIBLE);
+
+        if (mPoducts.size() == 0 & getView()!= null){
+            ((TextView)  getView().findViewById(R.id.lvMain_text)).setText(getString(R.string.no_data));
         }
     }
 
     @Override
-    public void onFailure(final Throwable t) {}
-
-    @Override
-    public void onEnd() { }
+    public void onEnd() { MainActivity.ui_bar.setVisibility(View.INVISIBLE); }
 }

@@ -1,6 +1,5 @@
 package ua.smartshop.Fragments;
 
-
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.InputType;
@@ -16,11 +15,10 @@ import android.widget.Toast;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.lang.*;
 import java.util.HashMap;
-import ua.smartshop.AsyncWorker;
-import ua.smartshop.IWorkerCallback;
+import ua.smartshop.Utils.AsyncWorker;
+import ua.smartshop.Interface.IWorkerCallback;
 import ua.smartshop.Models.Profile;
 import ua.smartshop.R;
 import ua.smartshop.Enums.TypeRequest;
@@ -55,15 +53,11 @@ public class ProfileAuthorizationFragment extends android.support.v4.app.Fragmen
                 //
                 if (!ua.smartshop.Utils.Error.fieldValidationRegistration(arrEdit)){
 
-                    HashMap<String, String> params = new HashMap<String, String>();
                     //
                     AccountName = editAccountName.getText().toString();
                     AccountPassword = editAccountPassword.getText().toString();
 
-                    params.put(Сonstants.TAG_USER_NAME, AccountName);
-                    params.put(Сonstants.TAG_PASWWORD, AccountPassword);
-
-                    doSomethingAsyncOperaion(params , Сonstants.url_get_user_authorization,  TypeRequest.POST);
+                    doSomethingAsyncOperaion(Profile.getParamsuserNameUrl(AccountName) , getString(R.string.url_get_user_authorization),  TypeRequest.POST);
 
                 }
             }
@@ -86,7 +80,7 @@ public class ProfileAuthorizationFragment extends android.support.v4.app.Fragmen
     }
     private void doSomethingAsyncOperaion(HashMap paramsUrl,String url, TypeRequest typeRequest) {
 
-        new AsyncWorker<JSONArray>(this, paramsUrl, url, typeRequest) {
+        new AsyncWorker<JSONArray>(this, paramsUrl, url, typeRequest, getActivity()) {
         }.execute();
     }
 
@@ -100,7 +94,8 @@ public class ProfileAuthorizationFragment extends android.support.v4.app.Fragmen
 
         try {
             JSONObject jsonObject =  mPJSONArray.getJSONObject(0);
-            if (jsonObject.getString(Сonstants.TAG_USER_NAME).equals(AccountName) && jsonObject.getString(Сonstants.TAG_PASWWORD).equals(AccountPassword)){
+            if (jsonObject.getString(Сonstants.TAG_USER_NAME).equals(AccountName)){
+           // if (jsonObject.getString(Сonstants.TAG_USER_NAME).equals(AccountName) && jsonObject.getString(Сonstants.TAG_PASWWORD).equals(AccountPassword)){
 
                 Profile profile = new Profile();
                 profile.createAccount(editAccountName.getText().toString(),editAccountPassword.getText().toString(), getActivity().getBaseContext());
@@ -108,7 +103,12 @@ public class ProfileAuthorizationFragment extends android.support.v4.app.Fragmen
                 Profile.mUserName = editAccountName.getText().toString();
                 Profile.mAuthorization = true;
                 getActivity().finish();
+            } else {
+                Log.e(this.getClass().getName(), "Error. Authorization");
+                Toast.makeText(getActivity(), "Error. Authorization"
+                        , Toast.LENGTH_LONG).show();
             }
+
         } catch (JSONException e) {
             e.printStackTrace();
 

@@ -2,9 +2,6 @@ package ua.smartshop.Models;
 
 import ua.smartshop.Enums.StatusOrder;
 
-/**
- * Created by Gens on 01.03.2015.
- */
 public class Order {
 
     private String mID;

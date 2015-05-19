@@ -10,17 +10,15 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.util.HashMap;
-import ua.smartshop.AsyncWorker;
+import ua.smartshop.Utils.AsyncWorker;
 import ua.smartshop.Enums.TypeRequest;
-import ua.smartshop.IWorkerCallback;
-import ua.smartshop.MainActivity;
+import ua.smartshop.Interface.IWorkerCallback;
+import ua.smartshop.Activitys.MainActivity;
 import ua.smartshop.Models.Product;
 import ua.smartshop.R;
 import ua.smartshop.Utils.Сonstants;
 
-/**
- * Created by Gens on 03.03.2015.
- */
+
 public class ProductDiscriptionFragment extends android.support.v4.app.Fragment implements IWorkerCallback {
     private View rootView;
 
@@ -30,31 +28,27 @@ public class ProductDiscriptionFragment extends android.support.v4.app.Fragment 
         rootView = inflater.inflate(R.layout.product_discription, container,
                 false);
 
-        Bundle bundle = getArguments();
-        if (bundle != null) {
-            String idItem = bundle.getString(MainActivity.KEY_ITEM);
-            if(!(idItem == null)){
-                doSomethingAsyncOperaion(Product.getParamsUrl(idItem) , Сonstants.url_product_description,  TypeRequest.GET);
+            if(!(ProducttItemRootFragment.mItem == null)){
+                doSomethingAsyncOperaion(Product.getParamsUrl(ProducttItemRootFragment.mItem) , getString(R.string.url_product_description),  TypeRequest.GET);
             }
-        }
         return  rootView;
     }
 
     private void doSomethingAsyncOperaion(HashMap paramsUrl,String url, TypeRequest typeRequest) {
 
-        new AsyncWorker<JSONArray>(this, paramsUrl, url, typeRequest) {
+        new AsyncWorker<JSONArray>(this, paramsUrl, url, typeRequest, getActivity()) {
         }.execute();
     }
 
     @Override
     public void onBegin() {
-
+        MainActivity.ui_bar.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void onSuccess(final JSONArray mPJSONArray) {
         try {
-            for (int i = 0; i < mPJSONArray.length(); i++) {
+            for (byte i = 0; i < mPJSONArray.length(); i++) {
                 JSONObject p = mPJSONArray.getJSONObject(i);
                 String description = p.getString(Сonstants.TAG_DISCRIPTION);
                 //
@@ -69,11 +63,12 @@ public class ProductDiscriptionFragment extends android.support.v4.app.Fragment 
         } catch (JSONException e) {
             e.printStackTrace();
         }
+        MainActivity.ui_bar.setVisibility(View.INVISIBLE);
     }
 
     @Override
     public void onFailure(final Throwable t) {
-
+        MainActivity.ui_bar.setVisibility(View.INVISIBLE);
     }
 
     @Override

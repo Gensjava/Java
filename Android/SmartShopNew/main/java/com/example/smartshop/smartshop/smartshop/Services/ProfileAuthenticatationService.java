@@ -1,4 +1,4 @@
-package ua.smartshop;
+package ua.smartshop.Services;
 
 import android.app.Service;
 import android.content.Intent;

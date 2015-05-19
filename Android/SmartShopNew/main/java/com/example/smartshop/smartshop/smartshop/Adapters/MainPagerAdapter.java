@@ -3,17 +3,15 @@ package ua.smartshop.Adapters;
 import android.content.Context;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
-import java.util.HashMap;
 import ua.smartshop.Models.CategoryProduct;
 import ua.smartshop.R;
-import ua.smartshop.Utils.Сonstants;
 
 public class MainPagerAdapter extends PagerAdapter {
 
@@ -22,6 +20,7 @@ public class MainPagerAdapter extends PagerAdapter {
     public static final String ACTION_ONCLIK_ITEM_PEGER_ADAPTER = "ACTION_ONCLIK_ITEM_PEGER_ADAPTER";
     private LayoutInflater mInflater;
     private onSomeEventListener someEventListener ;
+    private View ui_bar;
 
     public MainPagerAdapter(Context context, CategoryProduct categoryProduct[]) {
         this.mContext = context;
@@ -35,7 +34,7 @@ public class MainPagerAdapter extends PagerAdapter {
 
     @Override
     public boolean isViewFromObject(View view, Object object) {
-        return view == ((LinearLayout) object);
+        return view == ((RelativeLayout) object);
     }
 
     @Override
@@ -48,10 +47,8 @@ public class MainPagerAdapter extends PagerAdapter {
                 false);
 
         imageViewAvatar = (ImageView) itemView.findViewById(R.id.imageViewAvatar);
+        ui_bar = (View) itemView.findViewById(R.id.image_progress_bar);
 
-        Picasso.with(mContext)
-                .load(String.valueOf(mCategoryProduct[position].getWayImage()))
-                .into(imageViewAvatar);
 
         itemView.setOnClickListener(new View.OnClickListener() {
 
@@ -63,6 +60,21 @@ public class MainPagerAdapter extends PagerAdapter {
             }
         });
 
+        Picasso.with(mContext)
+                .load(String.valueOf(mCategoryProduct[position].getWayImage()))
+                .into(imageViewAvatar, new Callback() {
+                    @Override
+                    public void onSuccess() {
+                        ui_bar.setVisibility(View.INVISIBLE);
+                    }
+
+                    @Override
+                    public void onError() {
+                        ui_bar.setVisibility(View.INVISIBLE);
+
+                    }
+                });
+
         ((ViewPager) container).addView(itemView);
         return itemView;
     }
@@ -73,17 +85,7 @@ public class MainPagerAdapter extends PagerAdapter {
 
     @Override
     public void destroyItem(ViewGroup container, int position, Object object) {
-        ((ViewPager) container).removeView((LinearLayout) object);
+        ((ViewPager) container).removeView((RelativeLayout) object);
     }
-
-    public static HashMap<String, String> getParamsUrl(String idItem){
-
-        HashMap<String, String> params = new HashMap<String, String>();
-
-        params.put(Сonstants.VALUE_KEY_ITEM_ID,idItem);
-        params.put(Сonstants.VALUE_KEY_ITEM_NUMBER,"0");
-        return params;
-    }
-
 }
 

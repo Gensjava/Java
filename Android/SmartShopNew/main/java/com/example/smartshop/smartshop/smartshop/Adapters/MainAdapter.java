@@ -1,29 +1,24 @@
 package ua.smartshop.Adapters;
 
 import android.content.Context;
-import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
-
 import com.google.gson.Gson;
-import com.squareup.picasso.Picasso;
 import com.viewpagerindicator.CirclePageIndicator;
-
 import org.json.JSONArray;
 import org.json.JSONException;
-
 import java.util.ArrayList;
 import java.util.HashMap;
-
-import ua.smartshop.AsyncWorker;
-import ua.smartshop.IWorkerCallback;
+import ua.smartshop.Utils.AsyncWorker;
+import ua.smartshop.Interface.IWorkerCallback;
+import ua.smartshop.Activitys.MainActivity;
 import ua.smartshop.Models.CategoryProduct;
 import ua.smartshop.Models.Product;
 import ua.smartshop.R;
@@ -32,36 +27,31 @@ import ua.smartshop.Utils.Сonstants;
 
 public class MainAdapter extends BaseAdapter implements IWorkerCallback {
 
-    private Context ctx;
+    private Context mContext;
     private LayoutInflater lInflater;
-    private ArrayList<Product[]> objects;
+    private ArrayList<Product[]> Products;
     private onSomeEventListener someEventListener ;
     private MainPagerAdapter adapter;
-    private CategoryProduct[] categoryProduct = new CategoryProduct[0];
-
-    private static final String TEXT_CATEGORY_ALL = "Все категории";// текст
-    private static final String TEXT_SHARES = "Акции";//текст
-
-    public static final String ACTION_CATEGORY_ALL = "ACTION_CATEGORY_ALL";//клик на все категории
-    public static final String ACTION_ITEM = "ACTION_ITEM";//клик на товар imageView
+    public static final String ACTION_CATEGORY_ALL = "ACTION_CATEGORY_ALL";
+    public static final String ACTION_ONCLIK_ITEM_CATEGORY_ADAPTER_MAIN = "ACTION_ONCLIK_ITEM_CATEGORY_ADAPTER_MAIN";
 
     public MainAdapter(Context context, ArrayList<Product[]> products) {
-        ctx = context;
-        objects = products;
-        lInflater = (LayoutInflater) ctx
+        mContext = context;
+        Products = products;
+        lInflater = (LayoutInflater) mContext
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
     // кол-во элементов
     @Override
     public int getCount() {
-        return objects.size();
+        return Products.size();
     }
 
     // элемент по позиции
     @Override
     public Object getItem(int position) {
-        return objects.get(position);
+        return Products.get(position);
     }
 
     // id по позиции
@@ -79,9 +69,9 @@ public class MainAdapter extends BaseAdapter implements IWorkerCallback {
                 //заполняем рекламнный блок
                 convertView = lInflater.inflate(R.layout.main_peger, parent, false);
 
-                doSomethingAsyncOperaion(new HashMap<String, String>(), Сonstants.url_get_slider_main_page , TypeRequest.GET);
+                doSomethingAsyncOperaion(new HashMap<String, String>(), mContext.getString(R.string.url_get_slider_main_page) , TypeRequest.GET);
 
-                adapter = new MainPagerAdapter(ctx, Сonstants.categoryProduct);
+                adapter = new MainPagerAdapter(mContext, Сonstants.categoryProduct);
 
                 ViewPager viewPager = (ViewPager) convertView.findViewById(R.id.view_pager);
                 viewPager.setAdapter(adapter);
@@ -94,119 +84,72 @@ public class MainAdapter extends BaseAdapter implements IWorkerCallback {
             case 1:
                 convertView = lInflater.inflate(R.layout.main_category, parent, false);
 
-                TextView textView = (TextView) convertView.findViewById(R.id.main_category_all_text);
-                textView.setText(TEXT_CATEGORY_ALL);
+                TextView textView = (TextView) convertView.findViewById(R.id.main_category_text);
+                textView.setText(mContext.getString(R.string.category_all));
 
                 textView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        someEventListener = (onSomeEventListener) ctx;
+                        someEventListener = (onSomeEventListener) mContext;
                         someEventListener.someEvent(ACTION_CATEGORY_ALL, null);
                     }
                 });
 
+                ImageView imageView = (ImageView)convertView.findViewById(R.id.main_category_all_arrow);
+                imageView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(final View v) {
+                        someEventListener = (onSomeEventListener) mContext;
+                        someEventListener.someEvent(ACTION_CATEGORY_ALL, null);
+                    }
+                });
+                TextView textViewcounter = (TextView) convertView.findViewById(R.id.main_category_counter);
+                textViewcounter.setVisibility(View.INVISIBLE);
+
                 break;
             case 2:
-                //http://www.materialpalette.com/amber/red
-                convertView = lInflater.inflate(R.layout.main_category_grid, parent, false);
 
-                GridView cridView = (GridView) convertView.findViewById(R.id.main_grid_view);
-                cridView.setAdapter(new MainCategoryAdapter(ctx, CategoryProduct.getMainCategory()));
+                convertView = lInflater.inflate(R.layout.main_horizontal_scroll, parent, false);
+
+                LinearLayout mGallery = (LinearLayout) convertView.findViewById(R.id.main_gallery_scroll);
+
+                for (int i = 0; i < CategoryProduct.getMainCategory().size(); i++)
+                {
+                    View view = lInflater.inflate(R.layout.main_horizontal_scroll_item,   mGallery, false);
+                    view.setTag(CategoryProduct.getMainCategory().get(i).getId());
+
+                    view.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(final View v) {
+                            someEventListener = (onSomeEventListener) mContext;
+                            someEventListener.someEvent(ACTION_ONCLIK_ITEM_CATEGORY_ADAPTER_MAIN, String.valueOf(v.getTag()));
+                        }
+                    });
+
+                    ImageView img = (ImageView) view.findViewById(R.id.main_scroll_image);
+                    img.setImageResource(CategoryProduct.getMainCategory().get(i).getImage());
+
+                    View txt = (View) view.findViewById(R.id.main_scrll_space);
+                    mGallery.addView(view);
+                }
 
                 break;
             case 3:
                 convertView = lInflater.inflate(R.layout.main_category, parent, false);
 
-                TextView textViewShares = (TextView) convertView.findViewById(R.id.main_category_all_text);
-                textViewShares.setText(TEXT_SHARES);
+                TextView textViewShares = (TextView) convertView.findViewById(R.id.main_category_text);
+                textViewShares.setText(mContext.getString(R.string.category_shares));
+                textViewcounter = (TextView) convertView.findViewById(R.id.main_category_counter);
+                textViewcounter.setVisibility(View.INVISIBLE);
 
                 break;
             default:
 
-                convertView = null;
+                convertView = lInflater.inflate(R.layout.main_category_grid, parent, false);
 
-                final ViewHolder viewHolder;
-                final Product[] item = (Product[]) getItem(position);
-
-                if (convertView == null) {
-                    convertView = lInflater.inflate(R.layout.product_dual, parent, false);
-
-                    viewHolder = new ViewHolder();
-
-                    viewHolder.textView_itemOne = (TextView) convertView.findViewById(R.id.textView_itemOne);
-                    viewHolder.textView_itemTwo = (TextView) convertView.findViewById(R.id.textView_itemTwo);
-                    viewHolder.imageViewOne = (ImageView) convertView.findViewById(R.id.imageView_itemOne);
-                    viewHolder.imageViewTwo = (ImageView) convertView.findViewById(R.id.imageView_itemTwo);
-
-                    convertView.setTag(viewHolder);
-                } else {
-                    viewHolder = (ViewHolder) convertView.getTag();
-                }
-
-                if(item != null){
-
-//                   for (Product i : item){
-//                       final String URL = i.getWayImage();
-//                       final String ITEM_ID = i.getId();
-//
-//                       ImageView imageView = (ImageView) convertView.findViewById(R.id.imageView_itemOne);
-//
-//                    Picasso.with(ctx)
-//                            .load(URL)
-//                            .into(imageView);
-//
-//                       imageView.setOnClickListener(new View.OnClickListener() {
-//                        @Override
-//                        public void onClick(View v) {
-//                           someEventListener = (onSomeEventListener) ctx;
-//                           someEventListener.someEvent(ACTION_ITEM_ONE, ITEM_ID);
-//                       }
-//                    });
-//
-//                    }
-
-                    // imageViewOne.setImageBitmap(GetBitmapDual(imageViewOne) );
-
-                    final String URL_ONE = item[0].getWayImage();
-                    final String URL_TWO = item[1].getWayImage();
-
-                    final String ITEM_ID_ONE = item[0].getId();
-                    final String ITEM_ID_TWO = item[1].getId();
-
-                    ImageView imageViewOne = (ImageView) convertView.findViewById(R.id.imageView_itemOne);
-
-                    Picasso.with(ctx)
-                            .load(URL_ONE)
-                            .into(imageViewOne);
-
-
-
-                    ImageView imageViewTwo = (ImageView) convertView.findViewById(R.id.imageView_itemTwo);
-
-                    Picasso.with(ctx)
-                            .load(URL_TWO)
-                            .into(imageViewTwo);
-
-                    viewHolder.textView_itemOne.setText(Сonstants.TEXT_PRICE + item[0].getPrice()+ Сonstants.TEXT_CURRENCY);
-                    viewHolder.textView_itemTwo.setText(Сonstants.TEXT_PRICE + item[1].getPrice()+ Сonstants.TEXT_CURRENCY);
-
-                    //слушатели
-                    imageViewOne.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            someEventListener = (onSomeEventListener) ctx;
-                            someEventListener.someEvent(ACTION_ITEM, ITEM_ID_ONE);
-                        }
-                    });
-
-                    imageViewTwo.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            someEventListener = (onSomeEventListener) ctx;
-                            someEventListener.someEvent(ACTION_ITEM, ITEM_ID_TWO);
-                        }
-                    });
-                }
+                GridView cridView = (GridView) convertView.findViewById(R.id.main_grid_view);
+                cridView.setStretchMode(GridView.STRETCH_COLUMN_WIDTH);
+                cridView.setAdapter(new MainProductAdapter(mContext, Products.get(position)));
 
                 break;
         }
@@ -215,7 +158,7 @@ public class MainAdapter extends BaseAdapter implements IWorkerCallback {
 
     @Override
     public void onBegin() {
-
+        MainActivity.ui_bar.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -229,23 +172,17 @@ public class MainAdapter extends BaseAdapter implements IWorkerCallback {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+        MainActivity.ui_bar.setVisibility(View.INVISIBLE);
     }
 
     @Override
     public void onFailure(final Throwable t) {
-
+        MainActivity.ui_bar.setVisibility(View.INVISIBLE);
     }
 
     @Override
     public void onEnd() {
 
-    }
-
-    private static class ViewHolder {
-        public TextView textView_itemOne;
-        public TextView textView_itemTwo;
-        public ImageView imageViewOne;
-        public ImageView imageViewTwo;
     }
 
     public interface onSomeEventListener {
@@ -254,7 +191,7 @@ public class MainAdapter extends BaseAdapter implements IWorkerCallback {
 
     private void doSomethingAsyncOperaion(HashMap paramsUrl,String url, TypeRequest typeRequest) {
 
-        new AsyncWorker<JSONArray>(this, paramsUrl, url, typeRequest) {
+        new AsyncWorker<JSONArray>(this, paramsUrl, url, typeRequest, mContext) {
         }.execute();
     }
 
@@ -267,7 +204,7 @@ public class MainAdapter extends BaseAdapter implements IWorkerCallback {
 //
 //            Bitmap bitmap1 = ((BitmapDrawable)imageView.getDrawable()).getBitmap(); //blue
 //
-//            Bitmap bitmap2 = BitmapFactory.decodeResource(ctx.getResources(), R.drawable.top_byu); //green
+//            Bitmap bitmap2 = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.top_byu); //green
 //            Drawable drawable1 = new BitmapDrawable(bitmap1);
 //            Drawable drawable2 = new BitmapDrawable(bitmap2);
 //

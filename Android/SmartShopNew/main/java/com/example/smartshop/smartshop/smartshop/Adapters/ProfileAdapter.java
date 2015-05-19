@@ -5,31 +5,23 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
-
-
 import java.util.ArrayList;
-
 import ua.smartshop.Models.Profile;
 import ua.smartshop.R;
 
-/**
- * Created by Gens on 01.04.2015.
- */
 public class ProfileAdapter  extends BaseAdapter {
 
-    private static final String TEXT_ORDERS_ALL = "Все заказы >>";
-    private static final String TEXT_ORDERS_ALL_STATUS = "Заказы по статусам >>";
-    private Context ctx;
+    private Context mContext;
     private LayoutInflater lInflater;
     private ArrayList<Profile> objects;
 
     public ProfileAdapter(Context context, ArrayList<Profile> profile) {
-        ctx = context;
+        mContext = context;
         objects = profile;
-        lInflater = (LayoutInflater) ctx
+        lInflater = (LayoutInflater) mContext
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
     }
 
     // кол-во элементов
@@ -65,28 +57,59 @@ public class ProfileAdapter  extends BaseAdapter {
                     view = lInflater.inflate(R.layout.profile, parent, false);
 
                     TextView txtName = (TextView) view.findViewById(R.id.profile_SNP);
-                    TextView txtemail = (TextView) view.findViewById(R.id.profile_email);
+                    TextView txtEmail = (TextView) view.findViewById(R.id.profile_email);
+                    TextView txtPhone = (TextView) view.findViewById(R.id.profile_phone);
+                    TextView txtCity = (TextView) view.findViewById(R.id.profile_city);
+                    TextView txtAddress = (TextView) view.findViewById(R.id.profile_address);
                     //
-                    txtemail.setText(item.getEmail());
-                    txtName.setText(item.getUserName());
+                    txtEmail.setText(item.getEmail());
+                    txtName.setText(item.getSNP());
+                    txtPhone.setText(item.getPhone());
+                    txtCity.setText(item.getCity());
+                    txtAddress.setText(item.getDeliveryAddress());
 
                     break;
                 case 1:
-                    view = lInflater.inflate(R.layout.category, parent, false);
+                    view = lInflater.inflate(R.layout.main_category, parent, false);
 
-                    TextView textView = (TextView) view.findViewById(R.id.category_all_text);
-                    textView.setText(TEXT_ORDERS_ALL);
+                    TextView textView = (TextView) view.findViewById(R.id.main_category_text);
+                    ImageView imageView = (ImageView) view.findViewById(R.id.main_category_all_arrow);
+                    imageView.setImageResource(R.drawable.ic_action_cart);
+                    textView.setText(mContext.getString(R.string.cart));
                     break;
                 case 2:
-                    view = lInflater.inflate(R.layout.profile_status, parent, false);
-
+                    view = lInflater.inflate(R.layout.main_category, parent, false);
+                    textView = (TextView) view.findViewById(R.id.main_category_text);
+                    textView.setText(mContext.getString(R.string.orders_all));
+                    imageView = (ImageView) view.findViewById(R.id.main_category_all_arrow);
+                    imageView.setImageResource(R.drawable.ic_action_orders);
                     break;
                 case 3:
-                    view = lInflater.inflate(R.layout.category, parent, false);
+                    view = lInflater.inflate(R.layout.main_category, parent, false);
 
-                    textView = (TextView) view.findViewById(R.id.category_all_text);
-                    textView.setText(TEXT_ORDERS_ALL_STATUS);
+                    textView = (TextView) view.findViewById(R.id.main_category_text);
+                    textView.setText(mContext.getString(R.string.browsing_history_products));
+                    imageView = (ImageView) view.findViewById(R.id.main_category_all_arrow);
+                    imageView.setImageResource(R.drawable.ic_action_browsing_history);
                     break;
+                case 4:
+                    view = lInflater.inflate(R.layout.main_category, parent, false);
+
+                    textView = (TextView) view.findViewById(R.id.main_category_text);
+                    textView.setText(mContext.getString(R.string.massege));
+                    imageView = (ImageView) view.findViewById(R.id.main_category_all_arrow);
+                    imageView.setImageResource(R.drawable.ic_action_massege);
+
+                    break;
+                case 5:
+                    view = lInflater.inflate(R.layout.main_category, parent, false);
+
+                    textView = (TextView) view.findViewById(R.id.main_category_text);
+                    textView.setText(mContext.getString(R.string.notice));
+                    imageView = (ImageView) view.findViewById(R.id.main_category_all_arrow);
+                    imageView.setImageResource(R.drawable.ic_action_notification);
+                    break;
+
                 default:
                     break;
             }

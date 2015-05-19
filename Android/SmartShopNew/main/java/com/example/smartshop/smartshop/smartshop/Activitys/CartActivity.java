@@ -1,19 +1,16 @@
 package ua.smartshop.Activitys;
 
+
 import android.content.Context;
 import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.TabHost;
-import android.widget.TabWidget;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import ua.smartshop.Adapters.CartAdapter;
 import ua.smartshop.Fragments.CartFragment;
 import ua.smartshop.Models.Cart;
@@ -25,12 +22,9 @@ import ua.smartshop.R;
  */
 public class CartActivity extends ActionBarActivity implements CartAdapter.onSomeEventListener, View.OnClickListener{
 
-    private static final String TEXT_DESIGN = "Оформление";
-    private static final String TEXT_CART = "Корзина";
-    private static final String TEXT_PAY = "Оплата";
-    private static final String TEG_PAGE_ONE = "tag1";
-    private static final String TEG_PAGE_TWO = "tag2";
-    private static final String TEG_PAGE_THREE = "tag3";
+    private byte tabsPage;
+    private View nextPageRight;
+    private View nextPageLeft;
     //
     private TabHost tabs;
 
@@ -42,47 +36,56 @@ public class CartActivity extends ActionBarActivity implements CartAdapter.onSom
         setRequestedOrientation (ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         tabs = (TabHost) findViewById(android.R.id.tabhost);
-
-
         tabs.setup();
 
-        TabHost.TabSpec spec = tabs.newTabSpec(TEG_PAGE_ONE);
+        TabHost.TabSpec spec = tabs.newTabSpec(getString(R.string.page_one));
 
         spec.setContent(R.id.cart_tab1);
-        spec.setIndicator(TEXT_CART);
+        spec.setIndicator(getString(R.string.cart));
         tabs.addTab(spec);
 
-        spec = tabs.newTabSpec(TEG_PAGE_TWO);
+        spec = tabs.newTabSpec(getString(R.string.page_two));
         spec.setContent(R.id.cart_tab2);
-        spec.setIndicator(TEXT_DESIGN);
+        spec.setIndicator(getString(R.string.design));
         tabs.addTab(spec);
 
-        spec = tabs.newTabSpec(TEG_PAGE_THREE);
+        spec = tabs.newTabSpec(getString(R.string.page_three));
         spec.setContent(R.id.cart_tab3);
-        spec.setIndicator(TEXT_PAY);
+        spec.setIndicator(getString(R.string.pay));
 
         tabs.addTab(spec);
 
-        tabs.setCurrentTab(0);
+        tabs.setCurrentTab(tabsPage);
 
-        View buttonPay = (View) findViewById(R.id.order_pay_button);
-        buttonPay.setOnClickListener(this);
-        View buttonMake = (View) findViewById(R.id.cart_make_order);
-        buttonMake.setOnClickListener(this);
+        nextPageRight = (View) findViewById(R.id.cart_next_page_right);
+        nextPageRight.setOnClickListener(this);
+        nextPageLeft = (View) findViewById(R.id.cart_next_page_left);
+        nextPageLeft.setOnClickListener(this);
+        //
+        ((TextView) findViewById(R.id.cart_total_sum)).setText(String.valueOf(Cart.getTotalSum()));
 
         setTabColor(tabs);
+        nextVisibility();
 
         // Add a tab change listener, which calls a method that sets the text color.
         tabs.setOnTabChangedListener(new TabHost.OnTabChangeListener() {
             public void onTabChanged(String tabId) {
                 InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.hideSoftInputFromWindow(tabs.getApplicationWindowToken(), 0);
+
+                tabsPage = (byte) tabs.getCurrentTab();
                 setTabColor(tabs);
+                nextVisibility();
             }
         });
-
+        //делаем стрелу вместо меню
+        getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        //
     }
     private void setTabColor(TabHost tabHost) {
+
+
         try {
             for (int i=0; i < tabHost.getTabWidget().getChildCount();i++) {
                 TextView tv = (TextView) tabHost.getTabWidget().getChildAt(i).findViewById(android.R.id.title); //Unselected Tabs
@@ -107,7 +110,10 @@ public class CartActivity extends ActionBarActivity implements CartAdapter.onSom
             case CartFragment.TEG_GART_TOTAL_FRAGMENT:
 
                 ((TextView) findViewById(R.id.cart_total_sum)).setText(String.valueOf(Cart.getTotalSum()));
-                ((TextView) findViewById(R.id.order_item_total)).setText(String.valueOf(Cart.getTotalSum()));
+
+                if (Cart.getmCart().size() == 0 ){
+                    ((TextView)  findViewById(R.id.lvMain_text)).setText(getString(R.string.cart_in_empty));
+                }
 
             case CartFragment.ACTION_GART_FRAGMENT:
                 //linkFragment = new OrderMakeFragment();
@@ -119,18 +125,46 @@ public class CartActivity extends ActionBarActivity implements CartAdapter.onSom
         }
     }
 
+    private void nextVisibility(){
+        if (tabsPage == 0){
+            nextPageLeft.setVisibility(View.INVISIBLE);
+            nextPageRight.setVisibility(View.VISIBLE);
+        }else if (tabsPage == 1){
+            nextPageLeft.setVisibility(View.VISIBLE);
+            nextPageRight.setVisibility(View.VISIBLE);
+        }else if (tabsPage == 2 ){
+            nextPageLeft.setVisibility(View.VISIBLE);
+            nextPageRight.setVisibility(View.INVISIBLE);
+        }
+    }
+
     @Override
     public void onClick(final View v) {
         switch (v.getId()) {
-            case R.id.cart_make_order:
-                tabs.setCurrentTab(1);
+            case R.id.cart_next_page_right:
+                tabs.setCurrentTab(tabsPage +=1);
+                nextVisibility();
                 break;
-            case R.id.order_pay_button:
-                tabs.setCurrentTab(2);
+            case R.id.cart_next_page_left:
+                tabs.setCurrentTab(tabsPage -=1);
+                nextVisibility();
                 break;
             default:
                 break;
         }
+    }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId())
+        {
+            case android.R.id.home:
+                //Надо вернуть иконку
+                onBackPressed();
+                MainActivity.updateHotCount();
+                return true;
+        }
+        return true;
     }
 }

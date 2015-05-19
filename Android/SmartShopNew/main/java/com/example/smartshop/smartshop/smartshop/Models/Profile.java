@@ -4,10 +4,11 @@ import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
+
+import java.util.HashMap;
 
 import ua.smartshop.BuildConfig;
-import ua.smartshop.ProfileActivity;
+import ua.smartshop.Activitys.ProfileActivity;
 import ua.smartshop.Utils.Сonstants;
 
 /**
@@ -23,6 +24,7 @@ public class Profile {
     private Order mOrders;
     private String mDeliveryAddress;
     private String mPhone;
+    private String mCity;
     //
     public static boolean mAuthorization;
     public static String mUserName;
@@ -118,6 +120,14 @@ public class Profile {
         mDeliveryAddress = deliveryAddress;
     }
 
+    public String getCity() {
+        return mCity;
+    }
+
+    public void setCity(final String city) {
+        mCity = city;
+    }
+
     public static AccountManager getmAccountManager() {
         return mAccountManager;
     }
@@ -130,7 +140,7 @@ public class Profile {
 
         if (login.toString().equals("") || password.toString().equals(""))
         {
-            Log.i("Не заполнены все поля!","Не заполнены все поля!");
+            return;
         }
         else
         {
@@ -167,5 +177,20 @@ public class Profile {
             Intent intent = new Intent(context,ProfileActivity.class);
             context.startActivity(intent);
         }
+    }
+    public static HashMap<String, String> getParamsUrl(String userName, String password){
+
+        HashMap<String, String> params = new HashMap<String, String>();
+
+        params.put(Сonstants.TAG_USER_NAME, userName);
+        params.put(Сonstants.TAG_PASWWORD, password);
+        return params;
+    }
+    public static HashMap<String, String> getParamsuserNameUrl(String userName){
+
+        HashMap<String, String> params = new HashMap<String, String>();
+        params.put(Сonstants.TAG_USER_NAME, userName);
+
+        return params;
     }
 }

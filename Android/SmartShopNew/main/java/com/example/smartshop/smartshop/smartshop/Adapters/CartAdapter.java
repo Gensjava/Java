@@ -1,5 +1,4 @@
 package ua.smartshop.Adapters;
-
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,25 +7,22 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.squareup.picasso.Picasso;
-
 import java.util.ArrayList;
-
 import ua.smartshop.Models.Cart;
 import ua.smartshop.R;
 
 public class CartAdapter extends ArrayAdapter<Cart>  {
 
     private final LayoutInflater mLayoutInflater;
-    private Context ctx;
+    private Context mContext;
     private onSomeEventListener someEventListener ;
     public static final String TEG_GART_TOTAL = "TEG_GART_TOTAL";
 
     public CartAdapter(Context context, final int resource, final ArrayList<Cart> objects) {
         super(context, resource, objects);
         mLayoutInflater = LayoutInflater.from(context);
-        ctx = context;
+        mContext = context;
     }
 
     @Override
@@ -67,7 +63,7 @@ public class CartAdapter extends ArrayAdapter<Cart>  {
             viewHolder.sumTextView.setText(String.valueOf(item.getSum()));
             ImageView imageView = (ImageView) convertView.findViewById(R.id.cart_imageView);
            
-            Picasso.with(ctx)
+            Picasso.with(mContext)
                     .load(item.getProduct().getWayImage())
                     .into(imageView);
             
@@ -77,8 +73,8 @@ public class CartAdapter extends ArrayAdapter<Cart>  {
                 public void onClick(View v) {
                     mOnClick(v,  item);
                     //
-                    someEventListener = (onSomeEventListener) ctx;
-                    someEventListener.someEvent(TEG_GART_TOTAL, "");
+                    someEventListener = (onSomeEventListener) mContext;
+                    someEventListener.someEvent(TEG_GART_TOTAL, null);
                 }
             });
             viewHolder.minusButton.setOnClickListener(new View.OnClickListener() {
@@ -87,7 +83,7 @@ public class CartAdapter extends ArrayAdapter<Cart>  {
                     if (item.getNumber() > 1){
                         mOnClick(v,  item);
                         //
-                        someEventListener = (onSomeEventListener) ctx;
+                        someEventListener = (onSomeEventListener) mContext;
                         someEventListener.someEvent(TEG_GART_TOTAL, null);
                     }
                 }
@@ -96,7 +92,7 @@ public class CartAdapter extends ArrayAdapter<Cart>  {
                 @Override
                 public void onClick(View v) {
                     mOnClick(v, item);
-                    someEventListener = (onSomeEventListener) ctx;
+                    someEventListener = (onSomeEventListener) mContext;
                     someEventListener.someEvent(TEG_GART_TOTAL, null);
                 }
             });

@@ -7,16 +7,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.TextView;
-
 import ua.smartshop.Adapters.CartAdapter;
 import ua.smartshop.Models.Cart;
 import ua.smartshop.R;
-
-
-/**
- * Created by Gens on 03.03.2015.
- */
-
 
 public class CartFragment extends android.support.v4.app.Fragment implements
         View.OnClickListener
@@ -28,16 +21,17 @@ public class CartFragment extends android.support.v4.app.Fragment implements
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.cart_list, container,
+        View rootView = inflater.inflate(R.layout.main_list, container,
                 false);
 
-        ListView lvCart = (ListView) rootView.findViewById(R.id.cart_listView);
+        ListView lvCart = (ListView) rootView.findViewById(R.id.lvMain);
 
-        CartAdapter adapterCart = new CartAdapter(getActivity(), R.layout.cart_list, (java.util.ArrayList<Cart>) Cart.getmCart());
+        if (Cart.getmCart().size() == 0 ){
+            ((TextView)  rootView.findViewById(R.id.lvMain_text)).setText(getString(R.string.cart_in_empty));
+        }
+
+        CartAdapter adapterCart = new CartAdapter(getActivity(), R.layout.main_list, (java.util.ArrayList<Cart>) Cart.getmCart());
         lvCart.setAdapter(adapterCart);
-
-        ((TextView) rootView.findViewById(R.id.cart_total_sum)).setText(String.valueOf(Cart.getTotalSum()));
-
 
         return rootView;
     }
@@ -47,7 +41,6 @@ public class CartFragment extends android.support.v4.app.Fragment implements
 
         switch (v.getId()) {
             case R.id.cart_make_order:
-
                 someEventListener = (onSomeEventListener) getActivity();
                 someEventListener.someEvent(TEG_GART_TOTAL_FRAGMENT, null);
                 break;

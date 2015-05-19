@@ -12,10 +12,9 @@ import android.widget.Toast;
 import org.json.JSONArray;
 import java.lang.*;
 import java.util.HashMap;
-import java.util.List;
-import java.util.concurrent.ExecutionException;
-import ua.smartshop.AsyncWorker;
-import ua.smartshop.IWorkerCallback;
+
+import ua.smartshop.Utils.AsyncWorker;
+import ua.smartshop.Interface.IWorkerCallback;
 import ua.smartshop.Models.Profile;
 import ua.smartshop.R;
 import ua.smartshop.Enums.TypeRequest;
@@ -75,7 +74,7 @@ public class ProfileRegistrationFragment extends android.support.v4.app.Fragment
                     params.put(Сonstants.TAG_ICQ_SKYPE, editAccountSkypye.getText().toString());
                     params.put(Сonstants.TAG_ADDRESS, editAccountDelivery.getText().toString());
 
-                    doSomethingAsyncOperaion(params , Сonstants.url_set_user_registration,  TypeRequest.POST);
+                    doSomethingAsyncOperaion(params ,  getString(R.string.url_set_user_registration),  TypeRequest.POST);
                 }
             }
         });
@@ -84,7 +83,7 @@ public class ProfileRegistrationFragment extends android.support.v4.app.Fragment
 
     private void doSomethingAsyncOperaion(HashMap paramsUrl,String url, TypeRequest typeRequest) {
 
-        new AsyncWorker<JSONArray>(this, paramsUrl, url, typeRequest) {
+        new AsyncWorker<JSONArray>(this, paramsUrl, url, typeRequest, getActivity()) {
         }.execute();
     }
 

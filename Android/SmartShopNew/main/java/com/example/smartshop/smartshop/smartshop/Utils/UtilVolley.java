@@ -1,8 +1,8 @@
 package ua.smartshop.Utils;
 
+import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -19,39 +19,37 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+
+import ua.smartshop.R;
 
 /**
  * Created by Gens on 14.03.2015.
  */
 public class UtilVolley {
 
-    private JSONArray mJSONArray;
-    private String mUrl;
-    private HashMap<String, String> mParams;
-    private Context mContext;
+     Context mActivity;
+    
+    // массив товаров JSONArray
+    private JSONArray mProducts;
 
-    public UtilVolley(HashMap params, String url ,Context context) {
-        mParams = params;
-        mUrl = url;
-        mContext = context;
+    String mIdItem;
+
+
+    public UtilVolley(Activity activity, String idItem) {
+        mActivity = activity;
+        mIdItem = idItem;
     }
 
-    public JSONArray getCategory(){
+    public void getCategory(){
 
-        RequestQueue queue = Volley.newRequestQueue(mContext);
-
+        RequestQueue queue = Volley.newRequestQueue(mActivity);
         List<NameValuePair> params = new ArrayList<NameValuePair>();
 
-        for (Map.Entry entry : mParams.entrySet()) {
-            params.add(new BasicNameValuePair(entry.getKey().toString(), entry.getValue().toString()));
-        }
+        params.add(new BasicNameValuePair("idItem", mIdItem));
 
         String paramString = URLEncodedUtils.format(params, "utf-8");
-
-        String url = mUrl+"/?"+paramString;
+        String url = mActivity.getString(R.string.url_get_category_products)+"/?"+paramString;
         
         JsonObjectRequest jsObjRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
 
@@ -60,38 +58,16 @@ public class UtilVolley {
                 // TODO Auto-generated method stub
                 JSONObject json = response;
 
-                int success;
-                // json success tag
-                try {
-                    success = json.getInt(Сonstants.TAG_SUCCESS);
-                 
-                    if (success == 1) {
-                        // если получили информацию о товаре
-                         mJSONArray = json.getJSONArray(Сonstants.TAG_PRODUCT);
-                        Log.i("mJSONArray VVV  ",mJSONArray.toString());
-
-                    } else {
-                        // не нашли товар по pid
-                    }
-                }
-                catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
             }
         }, new Response.ErrorListener() {
 
             @Override
             public void onErrorResponse(VolleyError error) {
+                // TODO Auto-generated method stub
 
-                Toast.makeText(mContext, "" + error
-                      , Toast.LENGTH_LONG).show();
-
-                Log.e("omg android"," "+ error );
             }
         });
         queue.add(jsObjRequest);
-
-        return mJSONArray;
     }
+
 }

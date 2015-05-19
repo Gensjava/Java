@@ -7,11 +7,8 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.squareup.picasso.Picasso;
-
 import java.util.ArrayList;
-
 import ua.smartshop.Models.Cart;
 import ua.smartshop.R;
 
@@ -19,12 +16,12 @@ import ua.smartshop.R;
 public class OrderAdapter extends ArrayAdapter<Cart>  {
 
     private final LayoutInflater mLayoutInflater;
-    private Context ctx;
+    private Context mContext;
 
     public OrderAdapter(Context context, final int resource, final ArrayList<Cart> objects) {
         super(context, resource, objects);
         mLayoutInflater = LayoutInflater.from(context);
-        ctx = context;
+        mContext = context;
     }
 
     @Override
@@ -58,11 +55,9 @@ public class OrderAdapter extends ArrayAdapter<Cart>  {
             //
             ImageView imageView = (ImageView) convertView.findViewById(R.id.order_item_image);
            
-            Picasso.with(ctx)
+            Picasso.with(mContext)
                     .load(item.getProduct().getWayImage())
                     .into(imageView);
-
-
         }
         return convertView;
     }

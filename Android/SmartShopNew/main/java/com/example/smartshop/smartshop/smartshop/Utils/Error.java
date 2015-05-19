@@ -4,9 +4,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.widget.EditText;
-
 import ua.smartshop.R;
-
 
 /**
  * Created by Gens on 19.03.2015.

@@ -1,92 +1,69 @@
-package ua.smartshop;
+package ua.smartshop.Activitys;
+
 
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
-import android.graphics.drawable.GradientDrawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
-import android.support.v7.appcompat.*;
-
-
-import android.support.v7.view.ActionMode;
 import android.util.Log;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.TextView;
-
-import com.nispok.snackbar.Snackbar;
-import com.nispok.snackbar.SnackbarManager;
-import com.nispok.snackbar.enums.SnackbarType;
-import com.nispok.snackbar.listeners.ActionClickListener;
-
-import java.util.HashMap;
-import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.concurrent.ExecutionException;
 
-import ua.smartshop.Activitys.CartActivity;
 import ua.smartshop.Adapters.CategoryAdapter;
 import ua.smartshop.Adapters.MainAdapter;
-import ua.smartshop.Adapters.MainCategoryAdapter;
+import ua.smartshop.Adapters.MainProductAdapter;
 import ua.smartshop.Adapters.MainPagerAdapter;
-import ua.smartshop.Adapters.ProductAdapter;
 import ua.smartshop.Adapters.ProductItemAdapter;
-import ua.smartshop.Enums.TypeRequest;
+import ua.smartshop.Utils.AsyncWorker;
 import ua.smartshop.Fragments.CartFragment;
 import ua.smartshop.Fragments.CategoryProductFragment;
 import ua.smartshop.Fragments.CategoryProductRootFragment;
+import ua.smartshop.Fragments.ErrorFragment;
 import ua.smartshop.Fragments.MainContactFragment;
 import ua.smartshop.Fragments.MainLogoFragment;
-import ua.smartshop.Fragments.PreferenceFragment;
+import ua.smartshop.Fragments.MainPreferenceFragment;
 import ua.smartshop.Fragments.ProductDiscriptionFragment;
-import ua.smartshop.Fragments.ProducttItemFragment;
+import ua.smartshop.Fragments.ProducttItemRootFragment;
+import ua.smartshop.Fragments.MainFragment;
 import ua.smartshop.Models.Cart;
 import ua.smartshop.Models.Profile;
-import ua.smartshop.Utils.Сonstants;
+import ua.smartshop.Fragments.ProductFragment;
+import ua.smartshop.R;
 
 
 public class MainActivity extends ActionBarActivity  implements
         MainAdapter.onSomeEventListener,
-        ProductItemAdapter.onSomeEventListener,
         MainPagerAdapter.onSomeEventListener,
         View.OnClickListener,
         CategoryAdapter.onSomeEventListener,
-        ProductAdapter.onSomeEventListener,
         AdapterView.OnItemSelectedListener,
-        ProducttItemFragment.onUpDataCartListener,
-        MainCategoryAdapter.onSomeEventListener
+        ProducttItemRootFragment.onUpDataCartListener,
+        AsyncWorker.onSomeEventListener,
+        MainProductAdapter.onSomeEventListener
 
 {
 
     public static final String KEY_ITEM = "KEY_ITEM";
     private static final String ACTION_SEARCH = "ACTION_SEARCH";
     public static final String URL_KEY = "URL_KEY";
+    public static View ui_bar;
 
     private String[] mScreenTitles;
     private DrawerLayout mDrawerLayout;
@@ -95,34 +72,34 @@ public class MainActivity extends ActionBarActivity  implements
     private ActionBarDrawerToggle mDrawerToggle;
     private CharSequence mDrawerTitle;
     private CharSequence mTitle;
-
+    private boolean openMain;
     //
     private Fragment fragment;
     private android.support.v4.app.FragmentTransaction ft;
-    private boolean openMain;
-    private TextView ui_hot = null;
+
+    private static TextView ui_hot = null;
+
 
     public void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
 
-        getSupportActionBar().hide();
+        if (!openMain){
+            onOpenFragment(new MainLogoFragment());
 
-        MainLogoFragment mainLogoFragment = new MainLogoFragment();
-        onOpenFragment(mainLogoFragment);
-
-        Timer timer = new Timer();
-        timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                //делаем поиск события
-                openMain = true;
-                onOpenFragment(new MainFragment());
-
-            }
-        }, 5000); //
+            Timer timer = new Timer();
+            timer.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    openMain = true;
+                    onOpenFragment(new MainFragment());
+                }
+            }, 5000); //
+        }
 
 
         setContentView(R.layout.activity_main);
+
         setRequestedOrientation (ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         mTitle = mDrawerTitle = getTitle();
@@ -162,15 +139,18 @@ public class MainActivity extends ActionBarActivity  implements
         };
 
         mDrawerLayout.setDrawerListener(mDrawerToggle);
-       //делаем фон
+
+
+        //делаем фон
 //        Drawable catdrawable = getResources().getDrawable( R.color.sub_main_orange );
 //        getSupportActionBar().setBackgroundDrawable(catdrawable);
-//        getSupportActionBar().show();
+
 
 //        Window window =  getWindow();
 //        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
 //        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
 //        window.setStatusBarColor(getResources().getColor(R.color.main_orange));
+
 
     }
 
@@ -196,7 +176,7 @@ public class MainActivity extends ActionBarActivity  implements
 
     @Override
     public void onNothingSelected(final AdapterView<?> parent) {
-//        mSelectText.setText("Выбранный элемент: ничего");
+     //  mSelectText.setText("Выбранный элемент: ничего");
     }
 
     @Override
@@ -209,48 +189,63 @@ public class MainActivity extends ActionBarActivity  implements
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             selectItem(position);
+
         }
     }
 
     /** Swaps fragments in the main content view */
     private void selectItem(int position) {
 
+        fragment = null;
+        boolean startIntentActivity = false;
+
         switch (position) {
             case 0:
                 Intent ProfileIntent = new Intent(this,ProfileActivity.class);
+                ProfileIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(ProfileIntent);
+                startIntentActivity = true;
                 break;
             case 1:
                 fragment = new MainFragment();
                 break;
             case 2:
+                //проверка регистрации
+                Profile.getAllAccount(this);
+
                 if (!Profile.mAuthorization){
                     Profile.startAuthorization(this);
                 } else {
                     Intent CartIntent = new Intent(this,CartActivity.class);
+                    CartIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(CartIntent);
+                    startIntentActivity = true;
                 }
                 break;
             case 3:
                 fragment = new MainContactFragment();
                 break;
             case 4:
-                fragment = new PreferenceFragment();
+                fragment = new MainPreferenceFragment();
                 break;
             default:
                 break;
         }
 
-        // Insert the fragment by replacing any existing fragment
         if (fragment != null) {
             onOpenFragment(fragment);
-            // Highlight the selected item, update the title, and close the drawer
+
+            if(!fragment.getClass().equals(new MainFragment().getClass())){
+                mDrawerToggle.setDrawerIndicatorEnabled(false);
+            }
+        } else {
+            Log.e(this.getClass().getName(), "Error. object is not created");
+        }
+
+        if (startIntentActivity || fragment != null ){
             mDrawerList.setItemChecked(position, true);
             setTitle(mScreenTitles[position]);
             mDrawerLayout.closeDrawer(mDrawerList);
-        } else {
-            // Error
-            Log.e(this.getClass().getName(), "Error. Fragment is not created");
         }
     }
 
@@ -276,14 +271,19 @@ public class MainActivity extends ActionBarActivity  implements
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+
+        final MenuItem customBar = menu.add(0, R.id.menu_bar, 0,"");
+        customBar.setActionView(R.layout.progress_bar);
+        customBar.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+        final View menu_hotlistBar = menu.findItem(R.id.menu_bar).getActionView();
+        ui_bar = (View) menu_hotlistBar.findViewById(R.id.menu_bar);
+
         // Inflate the menu;
         final MenuItem custom = menu.add(0, R.id.menu_search, 0,"");
         custom.setActionView(R.layout.main_action_bar_search);
         custom.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
 
-
         final MenuItem menuItem = menu.findItem(R.id.menu_search);
-        menuItem.setIcon(R.drawable.ipad_b);
         final View actionView = menuItem.getActionView();
 
         final SearchView ButtonSearch = (SearchView) actionView.findViewById(R.id.searchView);
@@ -292,7 +292,6 @@ public class MainActivity extends ActionBarActivity  implements
                 getIdentifier("android:id/search_button", null, null);
         ImageView searchIcon = (ImageView) ButtonSearch.findViewById(searchIconId);
         searchIcon.setImageResource(R.drawable.abc_ic_search_api_mtrl_alpha);
-
 
         ButtonSearch.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -331,8 +330,9 @@ public class MainActivity extends ActionBarActivity  implements
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         // If the nav drawer is open, hide action items related to the content view
-        boolean drawerOpen = mDrawerLayout.isDrawerOpen(mDrawerList);
+        //boolean drawerOpen = mDrawerLayout.isDrawerOpen(mDrawerList);
         //menu.findItem(R.id.action_search).setVisible(!drawerOpen);
+
         return super.onPrepareOptionsMenu(menu);
     }
 
@@ -340,8 +340,17 @@ public class MainActivity extends ActionBarActivity  implements
     public boolean onOptionsItemSelected(MenuItem item) {
         // Pass the event to ActionBarDrawerToggle, if it returns
         // true, then it has handled the app icon touch event
+
         if (mDrawerToggle.onOptionsItemSelected(item)) {
             return true;
+        }
+        switch (item.getItemId())
+        {
+            case android.R.id.home:
+                //При нажатии вызывается обработчик кнопки назад
+                //Он по умолчанию должен будет вернуться по списку фрагментов назад
+                onBackPressed();
+                return true;
         }
         return true;
     }
@@ -352,10 +361,9 @@ public class MainActivity extends ActionBarActivity  implements
         bundleItem.putString(KEY_ITEM,  value);
 
         switch (key) {// обрабатывам клик на товар
-            case MainAdapter.ACTION_ITEM:
-            case ProductAdapter.ACTION_ITEM_PRODUCT:
+            case MainProductAdapter.ACTION_ITEM:
 
-                fragment = new ProducttItemFragment();
+                fragment = new ProducttItemRootFragment();
                 break;
             case ProductItemAdapter.ACTION_DISRIPTION:// просмотр хар-к товара
 
@@ -368,44 +376,47 @@ public class MainActivity extends ActionBarActivity  implements
             case MainPagerAdapter.ACTION_ONCLIK_ITEM_PEGER_ADAPTER://банер
 
                 fragment = new ProductFragment();
-                bundleItem.putString(URL_KEY, Сonstants.url_get_slider_main_page_category);
+                bundleItem.putString(URL_KEY, getString(R.string.url_get_slider_main_page_category));
                 break;
             case ACTION_SEARCH://поиск потовару
 
                 fragment = new ProductFragment();
-                bundleItem.putString(URL_KEY, Сonstants.url_get_search_products_two);
+                bundleItem.putString(URL_KEY, getString(R.string.url_get_search_products));
                 break;
             case CategoryAdapter.ACTION_FROM_CATEGORY_PRODUCT:
 
                 fragment = new ProductFragment();
-                bundleItem.putString(URL_KEY, Сonstants.url_get_cproducts_from_category);
-
+                bundleItem.putString(URL_KEY, getString(R.string.url_get_cproducts_from_category));
                 break;
             case CategoryAdapter.ACTION_ONCLIK_ITEM_CATEGORY_ADAPTER://категория товаров
-            case MainCategoryAdapter.ACTION_ONCLIK_ITEM_CATEGORY_ADAPTER_MAIN:
+            case MainAdapter.ACTION_ONCLIK_ITEM_CATEGORY_ADAPTER_MAIN:
 
-                 fragment = new CategoryProductFragment();
+                fragment = new CategoryProductFragment();
+                break;
+            case AsyncWorker.ERROR_JSON:
+                fragment = new ErrorFragment();
                 break;
             default:
                 break;
         }
-        if (fragment!= null) {
+        if (fragment!= null ) {
             fragment.setArguments(bundleItem);
+            onOpenFragment(fragment);
+            //делаем стрелу вместо меню
+            if(!fragment.getClass().equals(new ErrorFragment().getClass())){
+            mDrawerToggle.setDrawerIndicatorEnabled(false);
+            }
         }
-
-        //открываем фрагмент
-        onOpenFragment(fragment);
     }
     void onOpenFragment(Fragment fragment) {
 
         if (fragment!= null) {
             FragmentManager fragmentManager = getSupportFragmentManager();
             ft = fragmentManager.beginTransaction();
+
             if(fragment.getClass().equals(new MainLogoFragment().getClass()) || openMain){
                 ft.setCustomAnimations(R.anim.slide_in_left, R.anim.slide_in_right);
-                getSupportActionBar().show();
                 openMain = false;
-
             } else {
                 ft.addToBackStack(fragment.getClass().toString());
             }
@@ -424,31 +435,41 @@ public class MainActivity extends ActionBarActivity  implements
         return netInfo != null && netInfo.isConnectedOrConnecting();
     }
 
+
     @Override
-    public void onSupportActionModeStarted(final ActionMode mode) {
-        super.onSupportActionModeStarted(mode);
-        updateHotCount();
+    protected void onStart() {
+        super.onStart();
     }
 
-    public void updateHotCount() {
+    public static  void updateHotCount() {
 
         if (ui_hot == null) return;
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                if (Cart.mCart.size() == 0)
-                    ui_hot.setVisibility(View.INVISIBLE);
-                else {
-                    ui_hot.setVisibility(View.VISIBLE);
-                    ui_hot.setText(Integer.toString(Cart.mCart.size()));
-                }
-            }
-        });
+
+        if (Cart.mCart.size() == 0)
+            ui_hot.setVisibility(View.INVISIBLE);
+        else {
+            ui_hot.setVisibility(View.VISIBLE);
+            ui_hot.setText(Integer.toString(Cart.mCart.size()));
+        }
     }
 
     @Override
     public void onBackPressed() {
         super.onBackPressed();
         updateHotCount();
+
+        if (checkMainFragment()){
+            mDrawerToggle.setDrawerIndicatorEnabled(true); //меняемс стрелку в меню
+        }
     }
+
+    private boolean checkMainFragment(){
+        boolean checkMain = false;
+        Fragment mainFragment = getSupportFragmentManager().findFragmentByTag(MainFragment.class.toString());
+        if (mainFragment != null){
+            checkMain = mainFragment.isVisible();
+        }
+        return checkMain;
+    }
+
 }

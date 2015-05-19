@@ -1,8 +1,7 @@
-package ua.smartshop;
+package ua.smartshop.Utils;
 
 import android.content.Context;
 import android.os.AsyncTask;
-import android.util.Log;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
@@ -16,35 +15,41 @@ import java.util.List;
 import java.util.Map;
 
 import ua.smartshop.Enums.TypeRequest;
-import ua.smartshop.Utils.JSONParser;
-import ua.smartshop.Utils.Сonstants;
+import ua.smartshop.Interface.IWorkerCallback;
 
 /**
  * Created by Gens on 23.04.2015.
  */
 public  class AsyncWorker<V> extends AsyncTask<Void, Void, JSONArray> {
 
-    private IWorkerCallback<V> callback;
+    private IWorkerCallback<V> mCallback;
     private Throwable t;
     private HashMap<String, String> mParams;
     private TypeRequest mTypeRequest;
     private String mUrl;
     private JSONArray mJSONArray;    // массив товаров JSONArray
     private JSONParser mJParser = new JSONParser();   // Создаем объект JSON Parser
+    private onSomeEventListener someEventListener ;
+    private Context mContext;
+    public static final String ERROR_JSON = "ERROR_JSON";
 
     //В конструктор передаём интерфейс
-    protected AsyncWorker(IWorkerCallback<V> callback, final HashMap params, final String url, final TypeRequest typeRequest) {
-        this.callback = callback;
+    protected AsyncWorker(IWorkerCallback<V> callback, final HashMap params, final String url, final TypeRequest typeRequest,Context context ) {
+        mCallback = callback;
         mParams = params;
         mUrl = url;
         mTypeRequest = typeRequest;
+        mContext = context;
     }
+
+
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
-        if (callback != null) {
-            callback.onBegin(); //Сообщаем через интерфейс о начале
+        if (mCallback != null) {
+            mCallback.onBegin(); //Сообщаем через интерфейс о начале
         }
+
     }
     protected  JSONArray doAction() {
 
@@ -56,8 +61,9 @@ public  class AsyncWorker<V> extends AsyncTask<Void, Void, JSONArray> {
             // получим строку JSON из URL
             JSONObject json = mJParser.makeHttpRequest( mUrl, mTypeRequest.toString(),
                     params);
-            //Log.i("json",""+json.toString());
+           // Log.i("json999",""+json.toString());
             if (json == null){
+
                 return null;
             }
             int success = json.getInt(Сonstants.TAG_SUCCESS);
@@ -79,25 +85,31 @@ public  class AsyncWorker<V> extends AsyncTask<Void, Void, JSONArray> {
             return doAction(); //В параллельном потоке вызываем метод.
         } catch (Exception e) {
             t = e;
+            someEventListener = (onSomeEventListener) mContext;
+            someEventListener.someEvent(ERROR_JSON, null);
+
             return null;
         }
     }
     @Override
     protected void onPostExecute(JSONArray v) {
         super.onPostExecute(v);
-        if (callback != null) {
-            callback.onEnd(); //Сообщаем об окончании
+        if (mCallback != null) {
+            mCallback.onEnd(); //Сообщаем об окончании
         }
         generateCallback(v);
     }
     private void generateCallback(JSONArray data) { //Генерируем ответ
-        if (callback == null) return;
+        if (mCallback == null) return;
         if (data != null) { //Есть данные - всё хорошо
-            callback.onSuccess(data);
+            mCallback.onSuccess(data);
         } else if (t != null) {
-            callback.onFailure(t); //Есть ошибка - вызываем onFailure
+            mCallback.onFailure(t); //Есть ошибка - вызываем onFailure
         } else { //А такая ситуация вообще не должна появляться)
-            callback.onFailure(new NullPointerException("Result is empty but error empty too"));
+            mCallback.onFailure(new NullPointerException("Result is empty but error empty too"));
         }
+    }
+    public interface onSomeEventListener {
+        public void someEvent(String view_id, String item_id);
     }
 }

@@ -6,27 +6,35 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
-
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+import java.util.HashMap;
+import ua.smartshop.Utils.AsyncWorker;
+import ua.smartshop.Enums.TypeRequest;
+import ua.smartshop.Interface.IWorkerCallback;
+import ua.smartshop.Activitys.MainActivity;
 import ua.smartshop.R;
+import ua.smartshop.Utils.Сonstants;
 
+public class MainContactFragment extends android.support.v4.app.Fragment implements IWorkerCallback {
+    private  View rootView;
 
-/**
- * Created by Gens on 04.04.2015.
- */
-public class MainContactFragment extends android.support.v4.app.Fragment  {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View rootView = inflater.inflate(R.layout.main_contact, container,
+        rootView = inflater.inflate(R.layout.main_contact, container,
                 false);
+
+        //doSomethingAsyncOperaion(new HashMap<String, String>(), getString(R.string.url_get_conact),  TypeRequest.GET);
 
         WebView webDescription = (WebView) rootView.findViewById(R.id.contact_web_view);
         WebSettings settings = webDescription.getSettings();
-        // включаем поддержку JavaScript
+       /// включаем поддержку JavaScript
         settings.setJavaScriptEnabled (true);
         settings.setDefaultTextEncodingName("UTF-8");
-        webDescription.loadDataWithBaseURL(null, "<tr>\n" +
+       webDescription.loadDataWithBaseURL(null, "<tr>\n" +
                 "<td valign=\"top\">\n" +
                 "<p><span style=\"font-size: 12pt;\" data-mce-mark=\"1\"><strong>&nbsp;Уважаемые клиенты, пожалуйста, обратите внимание, что весь представленный на сайте товар НЕ находится в нашем магазине по адресу Пушкинская 64<br /><br /><br /></strong></span></p>\n" +
                 "<p>\n" +
@@ -110,5 +118,47 @@ public class MainContactFragment extends android.support.v4.app.Fragment  {
                 "</tr>\n", "text/html", "en_US", null);
 
         return rootView;
+    }
+
+    private void doSomethingAsyncOperaion(HashMap paramsUrl,String url, TypeRequest typeRequest) {
+
+        new AsyncWorker<JSONArray>(this, paramsUrl, url, typeRequest, getActivity()) {
+        }.execute();
+    }
+
+    @Override
+    public void onBegin() {
+        MainActivity.ui_bar.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void onSuccess(final JSONArray mPJSONArray) {
+        try {
+
+            JSONObject p = mPJSONArray.getJSONObject(0);
+            String contact = p.getString(Сonstants.TAG_CONTACT);
+            //
+            WebView webContact = (WebView) rootView.findViewById(R.id.contact_web_view);
+            WebSettings settings = webContact.getSettings();
+            // включаем поддержку JavaScript
+            settings.setJavaScriptEnabled (true);
+            settings.setDefaultTextEncodingName("UTF-8");
+            webContact.loadDataWithBaseURL(null, contact, "text/html", "en_US", null);
+
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        MainActivity.ui_bar.setVisibility(View.INVISIBLE);
+    }
+
+    @Override
+    public void onFailure(final Throwable t) {
+        MainActivity.ui_bar.setVisibility(View.INVISIBLE);
+    }
+
+    @Override
+    public void onEnd() {
+        MainActivity.ui_bar.setVisibility(View.INVISIBLE);
     }
 }

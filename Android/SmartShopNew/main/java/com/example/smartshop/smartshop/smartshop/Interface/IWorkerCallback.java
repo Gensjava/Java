@@ -1,4 +1,4 @@
-package ua.smartshop;
+package ua.smartshop.Interface;
 
 import org.json.JSONArray;
 

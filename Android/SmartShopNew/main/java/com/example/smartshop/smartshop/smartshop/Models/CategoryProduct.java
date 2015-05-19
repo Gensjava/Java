@@ -3,18 +3,8 @@ package ua.smartshop.Models;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
-
 import ua.smartshop.R;
 import ua.smartshop.Utils.Сonstants;
-
-import static ua.smartshop.R.drawable.apple;
-import static ua.smartshop.R.drawable.avto;
-import static ua.smartshop.R.drawable.children;
-import static ua.smartshop.R.drawable.consumer_electronics;
-import static ua.smartshop.R.drawable.ipad;
-import static ua.smartshop.R.drawable.laptop;
-import static ua.smartshop.R.drawable.portable_equipment;
-import static ua.smartshop.R.drawable.tv;
 
 /**
  * Created by Gens on 11.03.2015.
@@ -95,14 +85,29 @@ public class CategoryProduct implements Serializable {
 
         ArrayList<CategoryProduct> mCategory = new ArrayList<>();
 
-        mCategory.add(new CategoryProduct("2984","Apple Store", R.drawable.apple_b));
-        mCategory.add(new CategoryProduct("3092","Телефоны и планшеты", R.drawable.ipad_b));
-        mCategory.add(new CategoryProduct("700","Бытовая техника", R.drawable.consumer_electronics_b));
-        mCategory.add(new CategoryProduct("140","ТВ / Аудио / Видео / Фото", R.drawable.tv_b));
-        mCategory.add(new CategoryProduct("2635","Ноутбуки и компьютерная техника", R.drawable.laptop_b));
-        mCategory.add(new CategoryProduct("5596","Портативная техника", R.drawable.portable_equipment_b));
-        mCategory.add(new CategoryProduct("3045","Автотовары", R.drawable.avto_b));
-        mCategory.add(new CategoryProduct("4032","Детский мир", R.drawable.children_b));
+        mCategory.add(new CategoryProduct("2984","Apple Store", R.drawable.apple_c));
+        mCategory.add(new CategoryProduct("3092","Телефоны и планшеты", R.drawable.ipad_c));
+        mCategory.add(new CategoryProduct("700","Бытовая техника", R.drawable.consumer_electronics_c));
+        mCategory.add(new CategoryProduct("140","ТВ / Аудио / Видео / Фото", R.drawable.tv_c));
+        mCategory.add(new CategoryProduct("2635","Ноутбуки и компьютерная техника", R.drawable.laptop_c));
+        mCategory.add(new CategoryProduct("5596","Портативная техника", R.drawable.portable_equipment_c));
+        mCategory.add(new CategoryProduct("3045","Автотовары", R.drawable.avto_c));
+        mCategory.add(new CategoryProduct("4032","Детский мир", R.drawable.children_c));
+
+        return mCategory;    }
+
+    public static ArrayList<CategoryProduct> getMainCategory_b() {
+
+        ArrayList<CategoryProduct> mCategory = new ArrayList<>();
+
+        mCategory.add(new CategoryProduct("2984","Apple Store", R.drawable.apple_d));
+        mCategory.add(new CategoryProduct("3092","Телефоны и планшеты", R.drawable.ipad_d));
+        mCategory.add(new CategoryProduct("700","Бытовая техника", R.drawable.consumer_electronics_d));
+        mCategory.add(new CategoryProduct("140","ТВ / Аудио / Видео / Фото", R.drawable.tv_d));
+        mCategory.add(new CategoryProduct("2635","Ноутбуки и компьютерная техника", R.drawable.laptop_d));
+        mCategory.add(new CategoryProduct("5596","Портативная техника", R.drawable.portable_equipment_d));
+        mCategory.add(new CategoryProduct("3045","Автотовары", R.drawable.avto_d));
+        mCategory.add(new CategoryProduct("4032","Детский мир", R.drawable.children_d));
 
         return mCategory;
     }

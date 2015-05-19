@@ -9,7 +9,6 @@ import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
-
 import ua.smartshop.Adapters.OrderAdapter;
 import ua.smartshop.Models.Cart;
 import ua.smartshop.R;
@@ -30,8 +29,6 @@ public class OrderMakeFragment extends android.support.v4.app.Fragment {
 
         OrderAdapter adapterOrder = new OrderAdapter(getActivity(), R.layout.order,  (java.util.ArrayList<Cart>) Cart.getmCart());
         lvCart.setAdapter(adapterOrder);
-
-        ((TextView) rootView.findViewById(R.id.order_item_total)).setText(String.valueOf(Cart.getTotalSum()));
 
         Delivery();
         
@@ -54,12 +51,12 @@ public class OrderMakeFragment extends android.support.v4.app.Fragment {
                 // TODO Auto-generated method stub
                 switch (checkedId) {
                     case R.id.order_odessa_radio:
-                        radioPickup.setText("Самовывоз");
-                        radioDelivery.setText("Доставка по адресу");
+                        radioPickup.setText(getActivity().getString(R.string.pickup));
+                        radioDelivery.setText(getActivity().getString(R.string.shipping_address));
                         break;
                     case R.id.order_ukruine_radio:
-                        radioPickup.setText("Самовывоз с курьерской службы");
-                        radioDelivery.setText("Доставка по адресу");
+                        radioPickup.setText(getActivity().getString(R.string.pickup_courier_service));
+                        radioDelivery.setText(getActivity().getString(R.string.shipping_address));
                         break;
                     default:
                         break;
@@ -93,6 +90,5 @@ public class OrderMakeFragment extends android.support.v4.app.Fragment {
                 }
             }
         });
-        
     }
 }

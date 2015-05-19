@@ -1,4 +1,4 @@
-package ua.smartshop;
+package ua.smartshop.Fragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -8,29 +8,24 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.ListView;
-
-
+import android.widget.TextView;
 import com.google.gson.Gson;
-import com.nispok.snackbar.Snackbar;
-
 import org.json.JSONArray;
 import org.json.JSONException;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import ua.smartshop.Activitys.MainActivity;
 import ua.smartshop.Adapters.MainAdapter;
+import ua.smartshop.Utils.AsyncWorker;
 import ua.smartshop.Enums.TypeRequest;
+import ua.smartshop.Interface.IWorkerCallback;
 import ua.smartshop.Models.Product;
-import ua.smartshop.Utils.Сonstants;
+import ua.smartshop.R;
 
-/**
- * Created by Gens on 02.03.2015.
- */
+public class MainFragment extends Fragment implements IWorkerCallback {
 
-public class MainFragment extends Fragment implements IWorkerCallback{
-
-    private int mItemNumber = 1;
+    private int mItemNumber;
     private ArrayList<Product[]> mPoducts = new ArrayList<>();
     private MainAdapter mMainAdapter;
 
@@ -45,7 +40,6 @@ public class MainFragment extends Fragment implements IWorkerCallback{
         ListView lvMain = (ListView) rootView.findViewById(R.id.lvMain);
         lvMain.setAdapter(mMainAdapter);
 
-
         lvMain.setOnScrollListener(new AbsListView.OnScrollListener() {
             public void onScrollStateChanged(AbsListView view, int scrollState) {
             }
@@ -54,48 +48,69 @@ public class MainFragment extends Fragment implements IWorkerCallback{
                                  int visibleItemCount, int totalItemCount) {
 
                 if (firstVisibleItem + visibleItemCount == totalItemCount) {
-                    mItemNumber++;
-                    //
-                    doSomethingAsyncOperaion(Product.getParamsUrlNumber(mItemNumber) , Сonstants.url_all_products,  TypeRequest.GET);
 
+                    doSomethingAsyncOperaion(Product.getParamsUrlNumber(mItemNumber) , getString(R.string.a_get_all_products),  TypeRequest.GET);
+                    mItemNumber  += 2;
                 }
             }
         });
 
+        //((ActionBarActivity)getActivity()).getSupportActionBar().show();
+        //
+
         return rootView;
+    }
+
+    @Override
+    public void onCreate(final Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
     }
 
     private void doSomethingAsyncOperaion(HashMap paramsUrl,String url, TypeRequest typeRequest) {
 
-        new AsyncWorker<JSONArray>(this, paramsUrl, url, typeRequest) {
+        new AsyncWorker<JSONArray>(this, paramsUrl, url, typeRequest, getActivity()) {
         }.execute();
     }
 
     @Override
-    public void onBegin() { }
+    public void onActivityCreated(@Nullable final Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+    }
+    @Override
+    public void onBegin() {
+       MainActivity.ui_bar.setVisibility(View.VISIBLE);
+    }
 
     @Override
     public void onSuccess(final JSONArray mPJSONArray) {
         try {
             // проходим в цикле через все товары
-            Product[] Products  = new Product[2];
-            for (int i = 0; i < mPJSONArray.length(); i++) {
+            Product[] Products  = new Product[mPJSONArray.length()];
+
+            for (byte i = 0; i < mPJSONArray.length(); i++) {
                 Products[i] =  new Gson().fromJson(mPJSONArray.getJSONObject(i).toString(), Product.class);
             }
+
             mPoducts.add(Products);
             mMainAdapter.notifyDataSetChanged();
+
         } catch (JSONException e) {
             e.printStackTrace();
         }
+        MainActivity.ui_bar.setVisibility(View.INVISIBLE);
     }
 
     @Override
     public void onFailure(final Throwable t) {
-
+        MainActivity.ui_bar.setVisibility(View.INVISIBLE);
+        if (mPoducts.size() == 0 & getView()!= null){
+            ((TextView)  getView().findViewById(R.id.lvMain_text)).setText(getString(R.string.no_data));
+        }
     }
 
     @Override
     public void onEnd() {
-
+        MainActivity.ui_bar.setVisibility(View.INVISIBLE);
     }
 }

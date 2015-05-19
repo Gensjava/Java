@@ -6,18 +6,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
-
-
-
-import java.util.ArrayList;
-
 import ua.smartshop.Adapters.CategoryAdapter;
 import ua.smartshop.Models.CategoryProduct;
 import ua.smartshop.R;
 
-/**
- * Created by Gens on 07.03.2015.
- */
 public class CategoryProductRootFragment extends android.support.v4.app.Fragment {
 
     @Override
@@ -25,7 +17,7 @@ public class CategoryProductRootFragment extends android.support.v4.app.Fragment
         View rootView = inflater.inflate(R.layout.main_list, container,
                 false);
 
-        CategoryAdapter mCategoryAdapter = new CategoryAdapter(getActivity(), R.layout.main_list, CategoryProduct.getMainCategory());
+        CategoryAdapter mCategoryAdapter = new CategoryAdapter(getActivity(), R.layout.main_list, CategoryProduct.getMainCategory_b());
 
         // настраиваем список
         ListView lvMain = (ListView) rootView.findViewById(R.id.lvMain);

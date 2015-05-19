@@ -14,7 +14,7 @@ public class Cart {
     private double mPrice;
     private double mNumber;
     private double mSum;
-    static double mTotal;
+    static double mTotalSum;
     public static ArrayList<Cart> mCart = new ArrayList<Cart>();
 
     public Cart(final Product product, final String date, final double price, final double number, final double sum) {
@@ -73,12 +73,8 @@ public class Cart {
         mSum = sum;
     }
 
-    public static double getmTotal() {
-        return mTotal;
-    }
-
-    public static void setmTotal(final double mTotal) {
-        Cart.mTotal = mTotal;
+    public static void setmTotalSum(final double mTotalSum) {
+        Cart.mTotalSum = mTotalSum;
     }
 
     public static void setmCart(final ArrayList<Cart> mCart) {
@@ -86,13 +82,13 @@ public class Cart {
     }
 
     public static double getTotalSum(){
-        mTotal = 0;
+        mTotalSum = 0;
 
         for (short i = 0;i < mCart.size();i++){
             Cart Cart = mCart.get(i);
-            mTotal = mTotal + Cart.getSum();
+            mTotalSum = mTotalSum + Cart.getSum();
         }
-        return mTotal;
+        return mTotalSum;
     }
 
     public static List<Cart> getmCart() {

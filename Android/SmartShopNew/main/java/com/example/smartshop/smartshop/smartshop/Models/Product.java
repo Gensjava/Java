@@ -2,15 +2,12 @@ package ua.smartshop.Models;
 
 import java.io.Serializable;
 import java.util.HashMap;
-
 import ua.smartshop.Utils.Сonstants;
-
 
 public class Product implements Serializable {
 
     private String mName;
     private String mWayImage;
-
     private String mDescription;
     private String mId;
     private String mKod;
@@ -19,7 +16,6 @@ public class Product implements Serializable {
     public Product(String description, double price) {
         mDescription = description;
         mPrice = price;
-
     }
 
     public Product(final double price,final String id, final String wayImage) {
@@ -36,7 +32,6 @@ public class Product implements Serializable {
         mPrice = price;
         mWayImage = wayImage;
     }
-
 
     public Product(final String id, final String name, final String wayImage) {
         mId = id;
@@ -85,7 +80,7 @@ public class Product implements Serializable {
     }
 
     public double getPrice() {
-        return mPrice;
+        return mPrice * 25;
     }
 
     public void setPrice(final double price) {
@@ -106,7 +101,7 @@ public class Product implements Serializable {
     }
 
     public static HashMap<String, String>  getParamsUrlNumberItem(final int itemNumber, final String idItem){
-        HashMap<String, String> params= new HashMap<String, String>();
+        HashMap<String, String> params = new HashMap<String, String>();
         params.put(Сonstants.VALUE_KEY_ITEM_ID, idItem);
         params.put(Сonstants.VALUE_KEY_ITEM_NUMBER, String.valueOf(itemNumber));
         return params;
