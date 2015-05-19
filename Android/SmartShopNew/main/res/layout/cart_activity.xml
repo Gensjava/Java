@@ -3,6 +3,7 @@
          xmlns:android="http://schemas.android.com/apk/res/android"
          xmlns:tools="http://schemas.android.com/tools"
          android:layout_width="match_parent"
+
          android:layout_height="match_parent">
 
     <LinearLayout
@@ -14,13 +15,16 @@
         <TabWidget
             android:id="@android:id/tabs"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:background="@color/main_orange"
+            android:tabStripEnabled="false">
         </TabWidget>
 
         <FrameLayout
             android:id="@android:id/tabcontent"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_weight="0.7">
 
             <LinearLayout
                 android:id="@+id/cart_tab1"
@@ -31,8 +35,8 @@
                     android:id="@+id/cart_fragment"
                     android:name="ua.smartshop.Fragments.CartFragment"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    tools:layout="@layout/cart_list"/>
+                    android:layout_height="match_parent"
+                    tools:layout="@layout/main_list"/>
             </LinearLayout>
 
             <LinearLayout
@@ -57,11 +61,69 @@
                     android:id="@+id/order_finish_fragment"
                     android:name="ua.smartshop.Fragments.OrderFinishFragment"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     tools:layout="@layout/order_finish"/>
             </LinearLayout>
 
         </FrameLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_weight="0"
+            android:background="@color/main_orange"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/textView19"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_gravity="bottom"
+                android:gravity="center|right"
+                android:text="Сумма:"
+                android:textColor="@color/main_orange_text"
+                android:textSize="20dp"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:id="@+id/cart_total_sum"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_gravity="bottom"
+                android:layout_weight="1"
+                android:gravity="center|right"
+                android:text="0.00"
+                android:textColor="@color/main_orange_text"
+                android:textSize="20dp"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:id="@+id/textView21"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_gravity="bottom"
+                android:gravity="center|right"
+                android:text=" грн.  "
+                android:textColor="@color/main_orange_text"
+                android:textSize="20dp"
+                android:textStyle="bold"/>
+
+            <ImageView
+                android:id="@+id/cart_next_page_left"
+                android:layout_width="50dp"
+                android:layout_height="40dp"
+                android:layout_gravity="bottom"
+                android:onClick="onClick"
+                android:src="@drawable/ic_action_arrow_left_b"/>
+
+            <ImageView
+                android:id="@+id/cart_next_page_right"
+                android:layout_width="50dp"
+                android:layout_height="40dp"
+                android:layout_gravity="bottom"
+                android:onClick="onClick"
+                android:src="@drawable/ic_action_arrow_right_b"/>
+        </LinearLayout>
     </LinearLayout>
 
 </TabHost>

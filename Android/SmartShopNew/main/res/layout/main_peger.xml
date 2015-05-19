@@ -27,7 +27,7 @@
         android:layout_marginTop="5dp"
         android:layout_weight="7.50"
         android:padding="3dp"
-        app:fillColor="#88FF0000"
+        app:fillColor="#FF5252"
         />
 
 

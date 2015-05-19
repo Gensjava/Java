@@ -1,0 +1,20 @@
+<HorizontalScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_vertical"
+    android:background="@color/main_orange_text"
+    android:horizontalSpacing="5dp"
+    android:scrollbars="none"
+    android:verticalSpacing="5dp">
+
+    <LinearLayout
+        android:id="@+id/main_gallery_scroll"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:orientation="horizontal">
+
+
+    </LinearLayout>
+</HorizontalScrollView>

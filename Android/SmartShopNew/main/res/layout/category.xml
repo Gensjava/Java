@@ -8,14 +8,16 @@
         android:id="@+id/category__all_imageView"
         android:layout_width="29dp"
         android:layout_height="40dp"
+        android:background="@android:color/background_light"
         android:scaleType="center"
-        android:src="@drawable/logo"/>
+        android:src="@drawable/ic_folder"/>
     <TextView
         android:id="@+id/category_all_text"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_gravity="center_horizontal"
 
+        android:background="@android:color/background_light"
         android:gravity="fill_vertical"
         android:onClick="onClick"/>
 

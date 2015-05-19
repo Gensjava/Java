@@ -6,13 +6,32 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical"
-    android:weightSum="1">
+    android:weightSum="1"
+    >
 
     <ListView
         android:id="@+id/lvMain"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:divider="@color/main_orange_text"
+        android:dividerHeight="1dp">
+
     </ListView>
 
+    <TextView
+        android:id="@+id/lvMain_text"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:textColor="@android:color/darker_gray"/>
+
+    <Button
+        android:id="@+id/lvMain_button"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="Попробуйте еще раз"
+        android:visibility="invisible"/>
 
 </LinearLayout>

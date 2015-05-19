@@ -6,43 +6,8 @@
 
     <ListView
         android:id="@+id/listItem"
-        android:layout_width="wrap_content"
-        android:layout_height="431dp"
-        android:layout_weight="0.81"/>
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        />
 
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:weightSum="1">
-
-        <Button
-            android:id="@+id/buy_now"
-            android:layout_width="wrap_content"
-
-            android:layout_height="wrap_content"
-            android:layout_weight="0.20"
-            android:background="#ffff3237"
-            android:onClick="onClick"
-            android:text="Купить сейчас">
-        </Button>
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="23dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.01"/>
-        <Button
-            android:id="@+id/in_box"
-            android:layout_width="wrap_content"
-
-            android:layout_height="wrap_content"
-            android:layout_weight="0.20"
-            android:background="#ffff8924"
-
-            android:onClick="onClick"
-            android:text="В Корзину">
-        </Button>
-
-
-    </LinearLayout>
 </LinearLayout>

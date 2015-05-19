@@ -104,7 +104,8 @@
         android:layout_width="182dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:background="#ff24bdff"
-        android:text="ЗАРЕГИСТРИРОВАТЬСЯ"/>
+        android:background="@color/sub_main_orange"
+        android:text="ЗАРЕГИСТРИРОВАТЬСЯ"
+        android:textColor="@color/main_orange_text"/>
 
 </LinearLayout>

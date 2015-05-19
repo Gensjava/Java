@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent" android:layout_height="match_parent"
+              android:layout_width="match_parent" android:layout_height="wrap_content"
               android:background="@android:color/background_light"
               android:orientation="vertical"
               android:weightSum="1">
@@ -14,20 +14,22 @@
     <Button
         android:id="@+id/cart_delete_button"
         style="?android:attr/buttonStyleSmall"
-        android:layout_width="100dp"
-        android:layout_height="wrap_content"
+        android:layout_width="90dp"
+        android:layout_height="40dp"
         android:layout_gravity="right"
-        android:text="Удалить"/>
+        android:background="@color/main_orange_text"
+        android:text="Удалить"
+        android:textColor="@color/main_orange"/>
 
     <LinearLayout
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:weightSum="1">
 
         <ImageView
             android:id="@+id/cart_imageView"
-            android:layout_width="104dp"
+            android:layout_width="100dp"
             android:layout_height="match_parent"/>
 
 
@@ -38,87 +40,89 @@
             android:text="discription"/>
     </LinearLayout>
     <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="55dp"
-        android:gravity="bottom|right"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:gravity="center|center_horizontal"
         android:orientation="horizontal"
         android:weightSum="1">
 
         <TextView
             android:id="@+id/textView2"
-            android:layout_width="90dp"
+            android:layout_width="wrap_content"
             android:layout_height="35dp"
+            android:layout_weight="0.33"
+            android:gravity="center_vertical|center_horizontal"
             android:text="Цена"/>
-        <ImageButton
-            android:id="@+id/button"
-            android:layout_width="40dp"
-            android:layout_height="35dp"
-            android:background="#ffffffff"/>
 
         <TextView
             android:id="@+id/textView3"
-            android:layout_width="90dp"
+            android:layout_width="wrap_content"
             android:layout_height="35dp"
-            android:gravity="center"
+            android:layout_weight="0.33"
+            android:gravity="center_vertical|center_horizontal"
             android:text="Количество"/>
-        <ImageButton
-            android:id="@+id/button2"
-            android:layout_width="40dp"
-            android:layout_height="35dp"
-            android:background="@android:color/background_light"/>
 
         <TextView
             android:id="@+id/textView4"
-            android:layout_width="90dp"
+            android:layout_width="wrap_content"
             android:layout_height="35dp"
-            android:layout_weight="0.25"
+            android:layout_weight="0.33"
             android:autoText="false"
-            android:gravity="center"
+            android:gravity="center_vertical|center_horizontal"
             android:text="Сумма"/>
     </LinearLayout>
     <LinearLayout
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="55dp"
-        android:gravity="bottom|right"
+        android:gravity="center"
         android:orientation="horizontal"
         android:weightSum="1">
 
         <TextView
             android:id="@+id/cart_price_textView"
-            android:layout_width="90dp"
+            android:layout_width="wrap_content"
             android:layout_height="35dp"
-            android:text="price"
-            />
+            android:layout_weight="0.33"
+            android:gravity="center_vertical|center_horizontal"
+            android:text="price"/>
 
         <Button
             android:id="@+id/cart_minus_button"
             android:layout_width="40dp"
             android:layout_height="35dp"
+            android:background="@color/main_orange_text"
+            android:gravity="center_vertical|center_horizontal"
             android:onClick="onClick"
             android:text="-"
-            />
+            android:textColor="@color/main_orange"/>
+
 
         <TextView
             android:id="@+id/cart_number_textView"
-            android:layout_width="90dp"
+            android:layout_width="wrap_content"
             android:layout_height="35dp"
-            android:gravity="center"
-            android:text="number"/>
+            android:layout_weight="0.33"
+            android:gravity="center_vertical|center_horizontal"
+            android:text="number"
+            />
         <Button
             android:id="@+id/cart_plus_button"
             android:layout_width="40dp"
             android:layout_height="35dp"
+            android:background="@color/main_orange_text"
+            android:gravity="center_vertical|center_horizontal"
             android:onClick="onClick"
             android:text="+"
-            />
+            android:textColor="@color/main_orange"/>
+
 
         <TextView
             android:id="@+id/cart_sum_textView"
-            android:layout_width="90dp"
+            android:layout_width="wrap_content"
             android:layout_height="35dp"
-            android:layout_weight="0.25"
+            android:layout_weight="0.33"
             android:autoText="false"
-            android:gravity="center"
+            android:gravity="center_vertical|center_horizontal"
             android:text="Sum"/>
     </LinearLayout>
 

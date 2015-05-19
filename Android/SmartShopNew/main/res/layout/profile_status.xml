@@ -13,7 +13,7 @@
         >
 
         <Button
-            android:id="@+id/imageView_itemOne"
+            android:id="@+id/GridimageView_itemOne"
             android:layout_width="157dp"
             android:layout_height="120dp"
             android:layout_column="0"
@@ -26,7 +26,7 @@
 
 
         <Button
-            android:id="@+id/imageView_itemTwo"
+            android:id="@+id/GridimageView_itemTwo"
             android:layout_width="157dp"
             android:layout_height="120dp"
             android:layout_column="5"
@@ -40,7 +40,7 @@
 
 
         <Button
-            android:id="@+id/imageView_itemOne1"
+            android:id="@+id/GridimageView_itemOne1"
             android:layout_width="157dp"
             android:layout_height="120dp"
             android:layout_column="0"
@@ -52,7 +52,7 @@
             android:text="Новый"/>
 
         <Button
-            android:id="@+id/imageView_itemTwo1"
+            android:id="@+id/GridimageView_itemTwo1"
             android:layout_width="157dp"
             android:layout_height="120dp"
             android:layout_column="5"

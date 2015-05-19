@@ -1,19 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               xmlns:tools="http://schemas.android.com/tools"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
               android:orientation="vertical"
-              android:weightSum="1"
     >
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="25dp"
-        android:layout_gravity="left"
+        android:layout_height="wrap_content"
         android:gravity="end"
-
         android:orientation="horizontal"
-        android:weightSum="1">
+
+        android:weightSum="1"
+        >
 
         <TextView
             android:id="@+id/order_name_item_price"
@@ -40,58 +39,35 @@
 
         <TextView
             android:id="@+id/order_cap_item_sum"
-            android:layout_width="35dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="0.10"
             android:gravity="end"
             android:text="Сумма"/>
     </LinearLayout>
-    <ListView
-        android:id="@+id/order_listView"
-        android:layout_width="match_parent"
-        android:layout_height="134dp"
-        android:background="@android:color/background_light"/>
 
     <LinearLayout
         android:layout_width="fill_parent"
-        android:layout_height="40dp"
-        android:orientation="horizontal"
+        android:layout_height="match_parent"
+        android:layout_weight="0.2"
+        android:orientation="vertical"
         >
 
-        <TextView
-            android:id="@+id/textView12"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:gravity="center|right"
-            android:text="Сумма:"
-            android:textSize="20dp"
-            android:textStyle="bold"/>
-
-        <TextView
-            android:id="@+id/order_item_total"
-            android:layout_width="25dp"
-            android:layout_height="match_parent"
-            android:layout_weight="11.86"
-            android:gravity="center|right"
-            android:text="0.00"
-            android:textSize="20dp"
-            android:textStyle="bold"/>
-
-        <TextView
-            android:id="@+id/textView14"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:gravity="center|right"
-            android:text=" грн.  "
-            android:textSize="20dp"
-            android:textStyle="bold"/>
-
+        <ListView
+            android:id="@+id/order_listView"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:background="@android:color/background_light"
+            android:divider="@color/main_orange_text"
+            android:dividerHeight="1dp"
+            />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="0.11"
+        android:layout_weight="0.2"
+        android:gravity="bottom"
         android:orientation="vertical"
         android:weightSum="1"
         >
@@ -102,14 +78,16 @@
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
             android:text="Доставка"
-            android:textColor="#ff4fb02d"
-            android:textStyle="bold"/>
+            android:textColor="@color/sub_main_orange"
+            android:textStyle="bold"
+            />
 
         <RadioGroup
             android:id="@+id/order_delivery_radioGroup"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            >
 
             <RadioButton
                 android:id="@+id/order_odessa_radio"
@@ -124,14 +102,6 @@
                 android:layout_height="wrap_content"
                 android:text="Украина"/>
         </RadioGroup>
-        <TextView
-            android:id="@+id/textView110"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical|center_horizontal"
-            android:text="Вид доставки"
-            android:textColor="#ff4fb02d"
-            android:textStyle="bold"/>
 
     </LinearLayout>
 
@@ -139,6 +109,8 @@
         android:id="@+id/order_type_delivery_radioGroup"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:layout_weight="0.2"
+        android:gravity="bottom"
         android:weightSum="1">
 
         <RadioButton
@@ -159,12 +131,15 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_weight="0.2"
+        android:gravity="bottom"
+        android:orientation="horizontal"
+        >
 
         <TextView
             android:id="@+id/order_delivery_address_text"
             android:layout_width="wrap_content"
-            android:layout_height="29dp"
+            android:layout_height="wrap_content"
             android:gravity="bottom"
             android:text="Адрес доставки"
             android:visibility="invisible"/>
@@ -176,15 +151,5 @@
             android:visibility="invisible"
             />
     </LinearLayout>
-
-    <Button
-        android:id="@+id/order_pay_button"
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="130dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="right"
-        android:background="#ffff4b49"
-        android:text="Оплатить >>"
-        />
 
 </LinearLayout>
