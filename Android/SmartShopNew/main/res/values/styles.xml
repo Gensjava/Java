@@ -5,5 +5,27 @@
         <!-- Customize your theme here. -->
     </style>
 
+    <style name="Theme.MyTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- colorPrimary is used for the default action bar background -->
+        <!--<item name="actionBarStyle">@color/sub_main_orange</item> -->
+
+        <item name="colorPrimary">@color/sub_main_orange</item>
+
+        <!-- colorPrimaryDark is used for the status bar -->
+        <item name="colorPrimaryDark">@color/sub_main_orange</item>
+
+        <!-- colorAccent is used as the default value for colorControlActivated,
+        which is used to tint widgets -->
+        <item name="colorAccent">@color/main_orange</item>
+        <item name="android:actionBarTabBarStyle">@color/main_orange</item>
+
+    </style>
+
+
+    <style name="MyActionBarTabStyle" parent="Widget.IconPageIndicator">
+        <item name="android:background">@color/main_orange</item>
+        <item name="android:paddingLeft">32dp</item>
+        <item name="android:paddingRight">32dp</item>
+    </style>
 
 </resources>

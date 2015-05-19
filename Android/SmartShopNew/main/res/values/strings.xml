@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Smart-shop</string>
-    <string name="hello_world">Hello world!</string>
+    <string name="app_name">SMART-shop</string>
     <string name="action_settings">Settings</string>
 
     <string-array name="screen_array">
@@ -12,8 +11,8 @@
         <item>Контакты</item>
         <item>Настройки</item>
         <item>О программе</item>
-
     </string-array>
+
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>
 
@@ -26,4 +25,81 @@
     <string name="menu_search">search</string>
     <string name="hello">hello</string>
     <string name="hotlist">hotlist</string>
+    <string name="action_search">action_search</string>
+
+    <string name="is_server_host">http://smart-shop.ua/JHVafnmJKH/</string>
+    <string name="is_server_local">http://10.0.3.2/denwer/</string>
+
+    <string name="a_get_all_products">http://smart-shop.ua/JHVafnmJKH/a_get_all_products_two.php
+    </string>
+    <string name="url_details_product">http://smart-shop.ua/JHVafnmJKH/a_get_product_details.php
+    </string>
+    <string name="url_product_description">
+        http://smart-shop.ua/JHVafnmJKH/a_get_product_description.php
+    </string>
+    <string name="url_get_category_products">
+        http://smart-shop.ua/JHVafnmJKH/a_get_category_products.php
+    </string>
+    <string name="url_get_cproducts_from_category">
+        http://smart-shop.ua/JHVafnmJKH/a_get_all_products_from_category.php
+    </string>
+    <string name="url_get_slider_main_page">
+        http://smart-shop.ua/JHVafnmJKH/a_get_slider_main_page.php
+    </string>
+    <string name="url_get_slider_main_page_category">
+        http://smart-shop.ua/JHVafnmJKH/a_get_slider_main_page_category.php
+    </string>
+    <string name="url_get_category_product_file_imege">
+        http://smart-shop.ua/JHVafnmJKH/a_get_category_product_file_imege.php
+    </string>
+    <string name="url_set_user_registration">
+        http://smart-shop.ua/JHVafnmJKH/a_set_user_registration.php
+    </string>
+    <string name="url_get_user_authorization">
+        http://smart-shop.ua/JHVafnmJKH/a_get_user_authorization.php
+    </string>
+    <string name="url_get_search_products">
+        http://smart-shop.ua/JHVafnmJKH/a_get_search_products_two.php
+    </string>
+    <string name="url_get_user">http://smart-shop.ua/JHVafnmJKH/a_get_user.php</string>
+    <string name="url_get_conact">http://smart-shop.ua/JHVafnmJKH/a_get_contact.php</string>
+
+    <string name="status_switch_title">Статусы заказов</string>
+    <string name="status_switch_summary">Будут приходить сообщения при изменении статусов заказов.
+    </string>
+    <string name="online_supports_switch_title">Онлайн поддержка</string>
+    <string name="online_support_switch_summary">Вы сможете задавать свои вопросы в онлайне.
+    </string>
+
+    <string name="design">Оформить</string>
+    <string name="pay">Оплата</string>
+    <string name="cart">Корзина</string>
+    <string name="page_one">tag1</string>
+    <string name="page_two">tag2</string>
+    <string name="page_three">tag3</string>
+
+    <string name="discription">Описание</string>
+    <string name="goods">Товар</string>
+    <string name="delyvery">Доставка</string>
+    <string name="category_all">Все категории</string>
+    <string name="category_shares">Акции</string>
+    <string name="currency">грн.</string>
+    <string name="price">Цена</string>
+
+    <string name="orders_all">Все заказы</string>
+    <string name="browsing_history_products">История просморов товаров</string>
+    <string name="massege">Сообщения</string>
+    <string name="preferences_status">status</string>
+    <string name="notice">Уведомления</string>
+
+    <string name="pickup">Самовывоз</string>
+    <string name="shipping_address">Доставка по адресу</string>
+    <string name="pickup_courier_service">Самовывоз с курьерской службы</string>
+
+    <string name="cart_in_empty">(В корзине пусто)</string>
+    <string name="no_data">(Нет данных)</string>
+    <string name="input">Вход</string>
+    <string name="registration">Регистрация</string>
+    <string name="cabinet">Кабинет</string>
+
 </resources>

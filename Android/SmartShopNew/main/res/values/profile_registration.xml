@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+
+
+    <MultiAutoCompleteTextView
+        android:id="@+id/profile_registration_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:hint="*ФИО пользователя"/>
+
+    <MultiAutoCompleteTextView
+        android:id="@+id/profile_registration_user_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:hint="*Логин"
+        android:inputType="textEmailAddress"/>
+
+    <MultiAutoCompleteTextView
+        android:id="@+id/profile_registration_password"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:hint="*Пароль"
+        android:inputType="textPassword"/>
+
+    <MultiAutoCompleteTextView
+        android:id="@+id/profile_registration_password_сonfirmation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:hint="*Подтверждение"
+        android:inputType="textPassword"/>
+
+    <MultiAutoCompleteTextView
+        android:id="@+id/profile_registration_email"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:hint="*E-mail"
+        android:inputType="textEmailAddress"/>
+
+    <MultiAutoCompleteTextView
+        android:id="@+id/profile_registration_phone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:hint="*Телефон"
+        android:inputType="phone"/>
+
+    <MultiAutoCompleteTextView
+        android:id="@+id/profile_registration_skypye"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:hint="ICQ/Skypye"
+        android:inputType="phone"/>
+
+    <MultiAutoCompleteTextView
+        android:id="@+id/profile_registration_delivery"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="left|top"
+        android:hint="Адрес доставки"/>
+
+    <RadioGroup
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        >
+
+        <RadioButton
+            android:id="@+id/radioButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:text="Новая почта"/>
+
+        <RadioButton
+            android:id="@+id/radioButton2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Интайм"/>
+
+        <TextView
+            android:id="@+id/textView10"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="* поля обязательны для заполнения"/>
+
+        <Space
+            android:layout_width="20px"
+            android:layout_height="20px"
+            />
+    </RadioGroup>
+
+    <Button
+        android:id="@+id/profile_registration_input"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="182dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:background="@color/sub_main_orange"
+        android:text="ЗАРЕГИСТРИРОВАТЬСЯ"
+        android:textColor="@color/main_orange_text"/>
+
+</LinearLayout>
