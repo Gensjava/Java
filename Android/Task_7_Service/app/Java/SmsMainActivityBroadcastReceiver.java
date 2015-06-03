@@ -61,7 +61,7 @@ public class SmsMainActivityBroadcastReceiver extends ActionBarActivity {
                     if (extras.containsKey(BROADCAST_ACTION)) {
                         final Note note = (Note) extras.get(BROADCAST_ACTION);
                         if(note != null){
-                            items.add(note);
+                            items.add(note) ;
                             //обновляем список
                             adapter.notifyDataSetChanged();
                         }
