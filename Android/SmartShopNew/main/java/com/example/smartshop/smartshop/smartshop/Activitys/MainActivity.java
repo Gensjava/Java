@@ -1,4 +1,4 @@
-package ua.smartshop.Activitys;
+package ua.smartshop.Activity;
 
 
 import android.content.Context;
@@ -23,6 +23,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.TextView;
+
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -107,51 +108,35 @@ public class MainActivity extends ActionBarActivity  implements
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
 
-        // Set the adapter for the list view
+        //
         mDrawerList.setAdapter(new ArrayAdapter<String>(this,
                 R.layout.drawer_list_item, mScreenTitles));
 
-        // Set the list's click listener
         mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
 
         mDrawerToggle = new ActionBarDrawerToggle(
-                this, /* host Activity */
+                this,
                 mDrawerLayout, /* DrawerLayout object */
                 R.drawable.ic_drawer, /* nav drawer icon to replace 'Up' caret */
                 R.string.drawer_open, /* "open drawer" description */
                 R.string.drawer_close /* "close drawer" description */
         ) {
 
-            /** Called when a drawer has settled in a completely closed state. */
+
             public void onDrawerClosed(View view) {
                 getSupportActionBar().setTitle(mTitle);
-                supportInvalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
+                supportInvalidateOptionsMenu(); //
             }
-
-            /** Called when a drawer has settled in a completely open state. */
             public void onDrawerOpened(View drawerView) {
                 getSupportActionBar().setTitle(mDrawerTitle);
-                supportInvalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
+                supportInvalidateOptionsMenu(); //
             }
         };
 
         mDrawerLayout.setDrawerListener(mDrawerToggle);
-
-
-        //делаем фон
-//        Drawable catdrawable = getResources().getDrawable( R.color.sub_main_orange );
-//        getSupportActionBar().setBackgroundDrawable(catdrawable);
-
-
-//        Window window =  getWindow();
-//        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-//        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-//        window.setStatusBarColor(getResources().getColor(R.color.main_orange));
-
-
     }
 
     @Override
@@ -169,14 +154,15 @@ public class MainActivity extends ActionBarActivity  implements
         }
     }
 
+
     @Override
     public void onItemSelected(final AdapterView<?> parent, final View view, final int position, final long id) {
-        // mSelectText.setText("Выбранный элемент: " + mAdapter.GetItem(position));
+
     }
 
     @Override
     public void onNothingSelected(final AdapterView<?> parent) {
-     //  mSelectText.setText("Выбранный элемент: ничего");
+
     }
 
     @Override
@@ -184,7 +170,6 @@ public class MainActivity extends ActionBarActivity  implements
         updateHotCount();
     }
 
-    /* The click listener for ListView in the navigation drawer */
     private class DrawerItemClickListener implements ListView.OnItemClickListener {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -193,7 +178,6 @@ public class MainActivity extends ActionBarActivity  implements
         }
     }
 
-    /** Swaps fragments in the main content view */
     private void selectItem(int position) {
 
         fragment = null;
@@ -258,14 +242,12 @@ public class MainActivity extends ActionBarActivity  implements
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
-        // Sync the toggle state after onRestoreInstanceState has occurred.
         mDrawerToggle.syncState();
     }
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        // Pass any configuration change to the drawer toggles
         mDrawerToggle.onConfigurationChanged(newConfig);
     }
 
@@ -326,20 +308,14 @@ public class MainActivity extends ActionBarActivity  implements
 
     }
 
-    /* Called whenever we call invalidateOptionsMenu() */
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-        // If the nav drawer is open, hide action items related to the content view
-        //boolean drawerOpen = mDrawerLayout.isDrawerOpen(mDrawerList);
-        //menu.findItem(R.id.action_search).setVisible(!drawerOpen);
 
         return super.onPrepareOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Pass the event to ActionBarDrawerToggle, if it returns
-        // true, then it has handled the app icon touch event
 
         if (mDrawerToggle.onOptionsItemSelected(item)) {
             return true;
@@ -435,12 +411,6 @@ public class MainActivity extends ActionBarActivity  implements
         return netInfo != null && netInfo.isConnectedOrConnecting();
     }
 
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-    }
-
     public static  void updateHotCount() {
 
         if (ui_hot == null) return;
@@ -471,5 +441,4 @@ public class MainActivity extends ActionBarActivity  implements
         }
         return checkMain;
     }
-
 }

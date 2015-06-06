@@ -58,6 +58,7 @@ public class ProductAdapter extends BaseAdapter{
             viewHolder.cridView.setStretchMode(GridView.STRETCH_COLUMN_WIDTH);
 
             convertView.setTag(viewHolder);
+
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }

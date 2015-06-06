@@ -1,4 +1,4 @@
-package ua.smartshop.Activitys;
+package ua.smartshop.Activity;
 
 
 import android.content.Context;

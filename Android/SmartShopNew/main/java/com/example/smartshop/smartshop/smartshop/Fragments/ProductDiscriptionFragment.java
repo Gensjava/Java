@@ -12,14 +12,14 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import ua.smartshop.Utils.AsyncWorker;
 import ua.smartshop.Enums.TypeRequest;
-import ua.smartshop.Interface.IWorkerCallback;
-import ua.smartshop.Activitys.MainActivity;
+import ua.smartshop.interfaces.AsyncWorkerInterface;
+import ua.smartshop.Activity.MainActivity;
 import ua.smartshop.Models.Product;
 import ua.smartshop.R;
 import ua.smartshop.Utils.Сonstants;
 
 
-public class ProductDiscriptionFragment extends android.support.v4.app.Fragment implements IWorkerCallback {
+public class ProductDiscriptionFragment extends android.support.v4.app.Fragment implements AsyncWorkerInterface {
     private View rootView;
 
     @Override
@@ -36,7 +36,7 @@ public class ProductDiscriptionFragment extends android.support.v4.app.Fragment 
 
     private void doSomethingAsyncOperaion(HashMap paramsUrl,String url, TypeRequest typeRequest) {
 
-        new AsyncWorker<JSONArray>(this, paramsUrl, url, typeRequest, getActivity()) {
+        new AsyncWorker(this, paramsUrl, url, typeRequest, getActivity()) {
         }.execute();
     }
 

@@ -15,14 +15,14 @@ import java.util.List;
 import java.util.Map;
 
 import ua.smartshop.Enums.TypeRequest;
-import ua.smartshop.Interface.IWorkerCallback;
+import ua.smartshop.interfaces.AsyncWorkerInterface;
 
 /**
  * Created by Gens on 23.04.2015.
  */
-public  class AsyncWorker<V> extends AsyncTask<Void, Void, JSONArray> {
+public  class AsyncWorker extends AsyncTask <Void, Void, JSONArray> {
 
-    private IWorkerCallback<V> mCallback;
+    private AsyncWorkerInterface mAsyncWorkerInterface;
     private Throwable t;
     private HashMap<String, String> mParams;
     private TypeRequest mTypeRequest;
@@ -33,23 +33,20 @@ public  class AsyncWorker<V> extends AsyncTask<Void, Void, JSONArray> {
     private Context mContext;
     public static final String ERROR_JSON = "ERROR_JSON";
 
-    //В конструктор передаём интерфейс
-    protected AsyncWorker(IWorkerCallback<V> callback, final HashMap params, final String url, final TypeRequest typeRequest,Context context ) {
-        mCallback = callback;
+    protected AsyncWorker(AsyncWorkerInterface asyncWorkerInterface, final HashMap params, final String url, final TypeRequest typeRequest,Context context ) {
+        mAsyncWorkerInterface = asyncWorkerInterface;
         mParams = params;
         mUrl = url;
         mTypeRequest = typeRequest;
         mContext = context;
     }
 
-
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
-        if (mCallback != null) {
-            mCallback.onBegin(); //Сообщаем через интерфейс о начале
+        if (mAsyncWorkerInterface != null) {
+            mAsyncWorkerInterface.onBegin(); //Сообщаем через интерфейс о начале
         }
-
     }
     protected  JSONArray doAction() {
 
@@ -61,7 +58,6 @@ public  class AsyncWorker<V> extends AsyncTask<Void, Void, JSONArray> {
             // получим строку JSON из URL
             JSONObject json = mJParser.makeHttpRequest( mUrl, mTypeRequest.toString(),
                     params);
-           // Log.i("json999",""+json.toString());
             if (json == null){
 
                 return null;
@@ -94,19 +90,19 @@ public  class AsyncWorker<V> extends AsyncTask<Void, Void, JSONArray> {
     @Override
     protected void onPostExecute(JSONArray v) {
         super.onPostExecute(v);
-        if (mCallback != null) {
-            mCallback.onEnd(); //Сообщаем об окончании
+        if (mAsyncWorkerInterface != null) {
+            mAsyncWorkerInterface.onEnd(); //Сообщаем об окончании
         }
         generateCallback(v);
     }
-    private void generateCallback(JSONArray data) { //Генерируем ответ
-        if (mCallback == null) return;
-        if (data != null) { //Есть данные - всё хорошо
-            mCallback.onSuccess(data);
+    private void generateCallback(JSONArray data) {
+        if (mAsyncWorkerInterface == null) return;
+        if (data != null) { //Есть данные
+            mAsyncWorkerInterface.onSuccess(data);
         } else if (t != null) {
-            mCallback.onFailure(t); //Есть ошибка - вызываем onFailure
-        } else { //А такая ситуация вообще не должна появляться)
-            mCallback.onFailure(new NullPointerException("Result is empty but error empty too"));
+            mAsyncWorkerInterface.onFailure(t); //Есть ошибка
+        } else {
+            mAsyncWorkerInterface.onFailure(new NullPointerException("Result is empty but error empty too"));
         }
     }
     public interface onSomeEventListener {

@@ -14,14 +14,14 @@ import org.json.JSONException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import ua.smartshop.Utils.AsyncWorker;
-import ua.smartshop.Interface.IWorkerCallback;
-import ua.smartshop.Activitys.MainActivity;
+import ua.smartshop.interfaces.AsyncWorkerInterface;
+import ua.smartshop.Activity.MainActivity;
 import ua.smartshop.Models.Product;
 import ua.smartshop.R;
 import ua.smartshop.Enums.TypeRequest;
 import ua.smartshop.Utils.Сonstants;
 
-public class ProductItemAdapter extends BaseAdapter implements IWorkerCallback {
+public class ProductItemAdapter extends BaseAdapter implements AsyncWorkerInterface {
 
     private Context mContext;
     private LayoutInflater lInflater;
@@ -90,7 +90,7 @@ public class ProductItemAdapter extends BaseAdapter implements IWorkerCallback {
 
     private void doSomethingAsyncOperaion(HashMap paramsUrl,String url, TypeRequest typeRequest) {
 
-        new AsyncWorker<JSONArray>(this, paramsUrl, url, typeRequest, mContext) {
+        new AsyncWorker(this, paramsUrl, url, typeRequest, mContext) {
         }.execute();
     }
 

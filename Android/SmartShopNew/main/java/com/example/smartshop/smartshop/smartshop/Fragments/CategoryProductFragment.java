@@ -16,12 +16,12 @@ import java.util.HashMap;
 import ua.smartshop.Utils.AsyncWorker;
 import ua.smartshop.Adapters.CategoryAdapter;
 import ua.smartshop.Enums.TypeRequest;
-import ua.smartshop.Interface.IWorkerCallback;
-import ua.smartshop.Activitys.MainActivity;
+import ua.smartshop.interfaces.AsyncWorkerInterface;
+import ua.smartshop.Activity.MainActivity;
 import ua.smartshop.Models.CategoryProduct;
 import ua.smartshop.R;
 
-public class CategoryProductFragment extends Fragment implements IWorkerCallback {
+public class CategoryProductFragment extends Fragment implements AsyncWorkerInterface {
 
     private ArrayList<CategoryProduct> mPoducts = new ArrayList<CategoryProduct>();
     private CategoryAdapter mCategoryAdapter;
@@ -53,7 +53,7 @@ public class CategoryProductFragment extends Fragment implements IWorkerCallback
 
     private void doSomethingAsyncOperaion(HashMap paramsUrl,String url, TypeRequest typeRequest) {
 
-        new AsyncWorker<JSONArray>(this, paramsUrl, url, typeRequest, getActivity()) {
+        new AsyncWorker(this, paramsUrl, url, typeRequest, getActivity()) {
         }.execute();
     }
 

@@ -12,15 +12,15 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import ua.smartshop.Utils.AsyncWorker;
 import ua.smartshop.Enums.TypeRequest;
-import ua.smartshop.Interface.IWorkerCallback;
-import ua.smartshop.Activitys.MainActivity;
+import ua.smartshop.interfaces.AsyncWorkerInterface;
+import ua.smartshop.Activity.MainActivity;
 import ua.smartshop.Models.CategoryProduct;
 import ua.smartshop.R;
 
 /**
  * Created by Gens on 10.02.2015.
  */
-public class CategoryAdapter extends ArrayAdapter<CategoryProduct> implements IWorkerCallback {
+public class CategoryAdapter extends ArrayAdapter<CategoryProduct> implements AsyncWorkerInterface {
 
     private final LayoutInflater mLayoutInflater;
     private final Context mContext;
@@ -70,7 +70,7 @@ public class CategoryAdapter extends ArrayAdapter<CategoryProduct> implements IW
 
     private void doSomethingAsyncOperaion(HashMap paramsUrl,String url, TypeRequest typeRequest) {
 
-        new AsyncWorker<JSONArray>(this, paramsUrl, url, typeRequest, mContext) {
+        new AsyncWorker(this, paramsUrl, url, typeRequest, mContext) {
         }.execute();
     }
 

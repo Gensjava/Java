@@ -8,7 +8,7 @@ import android.accounts.NetworkErrorException;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import ua.smartshop.Activitys.ProfileActivity;
+import ua.smartshop.Activity.ProfileActivity;
 
 /**
  * Created by Gens on 25.03.2015.

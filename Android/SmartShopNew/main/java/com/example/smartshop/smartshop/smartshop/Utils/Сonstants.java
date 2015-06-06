@@ -2,8 +2,6 @@ package ua.smartshop.Utils;
 
 
 import ua.smartshop.Models.CategoryProduct;
-import ua.smartshop.Models.Product;
-import ua.smartshop.R;
 
 /**
  * Created by Gens on 01.03.2015.

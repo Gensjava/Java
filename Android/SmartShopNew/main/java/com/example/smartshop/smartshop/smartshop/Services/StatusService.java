@@ -14,7 +14,7 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
-import ua.smartshop.Activitys.ProfileActivity;
+import ua.smartshop.Activity.ProfileActivity;
 import ua.smartshop.R;
 
 /**
@@ -22,14 +22,14 @@ import ua.smartshop.R;
  */
 public class StatusService extends Service {
 
-    // constant
-    public static final long NOTIFY_INTERVAL =  60 * 1000; // 60 seconds
+    //
+    public static final long NOTIFY_INTERVAL =  60 * 60 * 1000;
     private static final String ACTION_SERVICE_STATUS = "ACTION_SERVICE_STATUS";
     private NotificationManager notificationManager;
 
-    // run on another Thread to avoid crash
+    //
     private Handler mHandler = new Handler();
-    // timer handling
+    //
     private Timer mTimer = null;
     private int numMessages;
     private int notifyID;
@@ -47,24 +47,23 @@ public class StatusService extends Service {
     public void onCreate() {
         Context context = getApplicationContext();
         notificationManager = (NotificationManager)context.getSystemService(Context.NOTIFICATION_SERVICE);
-        // cancel if already existed
+        //
         if (mTimer != null) {
             mTimer.cancel();
         } else {
-            // recreate new
+            //
             mTimer = new Timer();
         }
-        // schedule task
+        //
         mTimer.scheduleAtFixedRate(new TimeDisplayTimerTask(), 0,
                 NOTIFY_INTERVAL);
-
     }
 
     class TimeDisplayTimerTask extends TimerTask {
 
         @Override
         public void run() {
-            // run on another thread
+            //
             mHandler.post(new Runnable() {
 
                 @Override
@@ -76,22 +75,21 @@ public class StatusService extends Service {
 
         // используйте метод в сообщении для вывода текущего времени
         private String getDateTime() {
-            // get date time in custom format
+            //
             SimpleDateFormat sdf = new SimpleDateFormat(
                     "[dd/MM/yyyy - HH:mm:ss]", Locale.getDefault());
             return sdf.format(new Date());
         }
     }
 
-    //Создаем Notification для СМС
     private void showNotification() {
 
-        //создаем Intent для просмотра СМС при нажатии  Notification
+        //
         Intent intent = new Intent(this, ProfileActivity.class);
         intent.putExtra(ACTION_SERVICE_STATUS, "");
-        //Создаем PendingIntent для Notification
+        //
         PendingIntent contentIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-        //Создаем сам notification
+        //
 
         final Notification notification = new NotificationCompat.Builder(this)
                 .setSmallIcon(R.drawable.ic_action_notification_bar)

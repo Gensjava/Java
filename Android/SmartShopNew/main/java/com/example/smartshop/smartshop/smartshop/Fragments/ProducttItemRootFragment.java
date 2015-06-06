@@ -14,7 +14,7 @@ import android.widget.ImageView;
 import android.widget.TabHost;
 import android.widget.TextView;
 import java.util.Date;
-import ua.smartshop.Activitys.MainActivity;
+import ua.smartshop.Activity.MainActivity;
 import ua.smartshop.Models.Cart;
 import ua.smartshop.Models.Product;
 import ua.smartshop.R;

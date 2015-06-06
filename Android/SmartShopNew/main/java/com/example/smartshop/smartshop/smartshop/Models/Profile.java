@@ -8,7 +8,7 @@ import android.content.Intent;
 import java.util.HashMap;
 
 import ua.smartshop.BuildConfig;
-import ua.smartshop.Activitys.ProfileActivity;
+import ua.smartshop.Activity.ProfileActivity;
 import ua.smartshop.Utils.Сonstants;
 
 /**

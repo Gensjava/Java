@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <SwitchPreference
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:key="status"
+        android:summary="@string/status_switch_summary"
+        android:title="@string/status_switch_title">
+    </SwitchPreference>
+
+    <SwitchPreference
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:key="onlineSupport"
+        android:summary="@string/online_support_switch_summary"
+        android:title="@string/online_supports_switch_title">
+    </SwitchPreference>
+</PreferenceScreen>

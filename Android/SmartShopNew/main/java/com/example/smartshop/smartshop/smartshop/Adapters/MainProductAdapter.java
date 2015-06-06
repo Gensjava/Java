@@ -13,7 +13,6 @@ import com.squareup.picasso.Picasso;
 
 import ua.smartshop.Models.Product;
 import ua.smartshop.R;
-import ua.smartshop.Utils.Сonstants;
 
 /**
  * Created by Gens on 09.04.2015.

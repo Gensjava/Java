@@ -13,15 +13,15 @@ import java.util.HashMap;
 import ua.smartshop.Utils.AsyncWorker;
 import ua.smartshop.Adapters.ProductItemAdapter;
 import ua.smartshop.Enums.TypeRequest;
-import ua.smartshop.Interface.IWorkerCallback;
-import ua.smartshop.Activitys.MainActivity;
+import ua.smartshop.interfaces.AsyncWorkerInterface;
+import ua.smartshop.Activity.MainActivity;
 import ua.smartshop.Models.Product;
 import ua.smartshop.R;
 
 /**
  * Created by Gens on 03.03.2015.
  */
-public class ProducttItemFragment extends android.support.v4.app.Fragment implements IWorkerCallback  {
+public class ProducttItemFragment extends android.support.v4.app.Fragment implements AsyncWorkerInterface {
 
     private ArrayList<Product> mProducts = new ArrayList<Product>();
     public static Product mProduct;
@@ -47,7 +47,7 @@ public class ProducttItemFragment extends android.support.v4.app.Fragment implem
 
     private void doSomethingAsyncOperaion(HashMap paramsUrl,String url, TypeRequest typeRequest) {
 
-        new AsyncWorker<JSONArray>(this, paramsUrl, url, typeRequest, getActivity()) {
+        new AsyncWorker(this, paramsUrl, url, typeRequest, getActivity()) {
         }.execute();
     }
 

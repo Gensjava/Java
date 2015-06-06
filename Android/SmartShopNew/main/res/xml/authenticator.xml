@@ -1,7 +1,7 @@
 <account-authenticator xmlns:android="http://schemas.android.com/apk/res/android"
-                       android:accountType="com.example.smartshop.smartshop"
-                       android:icon="@drawable/ic_launcher"
+                       android:accountType="ua.smartshop"
+                       android:icon="@drawable/logo_main_app"
                        android:label="@string/app_name"
-                       android:smallIcon="@drawable/ic_launcher">
+                       android:smallIcon="@drawable/logo_main_app">
 
 </account-authenticator>

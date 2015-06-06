@@ -17,15 +17,15 @@ import org.json.JSONException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import ua.smartshop.Utils.AsyncWorker;
-import ua.smartshop.Interface.IWorkerCallback;
-import ua.smartshop.Activitys.MainActivity;
+import ua.smartshop.interfaces.AsyncWorkerInterface;
+import ua.smartshop.Activity.MainActivity;
 import ua.smartshop.Models.CategoryProduct;
 import ua.smartshop.Models.Product;
 import ua.smartshop.R;
 import ua.smartshop.Enums.TypeRequest;
 import ua.smartshop.Utils.Сonstants;
 
-public class MainAdapter extends BaseAdapter implements IWorkerCallback {
+public class MainAdapter extends BaseAdapter implements AsyncWorkerInterface {
 
     private Context mContext;
     private LayoutInflater lInflater;
@@ -191,32 +191,8 @@ public class MainAdapter extends BaseAdapter implements IWorkerCallback {
 
     private void doSomethingAsyncOperaion(HashMap paramsUrl,String url, TypeRequest typeRequest) {
 
-        new AsyncWorker<JSONArray>(this, paramsUrl, url, typeRequest, mContext) {
+        new AsyncWorker(this, paramsUrl, url, typeRequest, mContext) {
         }.execute();
     }
-
-//    Bitmap GetBitmapDual(ImageView imageView)  {
-//        Bitmap bitmap = null;
-//        try {
-//
-//            bitmap = Bitmap.createBitmap(500, 500, Bitmap.Config.ARGB_8888);
-//            Canvas c = new Canvas(bitmap);
-//
-//            Bitmap bitmap1 = ((BitmapDrawable)imageView.getDrawable()).getBitmap(); //blue
-//
-//            Bitmap bitmap2 = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.top_byu); //green
-//            Drawable drawable1 = new BitmapDrawable(bitmap1);
-//            Drawable drawable2 = new BitmapDrawable(bitmap2);
-//
-//            drawable1.setBounds(100, 100, 400, 400);
-//            drawable2.setBounds(100, 100, 300, 300);
-//            drawable1.draw(c);
-//            drawable2.draw(c);
-//
-//        } catch (Exception e) {
-//        }
-//        return bitmap;
-//    }
-
 }
 

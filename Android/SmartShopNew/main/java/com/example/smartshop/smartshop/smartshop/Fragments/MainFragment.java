@@ -15,15 +15,15 @@ import org.json.JSONException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import ua.smartshop.Activitys.MainActivity;
+import ua.smartshop.Activity.MainActivity;
 import ua.smartshop.Adapters.MainAdapter;
 import ua.smartshop.Utils.AsyncWorker;
 import ua.smartshop.Enums.TypeRequest;
-import ua.smartshop.Interface.IWorkerCallback;
+import ua.smartshop.interfaces.AsyncWorkerInterface;
 import ua.smartshop.Models.Product;
 import ua.smartshop.R;
 
-public class MainFragment extends Fragment implements IWorkerCallback {
+public class MainFragment extends Fragment implements AsyncWorkerInterface {
 
     private int mItemNumber;
     private ArrayList<Product[]> mPoducts = new ArrayList<>();
@@ -68,7 +68,7 @@ public class MainFragment extends Fragment implements IWorkerCallback {
 
     private void doSomethingAsyncOperaion(HashMap paramsUrl,String url, TypeRequest typeRequest) {
 
-        new AsyncWorker<JSONArray>(this, paramsUrl, url, typeRequest, getActivity()) {
+        new AsyncWorker(this, paramsUrl, url, typeRequest, getActivity()) {
         }.execute();
     }
 

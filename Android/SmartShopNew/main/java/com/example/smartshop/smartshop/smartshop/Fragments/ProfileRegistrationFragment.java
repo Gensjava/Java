@@ -14,16 +14,17 @@ import java.lang.*;
 import java.util.HashMap;
 
 import ua.smartshop.Utils.AsyncWorker;
-import ua.smartshop.Interface.IWorkerCallback;
+import ua.smartshop.interfaces.AsyncWorkerInterface;
 import ua.smartshop.Models.Profile;
 import ua.smartshop.R;
 import ua.smartshop.Enums.TypeRequest;
+import ua.smartshop.Utils.ErrorInfo;
 import ua.smartshop.Utils.Сonstants;
 
 /**
  * Created by Gens on 20.03.2015.
  */
-public class ProfileRegistrationFragment extends android.support.v4.app.Fragment  implements IWorkerCallback {
+public class ProfileRegistrationFragment extends android.support.v4.app.Fragment  implements AsyncWorkerInterface {
 
     private MultiAutoCompleteTextView editAccountName;
     private MultiAutoCompleteTextView editAccountUserName;
@@ -62,7 +63,7 @@ public class ProfileRegistrationFragment extends android.support.v4.app.Fragment
                 arrEdit[4] = editAccountEmail;
                 arrEdit[5] = editAccountPhone;
                 //
-                if (!ua.smartshop.Utils.Error.fieldValidationRegistration(arrEdit)){
+                if (!ErrorInfo.fieldValidationRegistration(arrEdit)){
 
                     HashMap<String, String> params = new HashMap<String, String>();
                     //
@@ -83,7 +84,7 @@ public class ProfileRegistrationFragment extends android.support.v4.app.Fragment
 
     private void doSomethingAsyncOperaion(HashMap paramsUrl,String url, TypeRequest typeRequest) {
 
-        new AsyncWorker<JSONArray>(this, paramsUrl, url, typeRequest, getActivity()) {
+        new AsyncWorker(this, paramsUrl, url, typeRequest, getActivity()) {
         }.execute();
     }
 

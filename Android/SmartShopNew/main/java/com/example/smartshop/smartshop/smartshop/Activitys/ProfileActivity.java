@@ -1,4 +1,4 @@
-package ua.smartshop.Activitys;
+package ua.smartshop.Activity;
 
 import android.content.Context;
 import android.content.pm.ActivityInfo;
@@ -10,7 +10,6 @@ import android.view.MenuItem;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.TabHost;
 import android.widget.TextView;
-
 import ua.smartshop.BuildConfig;
 import ua.smartshop.Models.Profile;
 import ua.smartshop.R;

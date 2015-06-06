@@ -7,7 +7,7 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import ua.smartshop.Activitys.MainActivity;
+import ua.smartshop.Activity.MainActivity;
 import ua.smartshop.R;
 
 public class ErrorFragment extends android.support.v4.app.Fragment implements View.OnClickListener {

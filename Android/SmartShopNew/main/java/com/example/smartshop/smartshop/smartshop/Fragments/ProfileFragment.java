@@ -12,7 +12,7 @@ import org.json.JSONException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import ua.smartshop.Utils.AsyncWorker;
-import ua.smartshop.Interface.IWorkerCallback;
+import ua.smartshop.interfaces.AsyncWorkerInterface;
 import ua.smartshop.Models.Profile;
 import ua.smartshop.Adapters.ProfileAdapter;
 import ua.smartshop.R;
@@ -21,7 +21,7 @@ import ua.smartshop.Enums.TypeRequest;
 /**
  * Created by Gens on 10.03.2015.
  */
-public class ProfileFragment extends android.support.v4.app.Fragment implements IWorkerCallback {
+public class ProfileFragment extends android.support.v4.app.Fragment implements AsyncWorkerInterface {
 
     private ArrayList<Profile> mProfile = new ArrayList<Profile>();
     private ListView lvMain;
@@ -46,7 +46,7 @@ public class ProfileFragment extends android.support.v4.app.Fragment implements 
 
     private void doSomethingAsyncOperaion(HashMap paramsUrl,String url, TypeRequest typeRequest) {
 
-        new AsyncWorker<JSONArray>(this, paramsUrl, url, typeRequest, getActivity()) {
+        new AsyncWorker(this, paramsUrl, url, typeRequest, getActivity()) {
         }.execute();
     }
 

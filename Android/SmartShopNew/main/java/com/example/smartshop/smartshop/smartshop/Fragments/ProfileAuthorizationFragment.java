@@ -18,16 +18,17 @@ import org.json.JSONObject;
 import java.lang.*;
 import java.util.HashMap;
 import ua.smartshop.Utils.AsyncWorker;
-import ua.smartshop.Interface.IWorkerCallback;
+import ua.smartshop.interfaces.AsyncWorkerInterface;
 import ua.smartshop.Models.Profile;
 import ua.smartshop.R;
 import ua.smartshop.Enums.TypeRequest;
+import ua.smartshop.Utils.ErrorInfo;
 import ua.smartshop.Utils.Сonstants;
 
 /**
  * Created by Gens on 20.03.2015.
  */
-public class ProfileAuthorizationFragment extends android.support.v4.app.Fragment implements IWorkerCallback {
+public class ProfileAuthorizationFragment extends android.support.v4.app.Fragment implements AsyncWorkerInterface {
 
     private MultiAutoCompleteTextView editAccountName;
     private MultiAutoCompleteTextView editAccountPassword;
@@ -51,7 +52,7 @@ public class ProfileAuthorizationFragment extends android.support.v4.app.Fragmen
                 arrEdit[0] = editAccountName;
                 arrEdit[1] = editAccountPassword;
                 //
-                if (!ua.smartshop.Utils.Error.fieldValidationRegistration(arrEdit)){
+                if (!ErrorInfo.fieldValidationRegistration(arrEdit)){
 
                     //
                     AccountName = editAccountName.getText().toString();
@@ -80,7 +81,7 @@ public class ProfileAuthorizationFragment extends android.support.v4.app.Fragmen
     }
     private void doSomethingAsyncOperaion(HashMap paramsUrl,String url, TypeRequest typeRequest) {
 
-        new AsyncWorker<JSONArray>(this, paramsUrl, url, typeRequest, getActivity()) {
+        new AsyncWorker(this, paramsUrl, url, typeRequest, getActivity()) {
         }.execute();
     }
 
