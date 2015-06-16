@@ -25,13 +25,4 @@
         android:gravity="center"
         android:textColor="@android:color/darker_gray"/>
 
-    <Button
-        android:id="@+id/lvMain_button"
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:text="Попробуйте еще раз"
-        android:visibility="invisible"/>
-
 </LinearLayout>
