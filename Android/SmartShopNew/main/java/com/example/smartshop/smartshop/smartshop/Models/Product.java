@@ -100,10 +100,11 @@ public class Product implements Serializable {
         return params;
     }
 
-    public static HashMap<String, String>  getParamsUrlNumberItem(final int itemNumber, final String idItem){
+    public static HashMap<String, String>  getParamsUrlNumberItem(final int itemNumber, final String idItem, final int count){
         HashMap<String, String> params = new HashMap<String, String>();
         params.put(Сonstants.VALUE_KEY_ITEM_ID, idItem);
         params.put(Сonstants.VALUE_KEY_ITEM_NUMBER, String.valueOf(itemNumber));
+        params.put(Сonstants.VALUE_COUNT, String.valueOf(count));
         return params;
     }
 }

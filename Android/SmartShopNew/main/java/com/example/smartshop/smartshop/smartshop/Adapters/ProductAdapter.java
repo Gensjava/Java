@@ -15,10 +15,12 @@ public class ProductAdapter extends BaseAdapter{
     private Context mContext;
     private LayoutInflater lInflater;
     private ArrayList<Product[]> mPoducts;
+    private int mCount;
 
-    public ProductAdapter(Context context, ArrayList<Product[]> products) {
+    public ProductAdapter(Context context, ArrayList<Product[]> products, int count) {
         mContext = context;
         mPoducts = products;
+        mCount = count;
         lInflater = (LayoutInflater) mContext
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
@@ -56,6 +58,7 @@ public class ProductAdapter extends BaseAdapter{
 
             viewHolder.cridView = (GridView) convertView.findViewById(R.id.main_grid_view);
             viewHolder.cridView.setStretchMode(GridView.STRETCH_COLUMN_WIDTH);
+            viewHolder.cridView.setNumColumns(1);
 
             convertView.setTag(viewHolder);
 
@@ -64,7 +67,7 @@ public class ProductAdapter extends BaseAdapter{
         }
 
         if (item!= null){
-            viewHolder.cridView.setAdapter(new MainProductAdapter(mContext, item));
+            viewHolder.cridView.setAdapter(new MainProductAdapter(mContext, item, mCount));
         }
 
         return convertView;

@@ -2,6 +2,7 @@ package ua.smartshop.Utils;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
@@ -58,6 +59,7 @@ public  class AsyncWorker extends AsyncTask <Void, Void, JSONArray> {
             // получим строку JSON из URL
             JSONObject json = mJParser.makeHttpRequest( mUrl, mTypeRequest.toString(),
                     params);
+
             if (json == null){
 
                 return null;

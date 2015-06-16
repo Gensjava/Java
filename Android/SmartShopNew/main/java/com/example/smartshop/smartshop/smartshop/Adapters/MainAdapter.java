@@ -113,10 +113,12 @@ public class MainAdapter extends BaseAdapter implements AsyncWorkerInterface {
 
                 LinearLayout mGallery = (LinearLayout) convertView.findViewById(R.id.main_gallery_scroll);
 
-                for (int i = 0; i < CategoryProduct.getMainCategory().size(); i++)
+                ArrayList<CategoryProduct> categoryProduct  = CategoryProduct.getMainCategory(true);
+
+                for (int i = 0; i < categoryProduct.size(); i++)
                 {
                     View view = lInflater.inflate(R.layout.main_horizontal_scroll_item,   mGallery, false);
-                    view.setTag(CategoryProduct.getMainCategory().get(i).getId());
+                    view.setTag(categoryProduct.get(i).getId());
 
                     view.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -127,9 +129,8 @@ public class MainAdapter extends BaseAdapter implements AsyncWorkerInterface {
                     });
 
                     ImageView img = (ImageView) view.findViewById(R.id.main_scroll_image);
-                    img.setImageResource(CategoryProduct.getMainCategory().get(i).getImage());
+                    img.setImageResource(categoryProduct.get(i).getImage());
 
-                    View txt = (View) view.findViewById(R.id.main_scrll_space);
                     mGallery.addView(view);
                 }
 
@@ -149,7 +150,7 @@ public class MainAdapter extends BaseAdapter implements AsyncWorkerInterface {
 
                 GridView cridView = (GridView) convertView.findViewById(R.id.main_grid_view);
                 cridView.setStretchMode(GridView.STRETCH_COLUMN_WIDTH);
-                cridView.setAdapter(new MainProductAdapter(mContext, Products.get(position)));
+                cridView.setAdapter(new MainProductAdapter(mContext, Products.get(position), 2));
 
                 break;
         }

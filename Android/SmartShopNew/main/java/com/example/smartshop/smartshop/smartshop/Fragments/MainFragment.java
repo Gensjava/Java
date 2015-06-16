@@ -40,6 +40,7 @@ public class MainFragment extends Fragment implements AsyncWorkerInterface {
         ListView lvMain = (ListView) rootView.findViewById(R.id.lvMain);
         lvMain.setAdapter(mMainAdapter);
 
+
         lvMain.setOnScrollListener(new AbsListView.OnScrollListener() {
             public void onScrollStateChanged(AbsListView view, int scrollState) {
             }
@@ -61,10 +62,6 @@ public class MainFragment extends Fragment implements AsyncWorkerInterface {
         return rootView;
     }
 
-    @Override
-    public void onCreate(final Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
 
     private void doSomethingAsyncOperaion(HashMap paramsUrl,String url, TypeRequest typeRequest) {
 
@@ -72,11 +69,6 @@ public class MainFragment extends Fragment implements AsyncWorkerInterface {
         }.execute();
     }
 
-    @Override
-    public void onActivityCreated(@Nullable final Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-
-    }
     @Override
     public void onBegin() {
        MainActivity.ui_bar.setVisibility(View.VISIBLE);

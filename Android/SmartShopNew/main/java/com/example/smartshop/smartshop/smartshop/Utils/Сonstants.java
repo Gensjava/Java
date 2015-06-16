@@ -23,6 +23,7 @@ import ua.smartshop.Models.CategoryProduct;
     //
     public static final String VALUE_KEY_ITEM_ID = "idItem";
     public static final String VALUE_KEY_ITEM_NUMBER = "itemnumber";
+    public static final String VALUE_COUNT = "count";
 
     public static CategoryProduct[] categoryProduct = new CategoryProduct[0];
 

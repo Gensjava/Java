@@ -2,6 +2,7 @@ package ua.smartshop.Fragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +25,7 @@ import ua.smartshop.R;
 
 public class ProductFragment extends android.support.v4.app.Fragment implements AsyncWorkerInterface {
 
+    private int mCount;
     private int mItemNumber = 1;
     private ArrayList<Product[]> mPoducts = new ArrayList<>();
     private ProductAdapter mMainAdapter;
@@ -41,12 +43,14 @@ public class ProductFragment extends android.support.v4.app.Fragment implements 
             if (bundle != null) {
                 mItem_id = bundle.getString(MainActivity.KEY_ITEM);
                 mUrl = bundle.getString(MainActivity.URL_KEY);
+                mCount = bundle.getInt(MainActivity.COUNT_GOODS);
             }
         }
-        mMainAdapter = new ProductAdapter(getActivity(), mPoducts);
+        mMainAdapter = new ProductAdapter(getActivity(), mPoducts, mCount);
         // настраиваем список
         ListView lvMain = (ListView) rootView.findViewById(R.id.lvMain);
         lvMain.setAdapter(mMainAdapter);
+        lvMain.setDividerHeight(0);
 
         lvMain.setOnScrollListener(new AbsListView.OnScrollListener() {
             public void onScrollStateChanged(AbsListView view, int scrollState) {
@@ -56,15 +60,16 @@ public class ProductFragment extends android.support.v4.app.Fragment implements 
 
                 if (firstVisibleItem + visibleItemCount == totalItemCount) {
                     //
-                    doSomethingAsyncOperaion(Product.getParamsUrlNumberItem(mItemNumber, mItem_id), mUrl,  TypeRequest.GET);
-                    mItemNumber  += 2;
+
+                    doSomethingAsyncOperaion(Product.getParamsUrlNumberItem(mItemNumber, mItem_id, mCount), mUrl,  TypeRequest.GET);
+                    mItemNumber  += mCount;
                 }
             }
         });
         return rootView;
     }
 
-    private void doSomethingAsyncOperaion(HashMap paramsUrl,String url, TypeRequest typeRequest) {
+    protected void doSomethingAsyncOperaion(HashMap paramsUrl, String url, TypeRequest typeRequest) {
 
         new AsyncWorker(this, paramsUrl, url, typeRequest, getActivity()) {
         }.execute();
@@ -85,6 +90,7 @@ public class ProductFragment extends android.support.v4.app.Fragment implements 
             for (byte i = 0; i < mPJSONArray.length(); i++) {
                 Products[i] =  new Gson().fromJson(mPJSONArray.getJSONObject(i).toString(), Product.class);
             }
+
             mPoducts.add(Products);
             mMainAdapter.notifyDataSetChanged();
 
@@ -105,4 +111,18 @@ public class ProductFragment extends android.support.v4.app.Fragment implements 
 
     @Override
     public void onEnd() { MainActivity.ui_bar.setVisibility(View.INVISIBLE); }
+
+
+    public ArrayList<Product[]> getPoducts() {
+        return mPoducts;
+    }
+
+
+    public void setItemNumber(final int itemNumber) {
+        mItemNumber = itemNumber;
+    }
+
+    public int getItemNumber() {
+        return mItemNumber;
+    }
 }

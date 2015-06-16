@@ -11,11 +11,9 @@ import ua.smartshop.Adapters.CartAdapter;
 import ua.smartshop.Models.Cart;
 import ua.smartshop.R;
 
-public class CartFragment extends android.support.v4.app.Fragment implements
-        View.OnClickListener
+public class CartFragment extends android.support.v4.app.Fragment
        {
 
-    private onSomeEventListener someEventListener ;
     public static final String TEG_GART_TOTAL_FRAGMENT = "TEG_GART_TOTAL_FRAGMENT";
     public static final String ACTION_GART_FRAGMENT = "ACTION_GART_FRAGMENT";
 
@@ -36,19 +34,4 @@ public class CartFragment extends android.support.v4.app.Fragment implements
         return rootView;
     }
 
-    @Override
-    public void onClick(View v) {
-
-        switch (v.getId()) {
-            case R.id.cart_make_order:
-                someEventListener = (onSomeEventListener) getActivity();
-                someEventListener.someEvent(TEG_GART_TOTAL_FRAGMENT, null);
-                break;
-            default:
-                break;
-        }
-    }
-    public interface onSomeEventListener {
-        public void someEvent(String view_id, String item_id);
-    }
 }
